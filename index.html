@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>GHOST FINDER - Phasmophobia</title>
-  <!-- iOS/スマホ用ホームアイコン -->
-<link rel="apple-touch-icon" sizes="180x180" href="/phasmo-finder/icon.png?v=2">
-<!-- favicon（ブラウザのタブ用） -->
-<link rel="icon" type="image/png" sizes="32x32" href="/phasmo-finder/icon.png?v=2">
-<link rel="icon" type="image/png" sizes="16x16" href="/phasmo-finder/icon.png?v=2">
+  
+  <!-- GitHub上の同階層にある icon.png を読み込む設定 -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icon.png">
+
   <style>
     :root {
       --bg-color: #121214;
@@ -60,9 +61,19 @@
       margin: 0;
     }
 
-    /* 検索ボックスのスタイル */
+    .guide-tip {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
     .search-container {
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .search-input {
@@ -181,6 +192,14 @@
       font-weight: 700;
     }
 
+    .btn-filter.eliminated {
+      text-decoration: line-through;
+      opacity: 0.45;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text-sub);
+      border-color: var(--border-color);
+    }
+
     .results-count {
       font-size: 0.85rem;
       color: var(--text-sub);
@@ -194,6 +213,12 @@
       padding: 14px;
       margin-bottom: 12px;
       border: 1px solid var(--border-color);
+      transition: opacity 0.2s ease;
+    }
+
+    /* ゴースト名タップ時のみカード全体を薄くする */
+    .card.card-eliminated {
+      opacity: 0.35;
     }
 
     .card-header {
@@ -209,6 +234,13 @@
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--text-main);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .ghost-name.eliminated {
+      text-decoration: line-through;
+      color: var(--text-sub);
     }
 
     .badges {
@@ -225,6 +257,8 @@
       padding: 3px 7px;
       border-radius: 10px;
       font-weight: 600;
+      cursor: pointer;
+      user-select: none;
     }
 
     .badge.badge-hunt {
@@ -242,6 +276,14 @@
       color: var(--volume-color);
     }
 
+    /* 個別条件の打ち消し時のみ薄くする設定 */
+    .badge.eliminated {
+      text-decoration: line-through;
+      opacity: 0.45;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: var(--text-sub) !important;
+    }
+
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -256,11 +298,20 @@
       padding: 3px 8px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      cursor: pointer;
+      user-select: none;
     }
 
     .tag.matched {
       border-color: var(--accent-color);
       color: var(--accent-color);
+    }
+
+    .tag.eliminated {
+      text-decoration: line-through;
+      opacity: 0.45;
+      background-color: var(--border-color);
+      color: var(--text-sub);
     }
 
     .trait-badges {
@@ -278,6 +329,16 @@
       padding: 2px 6px;
       border-radius: 4px;
       font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .trait-badge.eliminated {
+      text-decoration: line-through;
+      opacity: 0.45;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: var(--text-sub) !important;
+      border-color: var(--border-color) !important;
     }
 
     .unique-box {
@@ -326,8 +387,6 @@
       margin-top: 30px;
     }
   </style>
-  <link rel="apple-touch-icon" href="icon.png">
-　<link rel="icon" href="icon.png">
 </head>
 <body>
 
@@ -336,7 +395,10 @@
     <p>オフライン対応 全30種データベース</p>
   </div>
 
-  <!-- ワード検索エリア -->
+  <div class="guide-tip">
+    💡 ボタン1回で「選択」、2回で「打ち消し線（除外）」になります。ゴースト名タップで全体が薄くなります。
+  </div>
+
   <div class="search-container">
     <input type="text" id="search-input" class="search-input" placeholder="🔍 ゴースト名・特徴・キーワードで検索..." oninput="handleSearch(this.value)">
   </div>
@@ -396,11 +458,12 @@
       { name: "ディルデガスト", evidences: ["EMFレベル5", "ゴーストライティング", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "通常音量", unique: "ハント外で物品操作で減速", footstep: "ハント開始時は超爆速（3.0m/s）。事前に触った物が多いほど足音テンポが減速（最小0.4m/s）。視認加速なし", traits: ["視認加速なし"], check: "ハント前に部屋の皿や本などの小物を20個以上移動・触っておく。ハント開始時の足音が本来の超爆速（3.0m/s）から著しく遅くなっていれば確定", note: "初期3.0m/sの超高速（視認加速なし）。ハント外で調査員が動かした配置物数で減速（1個につき-0.1m/s、最大26個で0.4m/s）。ハント終了や十字架でリセット" }
     ];
 
-    let selectedEvidences = [];
-    let selectedHunts = [];
-    let selectedSpeeds = [];
-    let selectedVolumes = [];
-    let selectedTraits = [];
+    let selectedEvidences = [], eliminatedEvidences = [];
+    let selectedHunts = [], eliminatedHunts = [];
+    let selectedSpeeds = [], eliminatedSpeeds = [];
+    let selectedVolumes = [], eliminatedVolumes = [];
+    let selectedTraits = [], eliminatedTraits = [];
+    let eliminatedGhosts = [];
     let searchQuery = '';
 
     window.onload = function() {
@@ -408,68 +471,111 @@
     };
 
     function initApp() {
+      renderAllButtons();
+      renderCards();
+    }
+
+    function cycleFilter(category, value, event) {
+      if (event) event.stopPropagation();
+
+      let selArr, elimArr;
+      if (category === 'evidence') { selArr = selectedEvidences; elimArr = eliminatedEvidences; }
+      else if (category === 'hunt') { selArr = selectedHunts; elimArr = eliminatedHunts; }
+      else if (category === 'speed') { selArr = selectedSpeeds; elimArr = eliminatedSpeeds; }
+      else if (category === 'volume') { selArr = selectedVolumes; elimArr = eliminatedVolumes; }
+      else if (category === 'trait') { selArr = selectedTraits; elimArr = eliminatedTraits; }
+
+      const selIdx = selArr.indexOf(value);
+      const elimIdx = elimArr.indexOf(value);
+
+      if (selIdx === -1 && elimIdx === -1) {
+        selArr.push(value);
+      } else if (selIdx !== -1) {
+        selArr.splice(selIdx, 1);
+        elimArr.push(value);
+      } else {
+        elimArr.splice(elimIdx, 1);
+      }
+
+      renderAllButtons();
+      renderCards();
+    }
+
+    function toggleEliminateGhost(ghostName, event) {
+      if (event) event.stopPropagation();
+      const idx = eliminatedGhosts.indexOf(ghostName);
+      if (idx !== -1) {
+        eliminatedGhosts.splice(idx, 1);
+      } else {
+        eliminatedGhosts.push(ghostName);
+      }
+      renderCards();
+    }
+
+    function renderAllButtons() {
       const evidencesSet = new Set();
-      const speedsSet = new Set();
-      const volumesSet = new Set();
-      const traitCounts = {};
-
-      ghostData.forEach(g => {
-        g.evidences.forEach(e => evidencesSet.add(e));
-        if (g.speed) speedsSet.add(g.speed);
-        if (g.volume) volumesSet.add(g.volume);
-        if (g.traits) {
-          g.traits.forEach(t => {
-            traitCounts[t] = (traitCounts[t] || 0) + 1;
-          });
-        }
-      });
-
-      // 証拠ボタン
+      ghostData.forEach(g => g.evidences.forEach(e => evidencesSet.add(e)));
       const evContainer = document.getElementById('evidence-buttons');
       evContainer.innerHTML = '';
       Array.from(evidencesSet).sort().forEach(ev => {
         const btn = document.createElement('button');
-        btn.className = 'btn-filter';
+        let cls = 'btn-filter';
+        if (selectedEvidences.includes(ev)) cls += ' active-evidence';
+        if (eliminatedEvidences.includes(ev)) cls += ' eliminated';
+        btn.className = cls;
         btn.innerText = ev;
-        btn.onclick = function() { toggleFilter('evidence', ev, this); };
+        btn.onclick = function(e) { cycleFilter('evidence', ev, e); };
         evContainer.appendChild(btn);
       });
 
-      // ハントボタン
       const huntCategories = ["50% (標準)", "60%以上 (高)", "40%以下 (低)", "条件変動・特殊"];
       const huContainer = document.getElementById('hunt-buttons');
       huContainer.innerHTML = '';
       huntCategories.forEach(hu => {
         const btn = document.createElement('button');
-        btn.className = 'btn-filter';
+        let cls = 'btn-filter';
+        if (selectedHunts.includes(hu)) cls += ' active-hunt';
+        if (eliminatedHunts.includes(hu)) cls += ' eliminated';
+        btn.className = cls;
         btn.innerText = hu;
-        btn.onclick = function() { toggleFilter('hunt', hu, this); };
+        btn.onclick = function(e) { cycleFilter('hunt', hu, e); };
         huContainer.appendChild(btn);
       });
 
-      // 速度ボタン
+      const speedsSet = new Set();
+      ghostData.forEach(g => { if (g.speed) speedsSet.add(g.speed); });
       const spContainer = document.getElementById('speed-buttons');
       spContainer.innerHTML = '';
       Array.from(speedsSet).sort().forEach(sp => {
         const btn = document.createElement('button');
-        btn.className = 'btn-filter';
+        let cls = 'btn-filter';
+        if (selectedSpeeds.includes(sp)) cls += ' active-speed';
+        if (eliminatedSpeeds.includes(sp)) cls += ' eliminated';
+        btn.className = cls;
         btn.innerText = sp;
-        btn.onclick = function() { toggleFilter('speed', sp, this); };
+        btn.onclick = function(e) { cycleFilter('speed', sp, e); };
         spContainer.appendChild(btn);
       });
 
-      // 音量ボタン
+      const volumesSet = new Set();
+      ghostData.forEach(g => { if (g.volume) volumesSet.add(g.volume); });
       const volContainer = document.getElementById('volume-buttons');
       volContainer.innerHTML = '';
       Array.from(volumesSet).sort().forEach(vol => {
         const btn = document.createElement('button');
-        btn.className = 'btn-filter';
+        let cls = 'btn-filter';
+        if (selectedVolumes.includes(vol)) cls += ' active-volume';
+        if (eliminatedVolumes.includes(vol)) cls += ' eliminated';
+        btn.className = cls;
         btn.innerText = vol;
-        btn.onclick = function() { toggleFilter('volume', vol, this); };
+        btn.onclick = function(e) { cycleFilter('volume', vol, e); };
         volContainer.appendChild(btn);
       });
 
-      // 固有特徴ボタン
+      const traitCounts = {};
+      ghostData.forEach(g => {
+        if (g.traits) g.traits.forEach(t => { traitCounts[t] = (traitCounts[t] || 0) + 1; });
+      });
       const trContainer = document.getElementById('trait-buttons');
       trContainer.innerHTML = '';
       Object.keys(traitCounts)
@@ -477,13 +583,14 @@
         .sort()
         .forEach(tr => {
           const btn = document.createElement('button');
-          btn.className = 'btn-filter';
+          let cls = 'btn-filter';
+          if (selectedTraits.includes(tr)) cls += ' active-trait';
+          if (eliminatedTraits.includes(tr)) cls += ' eliminated';
+          btn.className = cls;
           btn.innerText = tr;
-          btn.onclick = function() { toggleFilter('trait', tr, this); };
+          btn.onclick = function(e) { cycleFilter('trait', tr, e); };
           trContainer.appendChild(btn);
         });
-
-      renderCards();
     }
 
     function handleSearch(val) {
@@ -491,43 +598,16 @@
       renderCards();
     }
 
-    function toggleFilter(type, value, btnElement) {
-      const activeClass = `active-${type}`;
-      if (type === 'evidence') {
-        selectedEvidences = toggleArray(selectedEvidences, value, btnElement, activeClass);
-      } else if (type === 'hunt') {
-        selectedHunts = toggleArray(selectedHunts, value, btnElement, activeClass);
-      } else if (type === 'speed') {
-        selectedSpeeds = toggleArray(selectedSpeeds, value, btnElement, activeClass);
-      } else if (type === 'volume') {
-        selectedVolumes = toggleArray(selectedVolumes, value, btnElement, activeClass);
-      } else if (type === 'trait') {
-        selectedTraits = toggleArray(selectedTraits, value, btnElement, activeClass);
-      }
-      renderCards();
-    }
-
-    function toggleArray(arr, value, btnElement, activeClass) {
-      if (arr.includes(value)) {
-        btnElement.classList.remove(activeClass);
-        return arr.filter(v => v !== value);
-      } else {
-        btnElement.classList.add(activeClass);
-        return [...arr, value];
-      }
-    }
-
     function resetFilters() {
-      selectedEvidences = [];
-      selectedHunts = [];
-      selectedSpeeds = [];
-      selectedVolumes = [];
-      selectedTraits = [];
+      selectedEvidences = []; eliminatedEvidences = [];
+      selectedHunts = []; eliminatedHunts = [];
+      selectedSpeeds = []; eliminatedSpeeds = [];
+      selectedVolumes = []; eliminatedVolumes = [];
+      selectedTraits = []; eliminatedTraits = [];
+      eliminatedGhosts = [];
       searchQuery = '';
       document.getElementById('search-input').value = '';
-      document.querySelectorAll('.btn-filter').forEach(btn => {
-        btn.classList.remove('active-evidence', 'active-hunt', 'active-speed', 'active-volume', 'active-trait');
-      });
+      renderAllButtons();
       renderCards();
     }
 
@@ -541,8 +621,7 @@
         const matchSpeed = selectedSpeeds.length === 0 || selectedSpeeds.includes(ghost.speed);
         const matchVolume = selectedVolumes.length === 0 || selectedVolumes.includes(ghost.volume);
         const matchTrait = selectedTraits.every(st => ghost.traits && ghost.traits.includes(st));
-        
-        // ワード検索判定
+
         const matchSearch = !searchQuery || [
           ghost.name,
           ...ghost.evidences,
@@ -565,25 +644,43 @@
       }
 
       filtered.forEach(ghost => {
+        const isNameEliminated = eliminatedGhosts.includes(ghost.name);
+        const isCardEliminated = isNameEliminated;
+
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'card' + (isCardEliminated ? ' card-eliminated' : '');
 
         const tagsHtml = ghost.evidences.map(e => {
           const isMatched = selectedEvidences.includes(e);
-          return `<span class="tag ${isMatched ? 'matched' : ''}">${e}</span>`;
+          const isElim = eliminatedEvidences.includes(e);
+          let cls = 'tag';
+          if (isMatched) cls += ' matched';
+          if (isElim) cls += ' eliminated';
+          return `<span class="${cls}" onclick="cycleFilter('evidence', '${e}', event)" title="タップで選択/打ち消し切替">${e}</span>`;
         }).join('');
 
+        const huntElim = eliminatedHunts.includes(ghost.huntCategory);
+        const speedElim = eliminatedSpeeds.includes(ghost.speed);
+        const volElim = eliminatedVolumes.includes(ghost.volume);
+
+        const huntBadgeHtml = ghost.hunt ? `<span class="badge badge-hunt ${huntElim ? 'eliminated' : ''}" onclick="cycleFilter('hunt', '${ghost.huntCategory}', event)">⚡ ${ghost.hunt}</span>` : '';
+        const speedBadgeHtml = ghost.speed ? `<span class="badge badge-speed ${speedElim ? 'eliminated' : ''}" onclick="cycleFilter('speed', '${ghost.speed}', event)">👟 ${ghost.speed}</span>` : '';
+        const volBadgeHtml = ghost.volume ? `<span class="badge badge-volume ${volElim ? 'eliminated' : ''}" onclick="cycleFilter('volume', '${ghost.volume}', event)">🔊 ${ghost.volume}</span>` : '';
+
         const traitBadgesHtml = (ghost.traits || []).map(t => {
-          return `<span class="trait-badge">🏷️ ${t}</span>`;
+          const tElim = eliminatedTraits.includes(t);
+          return `<span class="trait-badge ${tElim ? 'eliminated' : ''}" onclick="cycleFilter('trait', '${t}', event)">🏷️ ${t}</span>`;
         }).join('');
+
+        const ghostNameHtml = `<span class="ghost-name ${isNameEliminated ? 'eliminated' : ''}" onclick="toggleEliminateGhost('${ghost.name}', event)" title="タップでゴースト名の打ち消し切替">👻 ${ghost.name}</span>`;
 
         card.innerHTML = `
           <div class="card-header">
-            <span class="ghost-name">👻 ${ghost.name}</span>
+            ${ghostNameHtml}
             <div class="badges">
-              ${ghost.hunt ? `<span class="badge badge-hunt">⚡ ${ghost.hunt}</span>` : ''}
-              ${ghost.speed ? `<span class="badge badge-speed">👟 ${ghost.speed}</span>` : ''}
-              ${ghost.volume ? `<span class="badge badge-volume">🔊 ${ghost.volume}</span>` : ''}
+              ${huntBadgeHtml}
+              ${speedBadgeHtml}
+              ${volBadgeHtml}
             </div>
           </div>
           <div class="tags">${tagsHtml}</div>
