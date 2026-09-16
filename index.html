@@ -9,24 +9,25 @@
   <link rel="icon" type="image/png" href="./icon.png">
   
   <style>
+    /* ✨ かわいいパステル調のカラーパレットへ変更 */
     :root {
-      --bg-color: #121214;
-      --card-bg: #1A1A1E;
-      --accent-color: #BB86FC;
-      --accent-light: rgba(187, 134, 252, 0.15);
-      --footstep-color: #64B5F6;
-      --footstep-bg: rgba(100, 181, 246, 0.15);
-      --volume-color: #4DB6AC;
-      --check-color: #FFD54F;
-      --check-bg: rgba(255, 213, 79, 0.12);
-      --vs-color: #FF8A65;
-      --vs-bg: rgba(255, 138, 101, 0.12);
-      --trait-color: #FFB74D;
-      --highlight-bg: #221A29;
-      --text-main: #E1E1E6;
-      --text-sub: #A1A1AA;
-      --border-color: #2E2E35;
-      --danger-color: #CF6679;
+      --bg-color: #18171C;          /* ほんのり紫がかったダークグレー */
+      --card-bg: #222028;        /* カード背景 */
+      --accent-color: #F48FB1;    /* イチゴミルクピンク */
+      --accent-light: rgba(244, 143, 177, 0.15);
+      --footstep-color: #80DEEA;  /* パステルソーダブルー */
+      --footstep-bg: rgba(128, 222, 234, 0.15);
+      --volume-color: #A5D6A7;    /* パステルミント */
+      --check-color: #FFE082;     /* ホイップイエロー */
+      --check-bg: rgba(255, 224, 130, 0.12);
+      --vs-color: #FFAB91;        /* ピーチコーラル */
+      --vs-bg: rgba(255, 171, 145, 0.12);
+      --trait-color: #CE93D8;     /* ミルキーラベンダー */
+      --highlight-bg: #2E2533;
+      --text-main: #F3EEF5;       /* やわらかいホワイト */
+      --text-sub: #B0A8B9;        /* くすみラベンダーグレー */
+      --border-color: #35303D;    /* 境界線 */
+      --danger-color: #FF8A80;    /* パステルアプリコットレッド */
     }
 
     * {
@@ -58,14 +59,14 @@
     .tools-panel {
       background-color: var(--card-bg);
       border: 1px solid var(--accent-color);
-      border-radius: 8px;
+      border-radius: 12px;
       margin-bottom: 12px;
       overflow: hidden;
     }
 
     .tools-header {
       padding: 10px 12px;
-      background-color: rgba(187, 134, 252, 0.1);
+      background-color: rgba(244, 143, 177, 0.12);
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--accent-color);
@@ -86,7 +87,7 @@
     .tool-block {
       background-color: var(--bg-color);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 10px 12px;
       margin-bottom: 10px;
       transition: border-color 0.3s, box-shadow 0.3s;
@@ -94,8 +95,8 @@
     .tool-block:last-child { margin-bottom: 0; }
 
     .tool-block.running {
-      border-color: #81C784;
-      box-shadow: 0 0 10px rgba(129, 199, 132, 0.25);
+      border-color: #A5D6A7;
+      box-shadow: 0 0 10px rgba(165, 214, 167, 0.25);
     }
 
     .tool-block-header {
@@ -126,7 +127,7 @@
       font-weight: 900;
       color: var(--accent-color);
       letter-spacing: 0.02em;
-      text-shadow: 0 0 10px rgba(187, 134, 252, 0.25);
+      text-shadow: 0 0 10px rgba(244, 143, 177, 0.25);
       flex: 1;
       text-align: center;
       white-space: nowrap;
@@ -134,25 +135,25 @@
 
     .tool-big-display.footstep {
       color: var(--footstep-color);
-      text-shadow: 0 0 10px rgba(100, 181, 246, 0.25);
+      text-shadow: 0 0 10px rgba(128, 222, 234, 0.25);
       font-size: 2.3rem;
     }
 
     .tool-block.running .tool-big-display {
-      color: #81C784;
-      text-shadow: 0 0 12px rgba(129, 199, 132, 0.35);
+      color: #A5D6A7;
+      text-shadow: 0 0 12px rgba(165, 214, 167, 0.35);
     }
 
-    /* 指で数字を隠さない右配置の大型操作ボタン */
+    /* 右配置の大型操作ボタン */
     .btn-action-side {
       width: 105px;
       height: 58px;
       font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       border: 1px solid var(--accent-color);
-      background-color: rgba(187, 134, 252, 0.12);
+      background-color: var(--accent-light);
       color: var(--accent-color);
       touch-action: manipulation;
       transition: background-color 0.1s, transform 0.05s, color 0.1s;
@@ -188,9 +189,9 @@
       border-radius: 50%;
       background-color: var(--text-sub);
     }
-    .tool-block.running .timer-live-badge { color: #81C784; }
+    .tool-block.running .timer-live-badge { color: #A5D6A7; }
     .tool-block.running .timer-live-badge .dot {
-      background-color: #81C784;
+      background-color: #A5D6A7;
       animation: pulse 1s infinite alternate;
     }
 
@@ -206,10 +207,10 @@
       text-align: center;
     }
     .timer-status span.active {
-      color: #81C784;
+      color: #A5D6A7;
       font-weight: 700;
-      background-color: rgba(129, 199, 132, 0.15);
-      padding: 1px 5px;
+      background-color: rgba(165, 214, 167, 0.18);
+      padding: 1px 6px;
       border-radius: 4px;
     }
 
@@ -219,7 +220,7 @@
       padding: 10px 12px;
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
       color: var(--text-main);
       font-size: 0.9rem;
       outline: none;
@@ -265,7 +266,7 @@
     .btn-filter {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 8px 3px;
       font-size: 0.82rem;
       color: var(--text-main);
@@ -275,11 +276,11 @@
     }
 
     .btn-filter.pressing { transform: scale(0.93); opacity: 0.7; }
-    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #000; font-weight: 700; }
-    .btn-filter.active-hunt { background-color: var(--danger-color); color: #000; font-weight: 700; }
-    .btn-filter.active-speed { background-color: var(--footstep-color); color: #000; font-weight: 700; }
-    .btn-filter.active-volume { background-color: var(--volume-color); color: #000; font-weight: 700; }
-    .btn-filter.active-trait { background-color: var(--trait-color); color: #000; font-weight: 700; }
+    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #18171C; font-weight: 700; }
+    .btn-filter.active-hunt { background-color: var(--danger-color); color: #18171C; font-weight: 700; }
+    .btn-filter.active-speed { background-color: var(--footstep-color); color: #18171C; font-weight: 700; }
+    .btn-filter.active-volume { background-color: var(--volume-color); color: #18171C; font-weight: 700; }
+    .btn-filter.active-trait { background-color: var(--trait-color); color: #18171C; font-weight: 700; }
 
     .btn-filter.eliminated {
       text-decoration: line-through;
@@ -297,7 +298,7 @@
     /* ゴーストカード */
     .card {
       background-color: var(--card-bg);
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 12px;
       margin-bottom: 10px;
       border: 1px solid var(--border-color);
@@ -329,7 +330,7 @@
       border-radius: 6px;
       font-weight: 600;
     }
-    .badge.badge-hunt { background-color: rgba(207, 102, 121, 0.15); color: var(--danger-color); }
+    .badge.badge-hunt { background-color: rgba(255, 138, 128, 0.15); color: var(--danger-color); }
     .badge.badge-speed { background-color: var(--footstep-bg); color: var(--footstep-color); }
 
     .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
@@ -338,7 +339,7 @@
       background-color: var(--bg-color);
       color: var(--text-main);
       padding: 3px 7px;
-      border-radius: 4px;
+      border-radius: 6px;
       border: 1px solid var(--border-color);
     }
     .tag.matched { border-color: var(--accent-color); color: var(--accent-color); font-weight: 700; }
@@ -346,14 +347,14 @@
 
     .info-box {
       padding: 7px 9px;
-      border-radius: 5px;
+      border-radius: 6px;
       font-size: 0.82rem;
       line-height: 1.4;
       margin-bottom: 6px;
     }
     .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #FFF59D; }
     .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #FFCCBC; }
-    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #90CAF9; }
+    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #E0F7FA; }
     
     .box-title { font-weight: 700; margin-bottom: 3px; display: inline-block; }
     .check-title { color: var(--check-color); }
@@ -394,7 +395,7 @@
         </div>
       </div>
 
-      <!-- 足音タップ測定器 (同様のカード型＋横並び) -->
+      <!-- 足音タップ測定器 -->
       <div class="tool-block">
         <div class="tool-block-header">
           <div class="tool-title">👟 足音タップ測定器</div>
@@ -636,7 +637,7 @@
         footstep: "標準速度（1.7m/s）",
         traits: ["火・ロウソク反応"],
         check: "①近くに点火したロウソクを置く。<br>②ロウソクの火を3回吹き消した『直後』に確定でハントが始まったら確定。",
-        vs: "vs 他ゴースト：近くに火がある間は、十字架よりも火を身代わりにしてハントを防ぐ！",
+        vs: "vs 他ゴースト：近くに火がある間は、十字架よりも火を身代わりにしてハント防ぐ！",
         note: "火が消えるたびにハント判定が行われる。"
       },
       {
@@ -812,7 +813,6 @@
       const statusText = document.getElementById('smudge-status-text');
 
       if (smudgeTimerInterval) {
-        // リセット
         clearInterval(smudgeTimerInterval);
         smudgeTimerInterval = null;
         smudgeStartTime = null;
@@ -826,7 +826,6 @@
         return;
       }
 
-      // スタート
       smudgeStartTime = Date.now();
       btn.innerText = '⏹️ リセット';
       btn.classList.add('running');
@@ -873,7 +872,6 @@
         display.innerText = '計測中...';
       }
 
-      // 3秒間タップがなければ次回用へクリア準備
       footstepResetTimer = setTimeout(() => {
         tapTimes = [];
       }, 3000);
@@ -918,7 +916,6 @@
     window.onload = function() {
       document.getElementById('reset-btn').addEventListener('click', resetFilters);
       
-      /* 指を離した瞬間に誤作動・指による遮蔽を起こさない 0ms pointerdown 反応 */
       const smudgeBtn = document.getElementById('smudge-btn');
       smudgeBtn.addEventListener('pointerdown', (e) => {
         e.preventDefault();
