@@ -9,25 +9,25 @@
   <link rel="icon" type="image/png" href="./icon.png">
   
   <style>
-    /* 🍓 ふわっと明るいマカロンパステル調のカラーパレット */
+    /* 薔薇やハーブを思わせる、落ち着いたシック＆エレガントなダスティパレット */
     :root {
-      --bg-color: #FAF4F8;          /* ほんのりイチゴミルク風味のホワイト */
-      --card-bg: #FFFFFF;          /* ピュアホワイトカード */
-      --accent-color: #EC407A;      /* ストロベリーピンク */
-      --accent-light: #FCE4EC;     /* 淡いイチゴミルク */
-      --footstep-color: #009688;   /* マカロンミントブルー */
-      --footstep-bg: #E0F2F1;
-      --volume-color: #4CAF50;     /* パステルピスタチオ */
-      --check-color: #FB8C00;      /* ホイップオレンジ */
-      --check-bg: #FFF8E1;
-      --vs-color: #FF7043;          /* ピーチコーラル */
-      --vs-bg: #FBE9E7;
-      --trait-color: #AB47BC;     /* ミルキーラベンダー */
-      --highlight-bg: #F3E5F5;
-      --text-main: #2D2531;        /* 視認性重視のダークチョコパープル */
-      --text-sub: #6E5F75;          /* くすみラベンダーグレー */
-      --border-color: #F0E1E9;     /* 優しいくすみピンク境界線 */
-      --danger-color: #EF5350;     /* アプリコットレッド */
+      --bg-color: #F8F5F6;          /* ほんのりピンクを含んだ柔らかいグレージュ */
+      --card-bg: #FFFFFF;          /* 上質なピュアホワイト */
+      --accent-color: #B57182;      /* 落ち着いたシックなダスティローズ */
+      --accent-light: #F3EAEF;     /* 繊細なローズアッシュ */
+      --footstep-color: #6B8E85;   /* 深みのあるセージグリーン */
+      --footstep-bg: #EDF3F2;      /* シアーセージ */
+      --volume-color: #7B8E78;     /* ニュアンスオリーブ */
+      --check-color: #C08A74;      /* 優しいウォームテラコッタ */
+      --check-bg: #FAF2EE;
+      --vs-color: #B26E68;          /* スモーキーコーラル */
+      --vs-bg: #F9EFEF;
+      --trait-color: #8C7588;     /* 品のあるモーブグレー */
+      --highlight-bg: #F2ECF1;
+      --text-main: #332C30;        /* 柔らかく視認性の良いチャコールブラウン */
+      --text-sub: #786C72;          /* くすみトープ */
+      --border-color: #E6DCDF;     /* 控えめなモーブグレージュの境界線 */
+      --danger-color: #C25959;     /* スモーキーレッド */
     }
 
     * {
@@ -47,28 +47,28 @@
     }
 
     .header h1 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       color: var(--accent-color);
-      margin: 0 0 10px 0;
+      margin: 4px 0 12px 0;
       text-align: center;
     }
 
     /* ツールパネル */
     .tools-panel {
       background-color: var(--card-bg);
-      border: 2px solid var(--accent-color);
-      border-radius: 14px;
+      border: 1.5px solid var(--accent-color);
+      border-radius: 12px;
       margin-bottom: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(236, 64, 122, 0.08);
+      box-shadow: 0 4px 14px rgba(181, 113, 130, 0.08);
     }
 
     .tools-header {
-      padding: 10px 12px;
+      padding: 10px 14px;
       background-color: var(--accent-light);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--accent-color);
       display: flex;
@@ -78,7 +78,7 @@
     }
 
     .tools-content {
-      padding: 10px 12px;
+      padding: 12px;
       display: none;
       border-top: 1px solid var(--border-color);
     }
@@ -86,9 +86,9 @@
 
     /* 各ツールカード共有スタイル */
     .tool-block {
-      background-color: #FFFDFE;
-      border: 1.5px solid var(--border-color);
-      border-radius: 12px;
+      background-color: #FFFCFD;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
       padding: 10px 12px;
       margin-bottom: 10px;
       transition: border-color 0.3s, box-shadow 0.3s;
@@ -97,7 +97,7 @@
 
     .tool-block.running {
       border-color: var(--volume-color);
-      box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+      box-shadow: 0 0 10px rgba(123, 142, 120, 0.18);
     }
 
     .tool-block-header {
@@ -124,8 +124,8 @@
 
     .tool-big-display {
       font-family: monospace, sans-serif;
-      font-size: 3.2rem;
-      font-weight: 900;
+      font-size: 3rem;
+      font-weight: 800;
       color: var(--accent-color);
       letter-spacing: 0.02em;
       flex: 1;
@@ -135,7 +135,7 @@
 
     .tool-big-display.footstep {
       color: var(--footstep-color);
-      font-size: 2.3rem;
+      font-size: 2.2rem;
     }
 
     .tool-block.running .tool-big-display {
@@ -144,23 +144,23 @@
 
     /* 右配置の大型操作ボタン */
     .btn-action-side {
-      width: 105px;
-      height: 58px;
-      font-size: 0.95rem;
+      width: 100px;
+      height: 54px;
+      font-size: 0.9rem;
       font-weight: 700;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      border: 2px solid var(--accent-color);
+      border: 1.5px solid var(--accent-color);
       background-color: var(--accent-light);
       color: var(--accent-color);
       touch-action: manipulation;
-      transition: background-color 0.1s, transform 0.05s, color 0.1s;
+      transition: background-color 0.15s, transform 0.05s, color 0.15s;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .btn-action-side:active { transform: scale(0.94); }
+    .btn-action-side:active { transform: scale(0.95); }
     .btn-action-side.running {
       background-color: var(--danger-color);
       border-color: var(--danger-color);
@@ -175,15 +175,15 @@
 
     .timer-live-badge {
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-sub);
       display: flex;
       align-items: center;
       gap: 5px;
     }
     .timer-live-badge .dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background-color: var(--text-sub);
     }
@@ -207,22 +207,22 @@
     .timer-status span.active {
       color: var(--volume-color);
       font-weight: 700;
-      background-color: #E8F5E9;
+      background-color: #EBF2EC;
       padding: 2px 6px;
-      border-radius: 6px;
+      border-radius: 4px;
     }
 
     /* UIコントロール */
     .search-input {
       width: 100%;
-      padding: 11px 14px;
+      padding: 10px 14px;
       background-color: var(--card-bg);
-      border: 1.5px solid var(--border-color);
-      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
       color: var(--text-main);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
       -webkit-user-select: text;
       user-select: text;
@@ -239,19 +239,20 @@
     }
 
     .section-title {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
+      letter-spacing: 0.05em;
       color: var(--text-sub);
     }
 
     .btn-reset {
-      background-color: #FFEBEE;
+      background-color: #FDF4F4;
       border: 1px solid var(--danger-color);
       color: var(--danger-color);
-      border-radius: 8px;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      font-weight: 700;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
       cursor: pointer;
     }
 
@@ -267,51 +268,50 @@
 
     .btn-filter {
       background-color: var(--card-bg);
-      border: 1.5px solid var(--border-color);
-      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
       padding: 9px 3px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-main);
       text-align: center;
       font-weight: 600;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-      transition: transform 0.1s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: transform 0.1s ease, background-color 0.15s, color 0.15s;
       cursor: pointer;
     }
 
-    .btn-filter.pressing { transform: scale(0.93); opacity: 0.7; }
+    .btn-filter.pressing { transform: scale(0.94); opacity: 0.7; }
     
-    /* 選択時のポップな強めの着色 */
-    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); font-weight: 700; }
-    .btn-filter.active-hunt { background-color: var(--danger-color); color: #FFF; border-color: var(--danger-color); font-weight: 700; }
-    .btn-filter.active-speed { background-color: var(--footstep-color); color: #FFF; border-color: var(--footstep-color); font-weight: 700; }
-    .btn-filter.active-volume { background-color: var(--volume-color); color: #FFF; border-color: var(--volume-color); font-weight: 700; }
-    .btn-filter.active-trait { background-color: var(--trait-color); color: #FFF; border-color: var(--trait-color); font-weight: 700; }
+    /* 選択時の上品なダスティー着色 */
+    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); }
+    .btn-filter.active-hunt { background-color: var(--danger-color); color: #FFF; border-color: var(--danger-color); }
+    .btn-filter.active-speed { background-color: var(--footstep-color); color: #FFF; border-color: var(--footstep-color); }
+    .btn-filter.active-volume { background-color: var(--volume-color); color: #FFF; border-color: var(--volume-color); }
+    .btn-filter.active-trait { background-color: var(--trait-color); color: #FFF; border-color: var(--trait-color); }
 
     .btn-filter.eliminated {
       text-decoration: line-through;
       opacity: 0.35;
-      background-color: #EFEBEF;
-      border-color: #E0D6E0;
+      background-color: #EFEBEC;
+      border-color: #E2DAD8;
     }
 
     .results-count {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-sub);
-      margin: 12px 0 8px 0;
+      margin: 14px 0 8px 0;
       font-weight: 700;
     }
 
     /* ゴーストカード */
     .card {
       background-color: var(--card-bg);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 12px;
       margin-bottom: 10px;
-      border: 1.5px solid var(--border-color);
-      box-shadow: 0 4px 10px rgba(180, 140, 160, 0.06);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 3px 8px rgba(181, 113, 130, 0.05);
     }
-    .card.card-eliminated { opacity: 0.3; }
 
     .card-header {
       display: flex;
@@ -323,70 +323,68 @@
     }
 
     .ghost-name {
-      font-size: 1.05rem;
-      font-weight: 800;
+      font-size: 1rem;
+      font-weight: 700;
       color: var(--text-main);
     }
-    .ghost-name.eliminated { text-decoration: line-through; color: var(--text-sub); }
 
     .badges { display: flex; gap: 4px; flex-wrap: wrap; }
     .badge {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       background-color: var(--accent-light);
       color: var(--accent-color);
       padding: 3px 7px;
-      border-radius: 6px;
-      font-weight: 700;
+      border-radius: 5px;
+      font-weight: 600;
     }
-    .badge.badge-hunt { background-color: #FFEBEE; color: var(--danger-color); }
+    .badge.badge-hunt { background-color: #FDF2F2; color: var(--danger-color); }
     .badge.badge-speed { background-color: var(--footstep-bg); color: var(--footstep-color); }
 
     .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
     .tag {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       background-color: var(--bg-color);
       color: var(--text-main);
       padding: 3px 8px;
-      border-radius: 6px;
+      border-radius: 5px;
       border: 1px solid var(--border-color);
-      font-weight: 600;
+      font-weight: 500;
     }
     .tag.matched { border-color: var(--accent-color); background-color: var(--accent-light); color: var(--accent-color); font-weight: 700; }
-    .tag.eliminated { text-decoration: line-through; opacity: 0.4; }
 
     .info-box {
       padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      line-height: 1.4;
+      border-radius: 7px;
+      font-size: 0.8rem;
+      line-height: 1.45;
       margin-bottom: 6px;
     }
-    .check-box { background-color: var(--check-bg); border-left: 4px solid var(--check-color); color: #4E342E; }
-    .vs-box { background-color: var(--vs-bg); border-left: 4px solid var(--vs-color); color: #3E2723; }
-    .footstep-box { background-color: var(--footstep-bg); border-left: 4px solid var(--footstep-color); color: #004D40; }
+    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #4A332A; }
+    .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #402826; }
+    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #233B36; }
     
-    .box-title { font-weight: 800; margin-bottom: 3px; display: inline-block; }
-    .check-title { color: #E65100; }
-    .vs-title { color: #D84315; }
-    .footstep-title { color: #00695C; }
+    .box-title { font-weight: 700; margin-bottom: 2px; display: inline-block; }
+    .check-title { color: #A0624A; }
+    .vs-title { color: #A04D47; }
+    .footstep-title { color: #4A6E66; }
 
-    .ghost-note { font-size: 0.78rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 500; }
+    .ghost-note { font-size: 0.75rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 500; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h1>👻 GHOST FINDER</h1>
+    <h1>GHOST FINDER</h1>
   </div>
 
   <div class="tools-panel">
     <div class="tools-header" onclick="toggleTools()">
-      <span>🛠️ 浄化香タイマー / 足音BPM</span>
+      <span>🕯️ 浄化香タイマー / 足音BPM</span>
       <span id="tools-arrow">▼</span>
     </div>
     <div class="tools-content" id="tools-content">
       
-      <!-- 浄化香タイマー (横並び) -->
+      <!-- 浄化香タイマー -->
       <div class="tool-block" id="smudge-box">
         <div class="tool-block-header">
           <div class="tool-title">🔥 浄化香（スマッジ）タイマー</div>
@@ -397,7 +395,7 @@
         </div>
         <div class="tool-main-row">
           <div class="tool-big-display" id="smudge-display">0 秒</div>
-          <button type="button" class="btn-action-side" id="smudge-btn">▶️ スタート</button>
+          <button type="button" class="btn-action-side" id="smudge-btn">スタート</button>
         </div>
         <div class="timer-status">
           判定: <span id="st-demon">〜60s(デーモン)</span> | <span id="st-normal">〜90s(通常)</span> | <span id="st-spirit">180s〜(スピリット)</span>
@@ -412,7 +410,7 @@
         </div>
         <div class="tool-main-row">
           <div class="tool-big-display footstep" id="bpm-display">-- m/s</div>
-          <button type="button" class="btn-action-side footstep-btn" id="footstep-btn">👟 タップ！</button>
+          <button type="button" class="btn-action-side footstep-btn" id="footstep-btn">タップ！</button>
         </div>
       </div>
 
@@ -832,7 +830,7 @@
         smudgeStartTime = null;
 
         display.innerText = '0 秒';
-        btn.innerText = '▶️ スタート';
+        btn.innerText = 'スタート';
         btn.classList.remove('running');
         box.classList.remove('running');
         statusText.innerText = '停止中';
@@ -841,7 +839,7 @@
       }
 
       smudgeStartTime = Date.now();
-      btn.innerText = '⏹️ リセット';
+      btn.innerText = 'リセット';
       btn.classList.add('running');
       box.classList.add('running');
       statusText.innerText = '● 計測中...';
@@ -1028,7 +1026,6 @@
           if (currentEvidenceMode === 3) {
             if (eliminatedEvidences.some(e => ghost.evidences.includes(e))) return false;
           } else {
-            // 証拠数制限時、確定証拠が除外されている場合は除外
             if (ghost.forced && eliminatedEvidences.includes(ghost.forced)) return false;
             if (eliminatedEvidences.some(e => ghost.evidences.includes(e))) return false;
           }
