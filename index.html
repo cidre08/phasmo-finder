@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>GHOST FINDER - Phasmophobia</title>
   
+  <!-- ファビコン・ホーム画面アイコンの設定 -->
+  <link rel="apple-touch-icon" href="./icon.png">
+  <link rel="icon" type="image/png" href="./icon.png">
+  
   <style>
     :root {
       --bg-color: #121214;
@@ -86,7 +90,6 @@
       display: block;
     }
 
-    /* タイマー＆タップUI */
     .tool-block {
       margin-bottom: 12px;
     }
@@ -206,7 +209,6 @@
       position: relative;
     }
 
-    /* 長押し視覚フィードバック（押している最中のギミック） */
     .btn-filter.pressing {
       transform: scale(0.92);
       opacity: 0.7;
@@ -301,7 +303,6 @@
     <h1>👻 GHOST FINDER</h1>
   </div>
 
-  <!-- 折りたたみ可能な実戦サポートツール -->
   <div class="tools-panel">
     <div class="tools-header" onclick="toggleTools()">
       <span>🛠️ 実戦サポート (浄化香タイマー / 足音BPM)</span>
@@ -309,7 +310,6 @@
     </div>
     <div class="tools-content" id="tools-content">
       
-      <!-- 浄化香タイマー -->
       <div class="tool-block">
         <div class="tool-title">🔥 浄化香（スマッジ）タイマー</div>
         <div class="flex-row">
@@ -323,7 +323,6 @@
 
       <hr style="border:0; border-top:1px solid var(--border-color); margin: 10px 0;">
 
-      <!-- 足音タップ測定器 -->
       <div class="tool-block">
         <div class="tool-title">👟 足音タップ測定器 (リズムに合わせてタップ)</div>
         <div class="flex-row">
@@ -404,7 +403,6 @@
     let eliminatedGhosts = [];
     let searchQuery = '';
 
-    // --- アコーディオンの開閉 ---
     function toggleTools() {
       const content = document.getElementById('tools-content');
       const arrow = document.getElementById('tools-arrow');
@@ -417,7 +415,6 @@
       }
     }
 
-    // --- 浄化香タイマー処理 ---
     let smudgeTimerInterval = null;
     let smudgeSeconds = 0;
     function handleSmudgeTimer() {
@@ -445,13 +442,10 @@
       document.getElementById('st-spirit').className = (sec >= 180) ? 'active' : '';
     }
 
-    // --- 足音タップ（BPM）測定器 ---
     let tapTimes = [];
     function handleFootstepTap() {
       const now = Date.now();
       tapTimes.push(now);
-
-      // 過去2秒以上の古いタップはクリア
       tapTimes = tapTimes.filter(t => now - t < 2500);
 
       if (tapTimes.length >= 3) {
@@ -461,17 +455,13 @@
         }
         const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
         const bpm = 60000 / avgInterval;
-        
-        // Phasmophobiaでの足音基準換算 (標準速度1.7m/s ≒ 約110BPM)
         const speed = ((bpm / 110) * 1.7).toFixed(2);
-        
         document.getElementById('bpm-display').innerText = `約 ${speed} m/s`;
       } else {
         document.getElementById('bpm-display').innerText = 'タップ中...';
       }
     }
 
-    // --- 「気持ち長押し（約200ms）」＋ 視覚フィードバック判定 ---
     function attachLongPress(element, callback) {
       let timer = null;
       let startX = 0, startY = 0;
@@ -480,8 +470,7 @@
         const touch = e.touches ? e.touches[0] : e;
         startX = touch.clientX;
         startY = touch.clientY;
-
-        element.classList.add('pressing'); // 押している最中の視覚演出
+        element.classList.add('pressing');
 
         timer = setTimeout(() => {
           if (navigator.vibrate) navigator.vibrate(25);
