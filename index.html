@@ -9,25 +9,25 @@
   <link rel="icon" type="image/png" href="./icon.png">
   
   <style>
-    /* 薔薇やハーブを思わせる、落ち着いたシック＆エレガントなダスティパレット */
+    /* 目に優しく上品なエレガント・ダスティカラー（輝度を抑えたシック調） */
     :root {
-      --bg-color: #F8F5F6;          /* ほんのりピンクを含んだ柔らかいグレージュ */
-      --card-bg: #FFFFFF;          /* 上質なピュアホワイト */
-      --accent-color: #B57182;      /* 落ち着いたシックなダスティローズ */
-      --accent-light: #F3EAEF;     /* 繊細なローズアッシュ */
-      --footstep-color: #6B8E85;   /* 深みのあるセージグリーン */
-      --footstep-bg: #EDF3F2;      /* シアーセージ */
-      --volume-color: #7B8E78;     /* ニュアンスオリーブ */
-      --check-color: #C08A74;      /* 優しいウォームテラコッタ */
-      --check-bg: #FAF2EE;
-      --vs-color: #B26E68;          /* スモーキーコーラル */
-      --vs-bg: #F9EFEF;
-      --trait-color: #8C7588;     /* 品のあるモーブグレー */
-      --highlight-bg: #F2ECF1;
-      --text-main: #332C30;        /* 柔らかく視認性の良いチャコールブラウン */
-      --text-sub: #786C72;          /* くすみトープ */
-      --border-color: #E6DCDF;     /* 控えめなモーブグレージュの境界線 */
-      --danger-color: #C25959;     /* スモーキーレッド */
+      --bg-color: #EFEBEA;          /* まぶしさを抑えた深みのあるウォームグレージュ */
+      --card-bg: #FAF8F7;          /* ピュアホワイトを避けた温かみのあるオフホワイト */
+      --accent-color: #9A5265;      /* 少し濃いめでコントラストを高めたローズ */
+      --accent-light: #EADEE3;     /* 柔らかいローズアッシュ */
+      --footstep-color: #4D736A;   /* 落ち着いたシックなセージグリーン */
+      --footstep-bg: #DDE7E4;      /* シアーセージ */
+      --volume-color: #5E725B;     /* ニュアンスオリーブ */
+      --check-color: #A36A53;      /* 優しいウォームテラコッタ */
+      --check-bg: #F5ECE7;
+      --vs-color: #9E524D;          /* スモーキーコーラル */
+      --vs-bg: #F5EAE9;
+      --trait-color: #6F586C;     /* 品のあるモーブグレー */
+      --highlight-bg: #E8E0E6;
+      --text-main: #241E21;        /* くっきり見やすいダークチャコールブラウン */
+      --text-sub: #5C5056;          /* コントラストを高めたトープ */
+      --border-color: #D3C7CB;     /* しっかり認識できる境界線 */
+      --danger-color: #A63F3F;     /* 落ち着いた深みのあるレッド */
     }
 
     * {
@@ -62,7 +62,7 @@
       border-radius: 12px;
       margin-bottom: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(181, 113, 130, 0.08);
+      box-shadow: 0 4px 14px rgba(154, 82, 101, 0.08);
     }
 
     .tools-header {
@@ -86,7 +86,7 @@
 
     /* 各ツールカード共有スタイル */
     .tool-block {
-      background-color: #FFFCFD;
+      background-color: #F5F0F1;
       border: 1px solid var(--border-color);
       border-radius: 10px;
       padding: 10px 12px;
@@ -97,7 +97,7 @@
 
     .tool-block.running {
       border-color: var(--volume-color);
-      box-shadow: 0 0 10px rgba(123, 142, 120, 0.18);
+      box-shadow: 0 0 10px rgba(94, 114, 91, 0.18);
     }
 
     .tool-block-header {
@@ -207,7 +207,7 @@
     .timer-status span.active {
       color: var(--volume-color);
       font-weight: 700;
-      background-color: #EBF2EC;
+      background-color: #DDE8DC;
       padding: 2px 6px;
       border-radius: 4px;
     }
@@ -246,7 +246,7 @@
     }
 
     .btn-reset {
-      background-color: #FDF4F4;
+      background-color: #F8EAE9;
       border: 1px solid var(--danger-color);
       color: var(--danger-color);
       border-radius: 6px;
@@ -282,7 +282,7 @@
 
     .btn-filter.pressing { transform: scale(0.94); opacity: 0.7; }
     
-    /* 選択時の上品なダスティー着色 */
+    /* 選択時の着色 */
     .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); }
     .btn-filter.active-hunt { background-color: var(--danger-color); color: #FFF; border-color: var(--danger-color); }
     .btn-filter.active-speed { background-color: var(--footstep-color); color: #FFF; border-color: var(--footstep-color); }
@@ -291,9 +291,9 @@
 
     .btn-filter.eliminated {
       text-decoration: line-through;
-      opacity: 0.35;
-      background-color: #EFEBEC;
-      border-color: #E2DAD8;
+      opacity: 0.4;
+      background-color: #DED6D7;
+      border-color: #C2B8B9;
     }
 
     .results-count {
@@ -310,7 +310,7 @@
       padding: 12px;
       margin-bottom: 10px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 3px 8px rgba(181, 113, 130, 0.05);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
     }
 
     .card-header {
@@ -337,7 +337,7 @@
       border-radius: 5px;
       font-weight: 600;
     }
-    .badge.badge-hunt { background-color: #FDF2F2; color: var(--danger-color); }
+    .badge.badge-hunt { background-color: #F8E6E6; color: var(--danger-color); }
     .badge.badge-speed { background-color: var(--footstep-bg); color: var(--footstep-color); }
 
     .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
@@ -348,7 +348,7 @@
       padding: 3px 8px;
       border-radius: 5px;
       border: 1px solid var(--border-color);
-      font-weight: 500;
+      font-weight: 600;
     }
     .tag.matched { border-color: var(--accent-color); background-color: var(--accent-light); color: var(--accent-color); font-weight: 700; }
 
@@ -359,16 +359,16 @@
       line-height: 1.45;
       margin-bottom: 6px;
     }
-    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #4A332A; }
-    .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #402826; }
-    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #233B36; }
+    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #38241D; }
+    .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #361F1E; }
+    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #182B27; }
     
     .box-title { font-weight: 700; margin-bottom: 2px; display: inline-block; }
-    .check-title { color: #A0624A; }
-    .vs-title { color: #A04D47; }
-    .footstep-title { color: #4A6E66; }
+    .check-title { color: #854E3A; }
+    .vs-title { color: #853A35; }
+    .footstep-title { color: #35524A; }
 
-    .ghost-note { font-size: 0.75rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 500; }
+    .ghost-note { font-size: 0.75rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 600; }
   </style>
 </head>
 <body>
