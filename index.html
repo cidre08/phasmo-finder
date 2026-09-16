@@ -9,25 +9,24 @@
   <link rel="icon" type="image/png" href="./icon.png">
   
   <style>
-    /* 薔薇やハーブを思わせる、落ち着いたシック＆エレガントなダスティパレット */
     :root {
-      --bg-color: #F8F5F6;          /* ほんのりピンクを含んだ柔らかいグレージュ */
-      --card-bg: #FFFFFF;          /* 上質なピュアホワイト */
-      --accent-color: #B57182;      /* 落ち着いたシックなダスティローズ */
-      --accent-light: #F3EAEF;     /* 繊細なローズアッシュ */
-      --footstep-color: #6B8E85;   /* 深みのあるセージグリーン */
-      --footstep-bg: #EDF3F2;      /* シアーセージ */
-      --volume-color: #7B8E78;     /* ニュアンスオリーブ */
-      --check-color: #C08A74;      /* 優しいウォームテラコッタ */
+      --bg-color: #F8F5F6;          
+      --card-bg: #FFFFFF;          
+      --accent-color: #B57182;      
+      --accent-light: #F3EAEF;     
+      --footstep-color: #6B8E85;   
+      --footstep-bg: #EDF3F2;      
+      --volume-color: #7B8E78;     
+      --check-color: #C08A74;      
       --check-bg: #FAF2EE;
-      --vs-color: #B26E68;          /* スモーキーコーラル */
+      --vs-color: #B26E68;          
       --vs-bg: #F9EFEF;
-      --trait-color: #8C7588;     /* 品のあるモーブグレー */
+      --trait-color: #8C7588;     
       --highlight-bg: #F2ECF1;
-      --text-main: #332C30;        /* 柔らかく視認性の良いチャコールブラウン */
-      --text-sub: #786C72;          /* くすみトープ */
-      --border-color: #E6DCDF;     /* 控えめなモーブグレージュの境界線 */
-      --danger-color: #C25959;     /* スモーキーレッド */
+      --text-main: #332C30;        
+      --text-sub: #786C72;          
+      --border-color: #E6DCDF;     
+      --danger-color: #C25959;     
     }
 
     * {
@@ -46,13 +45,65 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* ヘッダーと使い方アイコン */
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin: 4px 0 12px 0;
+    }
+
     .header h1 {
       font-size: 1.2rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--accent-color);
-      margin: 4px 0 12px 0;
-      text-align: center;
+      margin: 0;
+    }
+
+    .help-icon-btn {
+      position: absolute;
+      right: 4px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* 使い方ポップアップパネル */
+    .help-panel {
+      background-color: var(--card-bg);
+      border: 1.5px solid var(--accent-color);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      padding: 12px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      display: none;
+      box-shadow: 0 4px 14px rgba(181, 113, 130, 0.08);
+    }
+    .help-panel.open { display: block; }
+    .help-panel h3 {
+      font-size: 0.88rem;
+      color: var(--accent-color);
+      margin: 0 0 6px 0;
+    }
+    .help-panel ul {
+      margin: 0;
+      padding-left: 16px;
+      color: var(--text-sub);
+    }
+    .help-panel li {
+      margin-bottom: 4px;
     }
 
     /* ツールパネル */
@@ -84,7 +135,6 @@
     }
     .tools-content.open { display: block; }
 
-    /* 各ツールカード共有スタイル */
     .tool-block {
       background-color: #FFFCFD;
       border: 1px solid var(--border-color);
@@ -94,7 +144,6 @@
       transition: border-color 0.3s, box-shadow 0.3s;
     }
     .tool-block:last-child { margin-bottom: 0; }
-
     .tool-block.running {
       border-color: var(--volume-color);
       box-shadow: 0 0 10px rgba(123, 142, 120, 0.18);
@@ -113,7 +162,6 @@
       color: var(--text-main);
     }
 
-    /* 横並びレイアウト（数字：左 / ボタン：右） */
     .tool-main-row {
       display: flex;
       align-items: center;
@@ -142,7 +190,6 @@
       color: var(--volume-color);
     }
 
-    /* 右配置の操作ボタン群 */
     .btn-action-group {
       display: flex;
       gap: 6px;
@@ -226,7 +273,6 @@
       border-radius: 4px;
     }
 
-    /* UIコントロール */
     .search-input {
       width: 100%;
       padding: 10px 14px;
@@ -241,9 +287,7 @@
       -webkit-user-select: text;
       user-select: text;
     }
-    .search-input:focus {
-      border-color: var(--accent-color);
-    }
+    .search-input:focus { border-color: var(--accent-color); }
 
     .controls-header {
       display: flex;
@@ -296,7 +340,6 @@
     }
     .btn-filter:active { transform: scale(0.95); }
     
-    /* 選択時の着色 */
     .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); }
     .btn-filter.active-hunt { background-color: var(--danger-color); color: #FFF; border-color: var(--danger-color); }
     .btn-filter.active-speed { background-color: var(--footstep-color); color: #FFF; border-color: var(--footstep-color); }
@@ -317,7 +360,6 @@
       font-weight: 700;
     }
 
-    /* ゴーストカード */
     .card {
       background-color: var(--card-bg);
       border-radius: 12px;
@@ -389,6 +431,21 @@
 
   <div class="header">
     <h1>GHOST FINDER</h1>
+    <button class="help-icon-btn" onclick="toggleHelp()">?</button>
+  </div>
+
+  <!-- 使い方ガイドパネル -->
+  <div class="help-panel" id="help-panel">
+    <h3>📖 使い方ガイド</h3>
+    <ul>
+      <li><strong>証拠・条件ボタンの切り替え:</strong>
+        <br>1回タップ：選択（絞り込み）
+        <br>2回タップ：<span style="text-decoration: line-through;">打ち消し線（除外）</span>
+        <br>3回タップ：未選択に戻る
+      </li>
+      <li><strong>浄化香タイマー:</strong> 「スタート」を押すと秒数が進み、デーモンや通常香の判定目安が光ります。</li>
+      <li><strong>足音タップ測定器:</strong> ゴーストの足音に合わせて「タップ！」を数回押すと、移動速度(m/s)を自動計算します。</li>
+    </ul>
   </div>
 
   <div class="tools-panel">
@@ -821,6 +878,11 @@
     let selectedTraits = [], eliminatedTraits = [];
     let searchQuery = '';
 
+    function toggleHelp() {
+      const panel = document.getElementById('help-panel');
+      panel.classList.toggle('open');
+    }
+
     function toggleTools() {
       const content = document.getElementById('tools-content');
       const arrow = document.getElementById('tools-arrow');
@@ -908,7 +970,6 @@
       }, 3000);
     }
 
-    /* 足音タップリセット処理 */
     function resetFootstepTap() {
       tapTimes = [];
       if (footstepResetTimer) {
@@ -918,7 +979,6 @@
       document.getElementById('bpm-display').innerText = '-- m/s';
     }
 
-    /* ボタンの状態切り替え処理 (選択 -> 除外 -> 未選択) */
     function toggleFilterState(item, selectedArr, eliminatedArr) {
       const selIdx = selectedArr.indexOf(item);
       const elimIdx = eliminatedArr.indexOf(item);
@@ -934,13 +994,11 @@
       renderUI();
     }
 
-    /* 難易度（証拠数）設定変更 */
     function setEvidenceMode(mode) {
       currentEvidenceMode = mode;
       renderUI();
     }
 
-    /* 全フィルターリセット */
     function resetAllFilters() {
       selectedEvidences = []; eliminatedEvidences = [];
       selectedHunts = []; eliminatedHunts = [];
@@ -952,15 +1010,12 @@
       renderUI();
     }
 
-    /* 検索入力ハンドラ */
     function handleSearch(val) {
       searchQuery = val.trim().toLowerCase();
       renderCards();
     }
 
-    /* UI描画処理 */
     function renderUI() {
-      // 出現証拠数ボタン
       const modeContainer = document.getElementById('mode-buttons');
       modeContainer.innerHTML = '';
       [3, 2, 1, 0].forEach(m => {
@@ -971,7 +1026,6 @@
         modeContainer.appendChild(btn);
       });
 
-      // 各フィルターボタン構築ヘルパー
       const buildFilterButtons = (containerId, items, selectedArr, eliminatedArr, activeClass) => {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
@@ -1000,7 +1054,6 @@
       renderCards();
     }
 
-    /* ゴーストカード描画・判定ロジック */
     function renderCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = '';
@@ -1008,29 +1061,23 @@
       let count = 0;
 
       ghostData.forEach(ghost => {
-        // 1. 証拠フィルタリング判定
-        // 除外された証拠を含んでいるゴーストを除外（ただしミミックの偽オーブ・確定証拠は配慮）
         let isEliminatedByEvidence = eliminatedEvidences.some(e => {
-          if (ghost.name === 'ミミック' && e === 'ゴーストオーブ') return false; // ミミックは偽オーブを出す
+          if (ghost.name === 'ミミック' && e === 'ゴーストオーブ') return false;
           return ghost.evidences.includes(e);
         });
 
-        // 選択された証拠をゴーストが持っているか確認
         let hasAllSelectedEvidences = selectedEvidences.every(e => {
           if (ghost.name === 'ミミック' && e === 'ゴーストオーブ') return true;
           return ghost.evidences.includes(e);
         });
 
-        // ナイトメア等の証拠隠蔽制限（固定証拠ルール）
         let isForcedMatch = true;
         if (currentEvidenceMode < 3 && ghost.forced) {
-          // 証拠数が減っても「固定証拠」が選択漏れしていないか等の検証
           if (eliminatedEvidences.includes(ghost.forced)) isForcedMatch = false;
         }
 
         if (isEliminatedByEvidence || !hasAllSelectedEvidences || !isForcedMatch) return;
 
-        // 2. 特徴・条件フィルタリング
         if (selectedHunts.length > 0 && !selectedHunts.includes(ghost.huntCategory)) return;
         if (eliminatedHunts.includes(ghost.huntCategory)) return;
 
@@ -1043,7 +1090,6 @@
         if (selectedTraits.length > 0 && !selectedTraits.some(t => (ghost.traits || []).includes(t))) return;
         if (eliminatedTraits.some(t => (ghost.traits || []).includes(t))) return;
 
-        // 3. テキスト検索フィルタリング
         if (searchQuery !== '') {
           const fullContent = (
             ghost.name +
@@ -1059,7 +1105,6 @@
 
         count++;
 
-        // カード描画構築
         const card = document.createElement('div');
         card.className = 'card';
 
@@ -1103,7 +1148,6 @@
       document.getElementById('results-count').innerText = `該当： ${count} 件`;
     }
 
-    // 初期化実行
     renderUI();
   </script>
 </body>
