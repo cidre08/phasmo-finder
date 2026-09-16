@@ -9,25 +9,25 @@
   <link rel="icon" type="image/png" href="./icon.png">
   
   <style>
-    /* 目に優しく上品なエレガント・ダスティカラー（輝度を抑えたシック調） */
+    /* 薔薇やハーブを思わせる、落ち着いたシック＆エレガントなダスティパレット */
     :root {
-      --bg-color: #EFEBEA;          /* まぶしさを抑えた深みのあるウォームグレージュ */
-      --card-bg: #FAF8F7;          /* ピュアホワイトを避けた温かみのあるオフホワイト */
-      --accent-color: #9A5265;      /* 少し濃いめでコントラストを高めたローズ */
-      --accent-light: #EADEE3;     /* 柔らかいローズアッシュ */
-      --footstep-color: #4D736A;   /* 落ち着いたシックなセージグリーン */
-      --footstep-bg: #DDE7E4;      /* シアーセージ */
-      --volume-color: #5E725B;     /* ニュアンスオリーブ */
-      --check-color: #A36A53;      /* 優しいウォームテラコッタ */
-      --check-bg: #F5ECE7;
-      --vs-color: #9E524D;          /* スモーキーコーラル */
-      --vs-bg: #F5EAE9;
-      --trait-color: #6F586C;     /* 品のあるモーブグレー */
-      --highlight-bg: #E8E0E6;
-      --text-main: #241E21;        /* くっきり見やすいダークチャコールブラウン */
-      --text-sub: #5C5056;          /* コントラストを高めたトープ */
-      --border-color: #D3C7CB;     /* しっかり認識できる境界線 */
-      --danger-color: #A63F3F;     /* 落ち着いた深みのあるレッド */
+      --bg-color: #F8F5F6;          /* ほんのりピンクを含んだ柔らかいグレージュ */
+      --card-bg: #FFFFFF;          /* 上質なピュアホワイト */
+      --accent-color: #B57182;      /* 落ち着いたシックなダスティローズ */
+      --accent-light: #F3EAEF;     /* 繊細なローズアッシュ */
+      --footstep-color: #6B8E85;   /* 深みのあるセージグリーン */
+      --footstep-bg: #EDF3F2;      /* シアーセージ */
+      --volume-color: #7B8E78;     /* ニュアンスオリーブ */
+      --check-color: #C08A74;      /* 優しいウォームテラコッタ */
+      --check-bg: #FAF2EE;
+      --vs-color: #B26E68;          /* スモーキーコーラル */
+      --vs-bg: #F9EFEF;
+      --trait-color: #8C7588;     /* 品のあるモーブグレー */
+      --highlight-bg: #F2ECF1;
+      --text-main: #332C30;        /* 柔らかく視認性の良いチャコールブラウン */
+      --text-sub: #786C72;          /* くすみトープ */
+      --border-color: #E6DCDF;     /* 控えめなモーブグレージュの境界線 */
+      --danger-color: #C25959;     /* スモーキーレッド */
     }
 
     * {
@@ -62,7 +62,7 @@
       border-radius: 12px;
       margin-bottom: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(154, 82, 101, 0.08);
+      box-shadow: 0 4px 14px rgba(181, 113, 130, 0.08);
     }
 
     .tools-header {
@@ -86,7 +86,7 @@
 
     /* 各ツールカード共有スタイル */
     .tool-block {
-      background-color: #F5F0F1;
+      background-color: #FFFCFD;
       border: 1px solid var(--border-color);
       border-radius: 10px;
       padding: 10px 12px;
@@ -97,7 +97,7 @@
 
     .tool-block.running {
       border-color: var(--volume-color);
-      box-shadow: 0 0 10px rgba(94, 114, 91, 0.18);
+      box-shadow: 0 0 10px rgba(123, 142, 120, 0.18);
     }
 
     .tool-block-header {
@@ -118,7 +118,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
       margin: 4px 0;
     }
 
@@ -135,18 +135,24 @@
 
     .tool-big-display.footstep {
       color: var(--footstep-color);
-      font-size: 2.2rem;
+      font-size: 2rem;
     }
 
     .tool-block.running .tool-big-display {
       color: var(--volume-color);
     }
 
-    /* 右配置の大型操作ボタン */
+    /* 右配置の操作ボタン群 */
+    .btn-action-group {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
     .btn-action-side {
-      width: 100px;
-      height: 54px;
-      font-size: 0.9rem;
+      width: 90px;
+      height: 52px;
+      font-size: 0.88rem;
       font-weight: 700;
       border-radius: 10px;
       cursor: pointer;
@@ -171,6 +177,14 @@
       border-color: var(--footstep-color);
       background-color: var(--footstep-bg);
       color: var(--footstep-color);
+    }
+
+    .btn-action-side.reset-sub-btn {
+      width: 58px;
+      border-color: var(--danger-color);
+      background-color: #FDF4F4;
+      color: var(--danger-color);
+      font-size: 0.78rem;
     }
 
     .timer-live-badge {
@@ -207,7 +221,7 @@
     .timer-status span.active {
       color: var(--volume-color);
       font-weight: 700;
-      background-color: #DDE8DC;
+      background-color: #EBF2EC;
       padding: 2px 6px;
       border-radius: 4px;
     }
@@ -246,7 +260,7 @@
     }
 
     .btn-reset {
-      background-color: #F8EAE9;
+      background-color: #FDF4F4;
       border: 1px solid var(--danger-color);
       color: var(--danger-color);
       border-radius: 6px;
@@ -278,9 +292,9 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
       transition: transform 0.1s ease, background-color 0.15s, color 0.15s;
       cursor: pointer;
+      touch-action: manipulation;
     }
-
-    .btn-filter.pressing { transform: scale(0.94); opacity: 0.7; }
+    .btn-filter:active { transform: scale(0.95); }
     
     /* 選択時の着色 */
     .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); }
@@ -291,9 +305,9 @@
 
     .btn-filter.eliminated {
       text-decoration: line-through;
-      opacity: 0.4;
-      background-color: #DED6D7;
-      border-color: #C2B8B9;
+      opacity: 0.35;
+      background-color: #EFEBEC;
+      border-color: #E2DAD8;
     }
 
     .results-count {
@@ -310,7 +324,7 @@
       padding: 12px;
       margin-bottom: 10px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 3px 8px rgba(181, 113, 130, 0.05);
     }
 
     .card-header {
@@ -337,7 +351,7 @@
       border-radius: 5px;
       font-weight: 600;
     }
-    .badge.badge-hunt { background-color: #F8E6E6; color: var(--danger-color); }
+    .badge.badge-hunt { background-color: #FDF2F2; color: var(--danger-color); }
     .badge.badge-speed { background-color: var(--footstep-bg); color: var(--footstep-color); }
 
     .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
@@ -348,7 +362,7 @@
       padding: 3px 8px;
       border-radius: 5px;
       border: 1px solid var(--border-color);
-      font-weight: 600;
+      font-weight: 500;
     }
     .tag.matched { border-color: var(--accent-color); background-color: var(--accent-light); color: var(--accent-color); font-weight: 700; }
 
@@ -359,16 +373,16 @@
       line-height: 1.45;
       margin-bottom: 6px;
     }
-    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #38241D; }
-    .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #361F1E; }
-    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #182B27; }
+    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #4A332A; }
+    .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #402826; }
+    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #233B36; }
     
     .box-title { font-weight: 700; margin-bottom: 2px; display: inline-block; }
-    .check-title { color: #854E3A; }
-    .vs-title { color: #853A35; }
-    .footstep-title { color: #35524A; }
+    .check-title { color: #A0624A; }
+    .vs-title { color: #A04D47; }
+    .footstep-title { color: #4A6E66; }
 
-    .ghost-note { font-size: 0.75rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 600; }
+    .ghost-note { font-size: 0.75rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 500; }
   </style>
 </head>
 <body>
@@ -395,7 +409,9 @@
         </div>
         <div class="tool-main-row">
           <div class="tool-big-display" id="smudge-display">0 秒</div>
-          <button type="button" class="btn-action-side" id="smudge-btn">スタート</button>
+          <div class="btn-action-group">
+            <button type="button" class="btn-action-side" id="smudge-btn" onclick="handleSmudgeTimer()">スタート</button>
+          </div>
         </div>
         <div class="timer-status">
           判定: <span id="st-demon">〜60s(デーモン)</span> | <span id="st-normal">〜90s(通常)</span> | <span id="st-spirit">180s〜(スピリット)</span>
@@ -410,7 +426,10 @@
         </div>
         <div class="tool-main-row">
           <div class="tool-big-display footstep" id="bpm-display">-- m/s</div>
-          <button type="button" class="btn-action-side footstep-btn" id="footstep-btn">タップ！</button>
+          <div class="btn-action-group">
+            <button type="button" class="btn-action-side reset-sub-btn" id="footstep-reset-btn" onclick="resetFootstepTap()">リセット</button>
+            <button type="button" class="btn-action-side footstep-btn" id="footstep-btn" onclick="handleFootstepTap()">タップ！</button>
+          </div>
         </div>
       </div>
 
@@ -424,7 +443,7 @@
 
   <div class="controls-header">
     <div class="section-title">🔍 証拠選択</div>
-    <button class="btn-reset" id="reset-btn">リセット</button>
+    <button class="btn-reset" id="reset-btn" onclick="resetAllFilters()">リセット</button>
   </div>
   <div class="button-grid" id="evidence-buttons"></div>
 
@@ -889,216 +908,40 @@
       }, 3000);
     }
 
-    /* 長押し処理 */
-    function attachLongPress(element, callback) {
-      let timer = null, startX = 0, startY = 0;
-      const start = (e) => {
-        const touch = e.touches ? e.touches[0] : e;
-        startX = touch.clientX; startY = touch.clientY;
-        element.classList.add('pressing');
-        timer = setTimeout(() => {
-          if (navigator.vibrate) navigator.vibrate(20);
-          element.classList.remove('pressing');
-          callback();
-          timer = null;
-        }, 200);
-      };
-      const move = (e) => {
-        if (!timer) return;
-        const touch = e.touches ? e.touches[0] : e;
-        if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
-          clearTimeout(timer); timer = null; element.classList.remove('pressing');
-        }
-      };
-      const end = () => {
-        element.classList.remove('pressing');
-        if (timer) { clearTimeout(timer); timer = null; }
-      };
-
-      element.addEventListener('touchstart', start, { passive: true });
-      element.addEventListener('touchmove', move, { passive: true });
-      element.addEventListener('touchend', end, { passive: true });
-      element.addEventListener('mousedown', start);
-      element.addEventListener('mousemove', move);
-      element.addEventListener('mouseup', end);
-      element.addEventListener('mouseleave', end);
-      element.addEventListener('contextmenu', (e) => e.preventDefault());
+    /* 足音タップリセット処理 */
+    function resetFootstepTap() {
+      tapTimes = [];
+      if (footstepResetTimer) {
+        clearTimeout(footstepResetTimer);
+        footstepResetTimer = null;
+      }
+      document.getElementById('bpm-display').innerText = '-- m/s';
     }
 
-    /* 汎用フィルターボタン生成 */
-    function createFilterButtons(containerId, items, selectedArr, eliminatedArr, activeClass) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
+    /* ボタンの状態切り替え処理 (選択 -> 除外 -> 未選択) */
+    function toggleFilterState(item, selectedArr, eliminatedArr) {
+      const selIdx = selectedArr.indexOf(item);
+      const elimIdx = eliminatedArr.indexOf(item);
 
-      items.forEach(item => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'btn-filter';
-        btn.innerText = item;
-
-        let isLongPress = false;
-
-        attachLongPress(btn, () => {
-          isLongPress = true;
-          const elIdx = eliminatedArr.indexOf(item);
-          const selIdx = selectedArr.indexOf(item);
-          if (selIdx !== -1) selectedArr.splice(selIdx, 1);
-
-          if (elIdx !== -1) {
-            eliminatedArr.splice(elIdx, 1);
-          } else {
-            eliminatedArr.push(item);
-          }
-          render();
-        });
-
-        btn.addEventListener('click', () => {
-          if (isLongPress) {
-            isLongPress = false;
-            return;
-          }
-          const selIdx = selectedArr.indexOf(item);
-          const elIdx = eliminatedArr.indexOf(item);
-          if (elIdx !== -1) eliminatedArr.splice(elIdx, 1);
-
-          if (selIdx !== -1) {
-            selectedArr.splice(selIdx, 1);
-          } else {
-            selectedArr.push(item);
-          }
-          render();
-        });
-
-        if (selectedArr.includes(item)) {
-          btn.classList.add(activeClass);
-        } else if (eliminatedArr.includes(item)) {
-          btn.classList.add('eliminated');
-        }
-
-        container.appendChild(btn);
-      });
+      if (selIdx === -1 && elimIdx === -1) {
+        selectedArr.push(item);
+      } else if (selIdx !== -1) {
+        selectedArr.splice(selIdx, 1);
+        eliminatedArr.push(item);
+      } else {
+        eliminatedArr.splice(elimIdx, 1);
+      }
+      renderUI();
     }
 
-    /* 出現証拠数設定ボタン生成 */
-    function renderModeButtons() {
-      const container = document.getElementById('mode-buttons');
-      container.innerHTML = '';
-      [3, 2, 1, 0].forEach(mode => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'btn-filter' + (currentEvidenceMode === mode ? ' active-mode' : '');
-        btn.innerText = `${mode} 証拠`;
-        btn.onclick = () => {
-          currentEvidenceMode = mode;
-          render();
-        };
-        container.appendChild(btn);
-      });
+    /* 難易度（証拠数）設定変更 */
+    function setEvidenceMode(mode) {
+      currentEvidenceMode = mode;
+      renderUI();
     }
 
-    /* ゴーストのフィルタリングロジック */
-    function filterGhosts() {
-      return ghostData.filter(ghost => {
-        // 1. 検索クエリ
-        if (searchQuery) {
-          const q = searchQuery.toLowerCase();
-          const matchName = ghost.name.toLowerCase().includes(q);
-          const matchTrait = (ghost.traits || []).some(t => t.toLowerCase().includes(q));
-          const matchCheck = (ghost.check || '').toLowerCase().includes(q);
-          const matchVs = (ghost.vs || '').toLowerCase().includes(q);
-          const matchNote = (ghost.note || '').toLowerCase().includes(q);
-          const matchUnique = (ghost.unique || '').toLowerCase().includes(q);
-          const matchFootstep = (ghost.footstep || '').toLowerCase().includes(q);
-          const matchEv = ghost.evidences.some(e => e.toLowerCase().includes(q));
-          if (!matchName && !matchTrait && !matchCheck && !matchVs && !matchNote && !matchUnique && !matchFootstep && !matchEv) {
-            return false;
-          }
-        }
-
-        // 2. 選択された証拠
-        if (selectedEvidences.length > 0) {
-          const hasAllSelected = selectedEvidences.every(e => ghost.evidences.includes(e));
-          if (!hasAllSelected) return false;
-        }
-
-        // 3. 除外された証拠
-        if (eliminatedEvidences.length > 0) {
-          if (currentEvidenceMode === 3) {
-            if (eliminatedEvidences.some(e => ghost.evidences.includes(e))) return false;
-          } else {
-            if (ghost.forced && eliminatedEvidences.includes(ghost.forced)) return false;
-            if (eliminatedEvidences.some(e => ghost.evidences.includes(e))) return false;
-          }
-        }
-
-        // 4. ハントライン
-        if (selectedHunts.length > 0 && !selectedHunts.includes(ghost.huntCategory)) return false;
-        if (eliminatedHunts.length > 0 && eliminatedHunts.includes(ghost.huntCategory)) return false;
-
-        // 5. スピード
-        if (selectedSpeeds.length > 0 && !selectedSpeeds.includes(ghost.speed)) return false;
-        if (eliminatedSpeeds.length > 0 && eliminatedSpeeds.includes(ghost.speed)) return false;
-
-        // 6. 音量
-        if (selectedVolumes.length > 0 && !selectedVolumes.includes(ghost.volume)) return false;
-        if (eliminatedVolumes.length > 0 && eliminatedVolumes.includes(ghost.volume)) return false;
-
-        // 7. 特徴
-        if (selectedTraits.length > 0) {
-          if (!selectedTraits.every(t => (ghost.traits || []).includes(t))) return false;
-        }
-        if (eliminatedTraits.length > 0) {
-          if (eliminatedTraits.some(t => (ghost.traits || []).includes(t))) return false;
-        }
-
-        return true;
-      });
-    }
-
-    /* ゴーストカード描画 */
-    function renderCards(filteredList) {
-      const container = document.getElementById('cards-container');
-      container.innerHTML = '';
-
-      document.getElementById('results-count').innerText = `該当： ${filteredList.length} 件`;
-
-      filteredList.forEach(ghost => {
-        const card = document.createElement('div');
-        card.className = 'card';
-
-        let badgesHtml = '';
-        if (ghost.huntCategory) badgesHtml += `<span class="badge badge-hunt">ハント: ${ghost.huntCategory}</span>`;
-        if (ghost.speed) badgesHtml += `<span class="badge badge-speed">速度: ${ghost.speed}</span>`;
-
-        let tagsHtml = ghost.evidences.map(e => {
-          let isMatched = selectedEvidences.includes(e);
-          let isForced = ghost.forced === e;
-          return `<span class="tag ${isMatched ? 'matched' : ''}">${e}${isForced ? ' (確定)' : ''}</span>`;
-        }).join(' ');
-
-        card.innerHTML = `
-          <div class="card-header">
-            <div class="ghost-name">${ghost.name}</div>
-            <div class="badges">${badgesHtml}</div>
-          </div>
-          <div class="tags">${tagsHtml}</div>
-          ${ghost.unique ? `<div class="info-box check-box"><span class="box-title check-title">🌟 固有特徴 / 挙動</span><br>${ghost.unique}</div>` : ''}
-          ${ghost.check ? `<div class="info-box check-box"><span class="box-title check-title">🔍 特定・確定手順</span><br>${ghost.check}</div>` : ''}
-          ${ghost.footstep ? `<div class="info-box footstep-box"><span class="box-title footstep-title">👟 足音・移動速度</span><br>${ghost.footstep}</div>` : ''}
-          ${ghost.vs ? `<div class="info-box vs-box"><span class="box-title vs-title">⚖️ 他ゴーストとの比較</span><br>${ghost.vs}</div>` : ''}
-          ${ghost.note ? `<div class="ghost-note">💡 メモ: ${ghost.note}</div>` : ''}
-        `;
-
-        container.appendChild(card);
-      });
-    }
-
-    function handleSearch(val) {
-      searchQuery = val;
-      render();
-    }
-
-    function resetFilters() {
+    /* 全フィルターリセット */
+    function resetAllFilters() {
       selectedEvidences = []; eliminatedEvidences = [];
       selectedHunts = []; eliminatedHunts = [];
       selectedSpeeds = []; eliminatedSpeeds = [];
@@ -1106,30 +949,162 @@
       selectedTraits = []; eliminatedTraits = [];
       searchQuery = '';
       document.getElementById('search-input').value = '';
-      currentEvidenceMode = 3;
-      render();
+      renderUI();
     }
 
-    /* UI全体描画更新 */
-    function render() {
-      renderModeButtons();
-      createFilterButtons('evidence-buttons', allEvidences, selectedEvidences, eliminatedEvidences, 'active-evidence');
-      createFilterButtons('hunt-buttons', allHunts, selectedHunts, eliminatedHunts, 'active-hunt');
-      createFilterButtons('speed-buttons', allSpeeds, selectedSpeeds, eliminatedSpeeds, 'active-speed');
-      createFilterButtons('volume-buttons', allVolumes, selectedVolumes, eliminatedVolumes, 'active-volume');
-      createFilterButtons('trait-buttons', allTraits, selectedTraits, eliminatedTraits, 'active-trait');
-
-      const filteredList = filterGhosts();
-      renderCards(filteredList);
+    /* 検索入力ハンドラ */
+    function handleSearch(val) {
+      searchQuery = val.trim().toLowerCase();
+      renderCards();
     }
 
-    window.onload = function() {
-      document.getElementById('smudge-btn').addEventListener('click', handleSmudgeTimer);
-      document.getElementById('footstep-btn').addEventListener('click', handleFootstepTap);
-      document.getElementById('reset-btn').addEventListener('click', resetFilters);
+    /* UI描画処理 */
+    function renderUI() {
+      // 出現証拠数ボタン
+      const modeContainer = document.getElementById('mode-buttons');
+      modeContainer.innerHTML = '';
+      [3, 2, 1, 0].forEach(m => {
+        const btn = document.createElement('div');
+        btn.className = `btn-filter ${currentEvidenceMode === m ? 'active-mode' : ''}`;
+        btn.innerText = `証拠 ${m}個`;
+        btn.onclick = () => setEvidenceMode(m);
+        modeContainer.appendChild(btn);
+      });
 
-      render();
-    };
+      // 各フィルターボタン構築ヘルパー
+      const buildFilterButtons = (containerId, items, selectedArr, eliminatedArr, activeClass) => {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        items.forEach(item => {
+          const btn = document.createElement('div');
+          const isSelected = selectedArr.includes(item);
+          const isEliminated = eliminatedArr.includes(item);
+
+          let className = 'btn-filter';
+          if (isSelected) className += ` ${activeClass}`;
+          if (isEliminated) className += ' eliminated';
+
+          btn.className = className;
+          btn.innerText = item;
+          btn.onclick = () => toggleFilterState(item, selectedArr, eliminatedArr);
+          container.appendChild(btn);
+        });
+      };
+
+      buildFilterButtons('evidence-buttons', allEvidences, selectedEvidences, eliminatedEvidences, 'active-evidence');
+      buildFilterButtons('hunt-buttons', allHunts, selectedHunts, eliminatedHunts, 'active-hunt');
+      buildFilterButtons('speed-buttons', allSpeeds, selectedSpeeds, eliminatedSpeeds, 'active-speed');
+      buildFilterButtons('volume-buttons', allVolumes, selectedVolumes, eliminatedVolumes, 'active-volume');
+      buildFilterButtons('trait-buttons', allTraits, selectedTraits, eliminatedTraits, 'active-trait');
+
+      renderCards();
+    }
+
+    /* ゴーストカード描画・判定ロジック */
+    function renderCards() {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+
+      let count = 0;
+
+      ghostData.forEach(ghost => {
+        // 1. 証拠フィルタリング判定
+        // 除外された証拠を含んでいるゴーストを除外（ただしミミックの偽オーブ・確定証拠は配慮）
+        let isEliminatedByEvidence = eliminatedEvidences.some(e => {
+          if (ghost.name === 'ミミック' && e === 'ゴーストオーブ') return false; // ミミックは偽オーブを出す
+          return ghost.evidences.includes(e);
+        });
+
+        // 選択された証拠をゴーストが持っているか確認
+        let hasAllSelectedEvidences = selectedEvidences.every(e => {
+          if (ghost.name === 'ミミック' && e === 'ゴーストオーブ') return true;
+          return ghost.evidences.includes(e);
+        });
+
+        // ナイトメア等の証拠隠蔽制限（固定証拠ルール）
+        let isForcedMatch = true;
+        if (currentEvidenceMode < 3 && ghost.forced) {
+          // 証拠数が減っても「固定証拠」が選択漏れしていないか等の検証
+          if (eliminatedEvidences.includes(ghost.forced)) isForcedMatch = false;
+        }
+
+        if (isEliminatedByEvidence || !hasAllSelectedEvidences || !isForcedMatch) return;
+
+        // 2. 特徴・条件フィルタリング
+        if (selectedHunts.length > 0 && !selectedHunts.includes(ghost.huntCategory)) return;
+        if (eliminatedHunts.includes(ghost.huntCategory)) return;
+
+        if (selectedSpeeds.length > 0 && !selectedSpeeds.includes(ghost.speed)) return;
+        if (eliminatedSpeeds.includes(ghost.speed)) return;
+
+        if (selectedVolumes.length > 0 && !selectedVolumes.includes(ghost.volume)) return;
+        if (eliminatedVolumes.includes(ghost.volume)) return;
+
+        if (selectedTraits.length > 0 && !selectedTraits.some(t => (ghost.traits || []).includes(t))) return;
+        if (eliminatedTraits.some(t => (ghost.traits || []).includes(t))) return;
+
+        // 3. テキスト検索フィルタリング
+        if (searchQuery !== '') {
+          const fullContent = (
+            ghost.name +
+            ghost.evidences.join('') +
+            ghost.unique +
+            ghost.footstep +
+            (ghost.check || '') +
+            (ghost.vs || '') +
+            (ghost.note || '')
+          ).toLowerCase();
+          if (!fullContent.includes(searchQuery)) return;
+        }
+
+        count++;
+
+        // カード描画構築
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const tagsHtml = ghost.evidences.map(e => {
+          const isMatched = selectedEvidences.includes(e);
+          return `<span class="tag ${isMatched ? 'matched' : ''}">${e}</span>`;
+        }).join('');
+
+        const forcedHtml = ghost.forced ? `<span class="badge" style="background:#FFF3E0; color:#E65100;">必須: ${ghost.forced}</span>` : '';
+
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="ghost-name">${ghost.name}</span>
+            <div class="badges">
+              ${forcedHtml}
+              <span class="badge badge-hunt">⚡ ${ghost.hunt}</span>
+              <span class="badge badge-speed">👟 ${ghost.speed}</span>
+            </div>
+          </div>
+          <div class="tags">${tagsHtml}</div>
+          <div class="info-box footstep-box">
+            <span class="box-title footstep-title">👟 足音・速度特徴</span><br>
+            ${ghost.footstep}
+          </div>
+          ${ghost.check ? `
+            <div class="info-box check-box">
+              <span class="box-title check-title">🎯 判定手順</span><br>
+              ${ghost.check}
+            </div>` : ''}
+          ${ghost.vs ? `
+            <div class="info-box vs-box">
+              <span class="box-title vs-title">⚖️ 比較ポイント</span><br>
+              ${ghost.vs}
+            </div>` : ''}
+          ${ghost.note ? `<div class="ghost-note">💡 ${ghost.note}</div>` : ''}
+        `;
+
+        container.appendChild(card);
+      });
+
+      document.getElementById('results-count').innerText = `該当： ${count} 件`;
+    }
+
+    // 初期化実行
+    renderUI();
   </script>
 </body>
 </html>
