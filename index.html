@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>GHOST FINDER - Phasmophobia</title>
   
-  <!-- スマホ（iPhone/Android）・PC共通の標準アイコン設定 -->
-  <link rel="apple-touch-icon" href="./icon.png">
-  <link rel="icon" type="image/png" href="./icon.png">
-
   <style>
     :root {
       --bg-color: #121214;
@@ -30,84 +26,151 @@
       --danger-color: #CF6679;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
       margin: 0;
-      padding: 16px;
+      padding: 12px;
       -webkit-tap-highlight-color: transparent;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .header h1 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--accent-color);
-      margin: 0 0 4px 0;
-    }
-
-    .header p {
-      font-size: 0.75rem;
-      color: var(--text-sub);
       margin: 0;
     }
 
-    .guide-tip {
-      font-size: 0.72rem;
-      color: var(--text-sub);
+    /* --- ツール折りたたみパネル --- */
+    .tools-panel {
       background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 6px 10px;
+      border: 1px solid var(--accent-color);
+      border-radius: 8px;
       margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .tools-header {
+      padding: 10px 12px;
+      background-color: rgba(187, 134, 252, 0.1);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .tools-content {
+      padding: 12px;
+      display: none;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .tools-content.open {
+      display: block;
+    }
+
+    /* タイマー＆タップUI */
+    .tool-block {
+      margin-bottom: 12px;
+    }
+    .tool-block:last-child { margin-bottom: 0; }
+
+    .tool-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-tool {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-tool:active { background-color: var(--border-color); }
+
+    .timer-display {
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      min-width: 60px;
       text-align: center;
     }
 
-    .search-container {
-      margin-bottom: 10px;
+    .timer-status {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+    .timer-status span.active {
+      color: var(--check-color);
+      font-weight: 700;
     }
 
+    .bpm-result {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--footstep-color);
+    }
+
+    /* --- メインUI --- */
     .search-input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 8px 12px;
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 8px;
       color: var(--text-main);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .search-input:focus {
-      border-color: var(--accent-color);
-    }
-
-    .search-input::placeholder {
-      color: var(--text-sub);
+      margin-bottom: 10px;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     .controls-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 12px;
+      margin-top: 10px;
       margin-bottom: 6px;
     }
 
     .section-title {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-sub);
-      letter-spacing: 0.05em;
     }
 
     .btn-reset {
@@ -116,328 +179,183 @@
       color: var(--danger-color);
       border-radius: 6px;
       padding: 4px 10px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      cursor: pointer;
     }
 
-    .button-grid {
+    .button-grid, .button-grid-2, .button-grid-3, .button-grid-4 {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
       gap: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-
-    .button-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .button-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .button-grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      margin-bottom: 10px;
-    }
+    .button-grid { grid-template-columns: repeat(2, 1fr); }
+    .button-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .button-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .button-grid-4 { grid-template-columns: repeat(4, 1fr); }
 
     .btn-filter {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 9px 4px;
-      font-size: 0.78rem;
+      border-radius: 6px;
+      padding: 8px 2px;
+      font-size: 0.75rem;
       color: var(--text-main);
-      cursor: pointer;
-      transition: all 0.2s ease;
       text-align: center;
       font-weight: 500;
-      user-select: none;
+      transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+      position: relative;
     }
 
-    .btn-filter.active-mode {
-      background-color: var(--accent-color);
-      color: #000000;
+    /* 長押し視覚フィードバック（押している最中のギミック） */
+    .btn-filter.pressing {
+      transform: scale(0.92);
+      opacity: 0.7;
       border-color: var(--accent-color);
-      font-weight: 700;
     }
 
-    .btn-filter.active-evidence {
-      background-color: var(--accent-color);
-      color: #000000;
-      border-color: var(--accent-color);
-      font-weight: 700;
-    }
-
-    .btn-filter.active-hunt {
-      background-color: var(--danger-color);
-      color: #000000;
-      border-color: var(--danger-color);
-      font-weight: 700;
-    }
-
-    .btn-filter.active-speed {
-      background-color: var(--footstep-color);
-      color: #000000;
-      border-color: var(--footstep-color);
-      font-weight: 700;
-    }
-
-    .btn-filter.active-volume {
-      background-color: var(--volume-color);
-      color: #000000;
-      border-color: var(--volume-color);
-      font-weight: 700;
-    }
-
-    .btn-filter.active-trait {
-      background-color: var(--trait-color);
-      color: #000000;
-      border-color: var(--trait-color);
-      font-weight: 700;
-    }
+    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #000; border-color: var(--accent-color); font-weight: 700; }
+    .btn-filter.active-hunt { background-color: var(--danger-color); color: #000; border-color: var(--danger-color); font-weight: 700; }
+    .btn-filter.active-speed { background-color: var(--footstep-color); color: #000; border-color: var(--footstep-color); font-weight: 700; }
+    .btn-filter.active-volume { background-color: var(--volume-color); color: #000; border-color: var(--volume-color); font-weight: 700; }
+    .btn-filter.active-trait { background-color: var(--trait-color); color: #000; border-color: var(--trait-color); font-weight: 700; }
 
     .btn-filter.eliminated {
       text-decoration: line-through;
-      opacity: 0.45;
-      background-color: rgba(255, 255, 255, 0.05);
+      opacity: 0.35;
+      background-color: rgba(255, 255, 255, 0.03);
       color: var(--text-sub);
-      border-color: var(--border-color);
     }
 
     .results-count {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-sub);
-      margin: 16px 0 10px 0;
+      margin: 12px 0 8px 0;
       font-weight: 600;
     }
 
     .card {
       background-color: var(--card-bg);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
       border: 1px solid var(--border-color);
-      transition: opacity 0.2s ease;
     }
-
-    .card.card-eliminated {
-      opacity: 0.35;
-    }
+    .card.card-eliminated { opacity: 0.3; }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 6px;
     }
 
     .ghost-name {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text-main);
-      cursor: pointer;
-      user-select: none;
     }
+    .ghost-name.eliminated { text-decoration: line-through; color: var(--text-sub); }
 
-    .ghost-name.eliminated {
-      text-decoration: line-through;
-      color: var(--text-sub);
-    }
-
-    .badges {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
+    .badges { display: flex; gap: 4px; flex-wrap: wrap; }
     .badge {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       background-color: var(--accent-light);
       color: var(--accent-color);
-      padding: 3px 7px;
-      border-radius: 10px;
+      padding: 3px 6px;
+      border-radius: 8px;
       font-weight: 600;
-      cursor: pointer;
-      user-select: none;
     }
+    .badge.badge-hunt { background-color: rgba(207, 102, 121, 0.15); color: var(--danger-color); }
+    .badge.badge-speed { background-color: var(--footstep-bg); color: var(--footstep-color); }
 
-    .badge.badge-hunt {
-      background-color: rgba(207, 102, 121, 0.15);
-      color: var(--danger-color);
-    }
-
-    .badge.badge-speed {
-      background-color: var(--footstep-bg);
-      color: var(--footstep-color);
-    }
-
-    .badge.badge-volume {
-      background-color: var(--volume-bg);
-      color: var(--volume-color);
-    }
-
-    .badge.eliminated {
-      text-decoration: line-through;
-      opacity: 0.45;
-      background-color: rgba(255, 255, 255, 0.08) !important;
-      color: var(--text-sub) !important;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
     .tag {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       background-color: var(--bg-color);
       color: var(--text-main);
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 3px 6px;
+      border-radius: 4px;
       border: 1px solid var(--border-color);
-      cursor: pointer;
-      user-select: none;
     }
+    .tag.matched { border-color: var(--accent-color); color: var(--accent-color); font-weight: 700; }
+    .tag.eliminated { text-decoration: line-through; opacity: 0.4; }
 
-    .tag.matched {
-      border-color: var(--accent-color);
-      color: var(--accent-color);
-    }
-
-    .tag.forced-tag {
-      border-color: var(--danger-color);
-      color: var(--danger-color);
-    }
-
-    .tag.eliminated {
-      text-decoration: line-through;
-      opacity: 0.45;
-      background-color: var(--border-color);
-      color: var(--text-sub);
-    }
-
-    .trait-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-bottom: 8px;
-    }
-
-    .trait-badge {
-      font-size: 0.68rem;
-      background-color: var(--trait-bg);
-      color: var(--trait-color);
-      border: 1px solid rgba(255, 183, 77, 0.3);
-      padding: 2px 6px;
+    .unique-box, .footstep-box, .check-box {
+      padding: 5px 8px;
       border-radius: 4px;
+      font-size: 0.75rem;
       font-weight: 600;
-      cursor: pointer;
-      user-select: none;
+      margin-bottom: 4px;
     }
-
-    .trait-badge.eliminated {
-      text-decoration: line-through;
-      opacity: 0.45;
-      background-color: rgba(255, 255, 255, 0.08) !important;
-      color: var(--text-sub) !important;
-      border-color: var(--border-color) !important;
-    }
-
-    .unique-box {
-      background-color: var(--highlight-bg);
-      border-left: 3px solid var(--accent-color);
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--accent-color);
-      margin-bottom: 6px;
-    }
-
-    .footstep-box {
-      background-color: var(--footstep-bg);
-      border-left: 3px solid var(--footstep-color);
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--footstep-color);
-      margin-bottom: 6px;
-    }
-
-    .check-box {
-      background-color: var(--check-bg);
-      border-left: 3px solid var(--check-color);
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--check-color);
-      margin-bottom: 8px;
-    }
-
-    .ghost-note {
-      font-size: 0.78rem;
-      color: var(--text-sub);
-      line-height: 1.45;
-    }
-
-    .no-results {
-      text-align: center;
-      color: var(--text-sub);
-      font-size: 0.85rem;
-      margin-top: 30px;
-    }
+    .unique-box { background-color: var(--highlight-bg); border-left: 3px solid var(--accent-color); color: var(--accent-color); }
+    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: var(--footstep-color); }
+    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: var(--check-color); }
+    .ghost-note { font-size: 0.72rem; color: var(--text-sub); line-height: 1.4; }
   </style>
 </head>
 <body>
 
   <div class="header">
     <h1>👻 GHOST FINDER</h1>
-    <p>オフライン対応 全30種データベース</p>
   </div>
 
-  <div class="guide-tip">
-    💡 難易度に合わせて「証拠数制限」を選択可能。必須証拠の自動除外にも対応しています。
+  <!-- 折りたたみ可能な実戦サポートツール -->
+  <div class="tools-panel">
+    <div class="tools-header" onclick="toggleTools()">
+      <span>🛠️ 実戦サポート (浄化香タイマー / 足音BPM)</span>
+      <span id="tools-arrow">▼</span>
+    </div>
+    <div class="tools-content" id="tools-content">
+      
+      <!-- 浄化香タイマー -->
+      <div class="tool-block">
+        <div class="tool-title">🔥 浄化香（スマッジ）タイマー</div>
+        <div class="flex-row">
+          <button class="btn-tool" onclick="handleSmudgeTimer()">スタート / リセット</button>
+          <div class="timer-display" id="smudge-display">000s</div>
+        </div>
+        <div class="timer-status">
+          判定: <span id="st-demon">〜60s(デーモン)</span> | <span id="st-normal">〜90s(通常)</span> | <span id="st-spirit">180s〜(スピリット)</span>
+        </div>
+      </div>
+
+      <hr style="border:0; border-top:1px solid var(--border-color); margin: 10px 0;">
+
+      <!-- 足音タップ測定器 -->
+      <div class="tool-block">
+        <div class="tool-title">👟 足音タップ測定器 (リズムに合わせてタップ)</div>
+        <div class="flex-row">
+          <button class="btn-tool" onclick="handleFootstepTap()">足音に合わせてタップ！</button>
+          <div class="bpm-result" id="bpm-display">-- m/s</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="search-container">
-    <input type="text" id="search-input" class="search-input" placeholder="🔍 ゴースト名・特徴・キーワードで検索..." oninput="handleSearch(this.value)">
-  </div>
+  <input type="text" id="search-input" class="search-input" placeholder="🔍 ゴースト名・特徴・キーワード検索..." oninput="handleSearch(this.value)">
 
-  <div class="section-title">🎮 難易度（出現する最大証拠数）</div>
+  <div class="section-title">🎮 難易度（出現証拠数）</div>
   <div class="button-grid-4" id="mode-buttons"></div>
 
   <div class="controls-header">
-    <div class="section-title">🔍 証拠を選択</div>
-    <button class="btn-reset" onclick="resetFilters()">リセット</button>
+    <div class="section-title">🔍 証拠（長押しでON/OFF/除外）</div>
+    <button class="btn-reset" id="reset-btn">リセット</button>
   </div>
   <div class="button-grid" id="evidence-buttons"></div>
 
-  <div class="section-title" style="margin-top: 12px; margin-bottom: 6px;">⚡ ハントラインで絞り込み</div>
+  <div class="section-title" style="margin-top: 8px;">⚡ ハントライン</div>
   <div class="button-grid-2" id="hunt-buttons"></div>
 
-  <div class="section-title" style="margin-top: 12px; margin-bottom: 6px;">👟 移動速度で絞り込み</div>
+  <div class="section-title" style="margin-top: 8px;">👟 移動速度</div>
   <div class="button-grid-3" id="speed-buttons"></div>
 
-  <div class="section-title" style="margin-top: 12px; margin-bottom: 6px;">🔊 足音の音量で絞り込み</div>
+  <div class="section-title" style="margin-top: 8px;">🔊 足音音量</div>
   <div class="button-grid-3" id="volume-buttons"></div>
 
-  <div class="section-title" style="margin-top: 12px; margin-bottom: 6px;">🏷️ 固有特徴で絞り込み</div>
+  <div class="section-title" style="margin-top: 8px;">🏷️ 固有特徴</div>
   <div class="button-grid-3" id="trait-buttons"></div>
 
   <div class="results-count" id="results-count">該当： 30 件</div>
@@ -445,39 +363,39 @@
 
   <script>
     const ghostData = [
-      { name: "スピリット", evidences: ["EMFレベル5", "スピリットボックス", "ゴーストライティング"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "浄化香180秒間効果", footstep: "標準的なリズム（1.7m/s）。視認加速あり", traits: ["浄化香特殊"], check: "浄化香を部屋で使用後、スマホ等のタイマーで計測。90秒を過ぎてもハントが来ず、180秒間完全にハントが起きなければ確定", note: "浄化香使用で180秒間ハント不可（通常90秒）" },
-      { name: "レイス", evidences: ["EMFレベル5", "スピリットボックス", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "塩を踏まない", footstep: "標準的なリズム（1.7m/s）。塩を踏まないため塩を踏む音がしない", traits: ["塩を踏まない"], check: "部屋の出入り口や足元に塩を撒き、真上にモーションセンサーを設置。センサーが反応したのに塩に足跡（UVライトで見える足跡）が一切付かなければ確定", note: "塩を踏まない、調査員へランダムワープ" },
-      { name: "ファントム", evidences: ["スピリットボックス", "紫外線", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "写真で消滅・実体化が長い", footstep: "標準的なリズム（1.7m/s）。ハント時姿が消える時間が長いが足音は継続して聞こえる", traits: ["写真で消滅"], check: "超常現象やD.O.T.S.時にカメラで撮影。撮影直後にゴーストが消滅し、手帳の写真にノイズやゴーストが写っていない（項目名は『ゴースト』判定）なら確定", note: "写真撮影で消滅（写真枠ノイズなし）、直視で正気度低下、ハント時姿が消えている時間が長い" },
-      { name: "ポルターガイスト", evidences: ["スピリットボックス", "紫外線", "ゴーストライティング"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "複数物品一斉投擲", footstep: "標準的なリズム（1.7m/s）。物投げ音と同時に足音が迫る", traits: ["物品一斉投擲"], check: "ゴースト部屋の中央（テーブルや床）に皿や小物を山盛り（ポルタータワー）にして待機。爆発するように一斉に全方位へ吹き飛んだら確定", note: "複数の物体を同時に投げる（ポルターガイストスロー）、物干渉の頻度が高い" },
-      { name: "バンシー", evidences: ["紫外線", "ゴーストオーブ", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "指向性マイクの叫び声", footstep: "標準的なリズム（1.7m/s）。ターゲット追尾時は一直線に向かってくる", traits: ["指向性マイク特殊"], check: "指向性マイクを向けて待機し、特有の叫び声（囁きではなく金切り声）を聞く。または複数人で並び、ターゲット以外のプレイヤーをハント中に無視して通過するか確認", note: "特定ターゲットのみ狙う、指向性マイクで特有の金切り声（叫び声）" },
-      { name: "ジン", evidences: ["EMFレベル5", "紫外線", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "早い", volume: "通常音量", unique: "電源ON時の遠距離急加速", footstep: "ブレーカーONかつ遠方にいる場合、ターゲット視認で足音が急加速（2.5m手前で標準へ減速）", traits: ["電気・電子機器影響"], check: "ブレーカーをONにしたまま、ロングホール（長い廊下など）で視認させる。遠くから爆速で近づき、2.5m手前で急に普通の速度へ落ちたら確定", note: "ブレーカーON時、遠くにいる調査員へ急加速（2.5m手前で減速）、ブレーカーを落とさない" },
-      { name: "メアー", evidences: ["スピリットボックス", "ゴーストオーブ", "ゴーストライティング"], huntCategory: "条件変動・特殊", hunt: "60%(暗)/40%(明)", speed: "通常", volume: "通常音量", unique: "電気スイッチ即消し・照明破壊確率高", footstep: "標準的なリズム（1.7m/s）。部屋の明暗による足音の変化はなし", traits: ["電気・電子機器影響"], check: "部屋のスイッチを付けた瞬間に即座に消されるか、超常現象で頻繁に電球を割られるか確認。また明かりを点けた状態では正気度40%台までハントが来ない", note: "電気を付けるとすぐ消す（電気点灯不可）、超常現象時の電球破砕確率が高い、暗い部屋(60%)・明るい部屋(40%)でハントライン変動" },
-      { name: "レヴナント", evidences: ["ゴーストオーブ", "ゴーストライティング", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "音量・速度激変", unique: "視認時超爆速・非視認超遅", footstep: "未発見時は超スローテンポ（1.0m/s）。発見した瞬間に足音が爆速（3.0m/s）へ劇的変化", traits: ["視認時超爆速"], check: "隠れ場所で足音のテンポを聴く。姿が見えていない間は「トーン...トーン...」と超遅く、見つかった瞬間に「タタタタタ！」と超爆速に変化したら確定", note: "調査員未発見時は超低速(1.0m/s)、発見すると超高速(3.0m/s)" },
-      { name: "シェード", evidences: ["EMFレベル5", "ゴーストライティング", "氷点下の温度"], huntCategory: "40%以下 (低)", hunt: "35%", speed: "通常", volume: "通常音量", unique: "同室時ハント・干渉不可", footstep: "標準的なリズム（1.7m/s）。視認加速あり", traits: ["同室干渉不可"], check: "ゴーストと同じ部屋に2人以上でずっと居座る。正気度が低下していても全くハント・超常現象が起きず、1人で部屋を出た途端に動き出したら確定", note: "同じ部屋に人がいると干渉・ハントしない、正気度35%と最不活発" },
-      { name: "デーモン", evidences: ["紫外線", "ゴーストライティング", "氷点下の温度"], huntCategory: "60%以上 (高)", hunt: "70%(能力で100%)", speed: "通常", volume: "通常音量", unique: "浄化香60秒・正気度無視ハント", footstep: "標準的なリズム（1.7m/s）。ハント間隔が短いため足音を聞く回数が多い", traits: ["浄化香特殊"], check: "浄化香を使用してタイマー計測。わずか60秒経過した直後に再度ハントが始まれば確定（他のゴーストは最短90秒）", note: "能力で正気度100%からハント可能、通常70%、ハント間隔20秒、浄化香効果60秒" },
-      { name: "幽霊", evidences: ["ゴーストオーブ", "氷点下の温度", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "ドア2連続閉じ", footstep: "標準的なリズム（1.7m/s）。視認加速あり", traits: ["浄化香特殊"], check: "部屋のドアを完全に開けておく。「バタンバタン」と2連続で音がして完全に閉まり、同時に正気度が15%削られたら確定", note: "ドアを2連続で閉めて正気度15%削る、浄化香で部屋脱出防止" },
-      { name: "鬼", evidences: ["EMFレベル5", "氷点下の温度", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "実体化時間が長い・靄無し", footstep: "標準的なリズム（1.7m/s）。実体化が長いため足音と姿の同期を確認しやすい", traits: ["姿が見える時間が長い"], check: "ハント中の点滅を観察。姿が見えている時間が明らかに長く、点滅がほとんどない。また「白い煙状の靄」を出す超常現象を起こした場合は鬼否定", note: "超常現象頻発、ハント時見えている時間が長い（点滅で見えやすい）、靄を出さない" },
-      { name: "妖怪", evidences: ["スピリットボックス", "ゴーストオーブ", "D.O.T.S.プロジェクター"], huntCategory: "条件変動・特殊", hunt: "50%(会話時80%)", speed: "通常", volume: "通常音量", unique: "声会話時に80%ハント", footstep: "標準速度だが、ゴースト側の足音・音検知範囲が2.5mと極めて狭い", traits: ["音・会話に反応"], check: "ハント中、ゴーストから3〜5mほど離れた場所でインカムやマイクで大声で話し続ける。目の前を通り過ぎても気づかず素通りしたら確定", note: "ハント時の電子機器・音の察知範囲が2.5mと狭い、近くで喋ると80%からハント" },
-      { name: "ハントゥ", evidences: ["紫外線", "ゴーストオーブ", "氷点下の温度"], forced: "氷点下の温度", huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "通常音量", unique: "室温依存・視認加速なし・白い息", footstep: "部屋の温度でテンポ変化（寒い部屋＝爆速、暖かい部屋＝超遅）。視認加速なし", traits: ["視認加速なし"], check: "ブレーカーを落として家全体を冷やす。ハント中に足音が爆速になり、かつ口元から白い息を吐いているのが見えたら確定（視認しても加速しない）", note: "【必須証拠: 氷点下の温度】室温が低いと高速、暖かいと遅い、視認加速なし、ハント中白い息を吐く" },
-      { name: "御霊", evidences: ["EMFレベル5", "紫外線", "D.O.T.S.プロジェクター"], forced: "D.O.T.S.プロジェクター", huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "カメラ越し＆無人DOTS", footstep: "標準的なリズム（1.7m/s）。部屋変更をしないため初期エリア付近から鳴りやすい", traits: ["部屋変更不可"], check: "D.O.T.S.を設置し、部屋を無人にしてトラック内のビデオカメラから監視。カメラ越しでのみD.O.T.S.が映り、肉眼で部屋にいる時に直接見えなければ確定", note: "【必須証拠: DOTS】D.O.T.S.はビデオカメラ越しのみ＆無人時のみ見える、お気に入りの部屋を変更しない" },
-      { name: "マイリング", evidences: ["EMFレベル5", "紫外線", "ゴーストライティング"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "小さい", unique: "足音の可聴範囲が狭い", footstep: "足音が小さく可聴距離が狭い（通常20m→約12m）。手元機器のノイズ(10m)とほぼ同時に足音が鳴り出す", traits: ["指向性マイク特殊"], check: "点灯した懐中電灯を足元に置いて隠れる。懐中電灯がチカチカ点滅（10m圏内）し始めたのと「ほぼ同時に」足音が聞こえ始めたらマイリング確定", note: "ハント時の足音が小さい（12m）、指向性マイクで怪奇音（囁き声）" },
-      { name: "怨霊", evidences: ["スピリットボックス", "ゴーストオーブ", "氷点下の温度"], huntCategory: "60%以上 (高)", hunt: "60%", speed: "通常", volume: "通常音量", unique: "火を3回消すとハント", footstep: "標準的なリズム（1.7m/s）。視認加速あり", traits: ["火・ロウソク反応"], check: "十字架の上にロウソクを3本重ねて設置。ロウソクが3回消された直後に必ずハント（または十字架消費）が発生したら確定", note: "火（ロウソク）を3回消すとハントチェック、火の近くではハント不可（火が十字架代わり）" },
-      { name: "ツインズ", evidences: ["EMFレベル5", "スピリットボックス", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "音量・速度激変", unique: "本体(遅)と分身(速)の足音", footstep: "ハント毎に本体（やや遅い: 1.53m/s）か分身（やや速い: 1.87m/s）かが変わり足音リズムが異なる", traits: ["同時干渉・2つの姿"], check: "ハントを複数回起こし、足音のピッチ（リズム）を聴き比べる。1回目のハントより2回目のハントの足音が露骨に速い（または遅い）場合は確定", note: "本体(1.53m/s)と分身(1.87m/s)で速度が異なる、別部屋で同時干渉" },
-      { name: "雷獣", evidences: ["EMFレベル5", "ゴーストオーブ", "D.O.T.S.プロジェクター"], huntCategory: "60%以上 (高)", hunt: "65%(機器起動時)", speed: "早い", volume: "通常音量", unique: "電子機器付近で高速", footstep: "点灯・起動中の電子機器の近くを通ると足音テンポが爆速化（2.5m/s）", traits: ["電気・電子機器影響"], check: "床にスイッチを入れたビデオカメラやD.O.T.S.を数個並べる。ハント中、その機器のそばを通った瞬間だけ足音が爆速（2.5m/s）に変化したら確定", note: "近くで起動中の電子機器があるとハントライン65%上昇＆移動速度上昇(2.5m/s)" },
-      { name: "化け狐", evidences: ["EMFレベル5", "紫外線", "ゴーストオーブ"], forced: "紫外線", huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "6本指・一瞬モデル変化", footstep: "標準的なリズム（1.7m/s）。ハント中の一瞬変身時も足音ピッチ変化なし", traits: ["特殊指紋"], check: "ドアや壁に付けられた指紋をUVライトで確認。指紋が「6本指」であれば確定。またハント中の点滅で一瞬だけ別のゴースト姿へ変化するのを目視する", note: "【必須証拠: 紫外線】6本指の指紋を残す（33%）、ハント時一瞬モデル変更（6.25%）" },
-      { name: "ミミック", evidences: ["スピリットボックス", "紫外線", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "音量・速度激変", unique: "隠れ証拠オーブが出現", footstep: "模倣しているゴーストの足音速度・変化パターンをそのままコピーする", traits: ["偽オーブ(隠れ証拠)"], check: "難易度（ナイトメア以上など）を問わず、本来の証拠数＋1個として『偽のゴーストオーブ』が常に見えたら確定", note: "常に偽のゴーストオーブを出す（証拠数制限でも常に出る）、他のゴーストの能力を模倣" },
-      { name: "モーロイ", evidences: ["スピリットボックス", "ゴーストライティング", "氷点下の温度"], forced: "スピリットボックス", huntCategory: "50% (標準)", hunt: "50%", speed: "早い", volume: "通常音量", unique: "正気度が低いほど高速", footstep: "正気度が低いほど足音テンポが高速化（最大2.25m/s）。呪い状態の調査員視認でさらに加速", traits: ["正気度・時間で速度変化"], check: "正気度薬を飲まずに平均正気度を0%近くまで落としてハントを起こす。ハント時の基本足音が常時爆速（2.25m/s）になっていれば確定", note: "【必須証拠: スピボ】平均正気度が低いほど足が速い（最大2.25m/s）、スピボ/マイクで呪い付与" },
-      { name: "デオヘン", evidences: ["スピリットボックス", "ゴーストライティング", "D.O.T.S.プロジェクター"], forced: "スピリットボックス", huntCategory: "40%以下 (低)", hunt: "40%", speed: "特殊", volume: "音量・速度激変", unique: "近距離超減速・スピボ吐息", footstep: "遠距離では爆速（3.0m/s）で向かってくるが、ターゲットの1m以内に近づくと超低速（0.4m/s）に大減速", traits: ["隠れ場所無効/追跡"], check: "隠れ場所に隠れず、スピリットボックスで密着状態で「ハァー…」という重い呼吸音を聞く。またはハント時に逃げず、目の前でくるくる周り（1m以内で0.4m/sに大減速）観察する", note: "【必須証拠: スピボ】全員の居場所を常に把握、近づくと超低速0.4m/s、スピボで1m以内重い吐息" },
-      { name: "セーイ", evidences: ["ゴーストオーブ", "ゴーストライティング", "D.O.T.S.プロジェクター"], huntCategory: "条件変動・特殊", hunt: "75%〜15%(老化)", speed: "特殊", volume: "通常音量", unique: "時間経過で老化・減速", footstep: "ハント初期は超爆速（2.75m/s）だが、滞在時間（老化）が進むと足音が超遅く（1.0m/s）なる。視認加速なし", traits: ["視認加速なし", "正気度・時間で速度変化"], check: "ゲーム序盤のハントでの超爆速（2.75m/s）を確認後、同じ部屋で5〜10分ほど過ごしてから再度ハントを起こす。足音が超低速（1.0m/s）に激変していれば確定", note: "近くに人がいると老化しハントライン(75%→15%)と速度(2.75m/s→1.0m/s)が低下、視認加速なし" },
-      { name: "ダヤン", evidences: ["EMFレベル5", "ゴーストオーブ", "スピリットボックス"], huntCategory: "条件変動・特殊", hunt: "65%(動) / 45%(静)", speed: "特殊", volume: "通常音量", unique: "移動中の調査員検知で加速", footstep: "周囲の調査員が移動中だと足音が加速（2.25m/s）、立ち止まると遅い足音（1.2m/s）に固定化", traits: ["音・会話に反応"], check: "ハント中、物陰で完全に立ち止まる（しゃがんで動かない）。ゴーストが近くに寄っても足音が遅い状態（1.2m/s）のままであれば確定", note: "女性限定モデル。10m圏内の調査員が移動中で65%/2.25m/s、静止中で45%/1.2m/s固定に変化" },
-      { name: "ガルル", evidences: ["EMFレベル5", "紫外線", "スピリットボックス"], huntCategory: "条件変動・特殊", hunt: "60%(激昂) / 40%(疲弊)", speed: "特殊", volume: "通常音量", unique: "激昂時に塩を踏まなくなる", footstep: "防護装備使用後の激昂時は高速足音（1.955m/s）、ハント終了後の疲弊時は低速足音（1.36m/s）へ変化", traits: ["塩を踏まない", "浄化香特殊"], check: "ハント中に浄化香を使用するか十字架を切らせる。直後のハントで足音が高速化（1.955m/s）し、塩の上に撒いた足跡がつかなくなったら確定", note: "防護装備(浄化香/塩/十字架)使用で激昂(60%/1.955m/s/塩不踏)、ハント終了で疲弊(40%/1.36m/s)に移行" },
-      { name: "オバンボ", evidences: ["ゴーストライティング", "紫外線", "D.O.T.S.プロジェクター"], huntCategory: "条件変動・特殊", hunt: "65%(攻撃) / 10%(穏やか)", speed: "特殊", volume: "通常音量", unique: "2分毎に攻撃/穏やかが切り替わる", footstep: "攻撃モード時（1.955m/s）と穏やかモード時（1.445m/s）で周期的に足音のスピードが切り替わる", traits: ["周期モード切替"], check: "タイマーで2分間隔を計測。ハント時の足音スピードが『やや速い』と『やや遅い』を2分おきに交互に繰り返していれば確定", note: "初期1分後、以降2分ごとに穏やか(10%/1.445m/s)と攻撃的(65%/1.955m/s/ハント時間0.8倍)を交互に切り替え" },
-      { name: "アスワング", evidences: ["ゴーストライティング", "氷点下の温度", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "公式隠れ場所で見逃すが次回直行", footstep: "標準的なリズム（1.7m/s）。見逃し後の次回ハント時は一直線に向かってくる足音に変わる", traits: ["隠れ場所無効/追跡"], check: "クローゼット等の正規隠れ場所に入りハントをやり過ごす。次のハントが発生した瞬間、隠れ場所を認知した状態で猶予時間中から一直線に足音が向かってきたら確定", note: "公式隠れ場所でキルを中断し見逃すが、次回のハント開始時（猶予中含む）に見逃した調査員へ一直線に向かう" },
-      { name: "コルモス", evidences: ["ゴーストオーブ", "スピリットボックス", "紫外線"], huntCategory: "条件変動・特殊", hunt: "70%(走) / 50%(通常)", speed: "特殊", volume: "通常音量", unique: "足音感知追跡・視線のみ不可", footstep: "足音を感知(しゃがみ10m/歩き15m/走り30m)。同室で走ると70%からハント。追跡時2.21m/s、視線のみでの感知不可", traits: ["音・会話に反応", "隠れ場所無効/追跡"], check: "ゴーストと同じ部屋でダッシュ（走り）をする。正気度70%付近で即座にハントが始まり、ハント中は立ち止まってしゃがむと目の前でも見失う様子があれば確定", note: "足音を感知(しゃがみ10m/歩き15m/走り30m)。同室で走ると70%からハント。追跡時2.21m/s、視線のみでの感知不可" },
-      { name: "ディルデガスト", evidences: ["EMFレベル5", "ゴーストライティング", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "通常音量", unique: "ハント外で物品操作で減速", footstep: "ハント開始時は超爆速（3.0m/s）。事前に触った物が多いほど足音テンポが減速（最小0.4m/s）。視認加速なし", traits: ["視認加速なし"], check: "ハント前に部屋の皿や本などの小物を20個以上移動・触っておく。ハント開始時の足音が本来の超爆速（3.0m/s）から著しく遅くなっていれば確定", note: "初期3.0m/sの超高速（視認加速なし）。ハント外で調査員が動かした配置物数で減速（1個につき-0.1m/s、最大26個で0.4m/s）。ハント終了や十字架でリセット" }
+      { name: "スピリット", evidences: ["EMFレベル5", "スピリットボックス", "ゴーストライティング"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "浄化香180秒間効果", footstep: "標準的なリズム（1.7m/s）。視認加速あり", traits: ["浄化香特殊"], check: "浄化香を部屋で使用後、タイマー計測。180秒間ハント不可で確定", note: "浄化香使用で180秒間ハント不可（通常90秒）" },
+      { name: "レイス", evidences: ["EMFレベル5", "スピリットボックス", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "塩を踏まない", footstep: "標準的なリズム（1.7m/s）", traits: ["塩を踏まない"], check: "塩の上にモーションセンサーを設置。反応しても塩に足跡がつかない場合確定", note: "塩を踏まない、調査員へランダムワープ" },
+      { name: "ファントム", evidences: ["スピリットボックス", "紫外線", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "写真で消滅・実体化が長い", footstep: "標準的なリズム（1.7m/s）", traits: ["写真で消滅"], check: "写真撮影で即消滅し、手帳にゴースト姿が写っていなければ確定", note: "写真撮影で消滅、直視で正気度低下、ハント時姿が消えている時間が長い" },
+      { name: "ポルターガイスト", evidences: ["スピリットボックス", "紫外線", "ゴーストライティング"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "複数物品一斉投擲", footstep: "標準的なリズム（1.7m/s）", traits: ["物品一斉投擲"], check: "集めた小物が爆発するように一斉に吹き飛んだら確定", note: "複数の物体を同時に投げる、物干渉の頻度が高い" },
+      { name: "バンシー", evidences: ["紫外線", "ゴーストオーブ", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "指向性マイクの叫び声", footstep: "標準的なリズム（1.7m/s）", traits: ["指向性マイク特殊"], check: "指向性マイクで特有の叫び声（金切り声）を聞く", note: "特定ターゲットのみ狙う、指向性マイクで叫び声" },
+      { name: "ジン", evidences: ["EMFレベル5", "紫外線", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "早い", volume: "通常音量", unique: "電源ON時の遠距離急加速", footstep: "ブレーカーONかつ遠距離で急加速（2.5m手前で減速）", traits: ["電気・電子機器影響"], check: "ブレーカーON時、遠くから超高速で近づき目の前で減速したら確定", note: "ブレーカーON時急加速、ブレーカーを落とさない" },
+      { name: "メアー", evidences: ["スピリットボックス", "ゴーストオーブ", "ゴーストライティング"], huntCategory: "条件変動・特殊", hunt: "60%(暗)/40%(明)", speed: "通常", volume: "通常音量", unique: "電気スイッチ即消し", footstep: "標準的なリズム（1.7m/s）", traits: ["電気・電子機器影響"], check: "電気を付けた瞬間に即座に消されたら確定", note: "電気をすぐ消す、暗い部屋(60%)・明るい部屋(40%)でハントライン変動" },
+      { name: "レヴナント", evidences: ["ゴーストオーブ", "ゴーストライティング", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "音量・速度激変", unique: "視認時超爆速・非視認超遅", footstep: "未発見時超スロー(1.0m/s)、見つかると超高速(3.0m/s)", traits: ["視認時超爆速"], check: "見失っている時は超遅く、視認された瞬間に超爆速に変化したら確定", note: "調査員未発見時は超低速、発見すると超高速" },
+      { name: "シェード", evidences: ["EMFレベル5", "ゴーストライティング", "氷点下の温度"], huntCategory: "40%以下 (低)", hunt: "35%", speed: "通常", volume: "通常音量", unique: "同室時ハント・干渉不可", footstep: "標準的なリズム（1.7m/s）", traits: ["同室干渉不可"], check: "複数人で同じ部屋にいると全くハントが起きなければ確定", note: "同じ部屋に人がいると干渉・ハントしない" },
+      { name: "デーモン", evidences: ["紫外線", "ゴーストライティング", "氷点下の温度"], huntCategory: "60%以上 (高)", hunt: "70%(能力で100%)", speed: "通常", volume: "通常音量", unique: "浄化香60秒・正気度無視ハント", footstep: "標準的なリズム（1.7m/s）", traits: ["浄化香特殊"], check: "浄化香使用後わずか60秒で再度ハントが起きたら確定", note: "正気度100%からハント可能、浄化香効果60秒" },
+      { name: "幽霊", evidences: ["ゴーストオーブ", "氷点下の温度", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "ドア2連続閉じ", footstep: "標準的なリズム（1.7m/s）", traits: ["浄化香特殊"], check: "ドアが2連続で閉まり正気度が大幅に削られたら確定", note: "ドアを2連続で閉めて正気度削る" },
+      { name: "鬼", evidences: ["EMFレベル5", "氷点下の温度", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "実体化時間が長い・靄無し", footstep: "標準的なリズム（1.7m/s）", traits: ["姿が見える時間が長い"], check: "ハント中姿が見えている時間が明らかに長い", note: "超常現象頻発、ハント時見えている時間が長い" },
+      { name: "妖怪", evidences: ["スピリットボックス", "ゴーストオーブ", "D.O.T.S.プロジェクター"], huntCategory: "条件変動・特殊", hunt: "50%(会話時80%)", speed: "通常", volume: "通常音量", unique: "声会話時に80%ハント", footstep: "標準速度。足音・音検知範囲が2.5mと狭い", traits: ["音・会話に反応"], check: "ハント中、少し離れた場所で喋っても察知されなければ確定", note: "ハント時の音察知範囲が2.5mと狭い" },
+      { name: "ハントゥ", evidences: ["紫外線", "ゴーストオーブ", "氷点下の温度"], forced: "氷点下の温度", huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "通常音量", unique: "室温依存・視認加速なし", footstep: "寒い部屋で爆速、暖かい部屋で遅い", traits: ["視認加速なし"], check: "冷えた部屋で爆速になり、口から白い息を出していたら確定", note: "【必須:氷点下】室温で速度変化、視認加速なし" },
+      { name: "御霊", evidences: ["EMFレベル5", "紫外線", "D.O.T.S.プロジェクター"], forced: "D.O.T.S.プロジェクター", huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "カメラ越し＆無人DOTS", footstep: "標準的なリズム（1.7m/s）", traits: ["部屋変更不可"], check: "カメラ越しでのみDOTSが映る", note: "【必須:DOTS】カメラ越し・無人時のみDOTSが見える" },
+      { name: "マイリング", evidences: ["EMFレベル5", "紫外線", "ゴーストライティング"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "小さい", unique: "足音の可聴範囲が狭い", footstep: "足音が小さく12mまで近づかないと聞こえない", traits: ["指向性マイク特殊"], check: "手元のライトが点滅し始めた（10m）直後に足音が聞こえ出したら確定", note: "足音が小さく聞こえる距離が狭い" },
+      { name: "怨霊", evidences: ["スピリットボックス", "ゴーストオーブ", "氷点下の温度"], huntCategory: "60%以上 (高)", hunt: "60%", speed: "通常", volume: "通常音量", unique: "火を3回消すとハント", footstep: "標準的なリズム（1.7m/s）", traits: ["火・ロウソク反応"], check: "ロウソクを3回消した直後にハントが起きたら確定", note: "火を3回消すとハント" },
+      { name: "ツインズ", evidences: ["EMFレベル5", "スピリットボックス", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "音量・速度激変", unique: "本体(遅)と分身(速)の足音", footstep: "本体(1.53m/s)と分身(1.87m/s)で足音が変わる", traits: ["同時干渉・2つの姿"], check: "ハントごとに足音のスピードが露骨に変わったら確定", note: "本体と分身で速度が異なる" },
+      { name: "雷獣", evidences: ["EMFレベル5", "ゴーストオーブ", "D.O.T.S.プロジェクター"], huntCategory: "60%以上 (高)", hunt: "65%(機器起動時)", speed: "早い", volume: "通常音量", unique: "電子機器付近で高速", footstep: "起動中の電子機器の近くで爆速(2.5m/s)", traits: ["電気・電子機器影響"], check: "置いた機器のそばを通った瞬間だけ加速したら確定", note: "起動中機器があるとハントライン上昇＆高速化" },
+      { name: "化け狐", evidences: ["EMFレベル5", "紫外線", "ゴーストオーブ"], forced: "紫外線", huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "6本指・一瞬モデル変化", footstep: "標準的なリズム（1.7m/s）", traits: ["特殊指紋"], check: "UVライトで6本指の指紋が見えたら確定", note: "【必須:紫外線】6本指の指紋を残す" },
+      { name: "ミミック", evidences: ["スピリットボックス", "紫外線", "氷点下の温度"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "音量・速度激変", unique: "隠れ証拠オーブが出現", footstep: "コピー対象のゴーストの速度を再現", traits: ["偽オーブ(隠れ証拠)"], check: "難易度に関わらず常に偽のオーブが見えたら確定", note: "常に偽のゴーストオーブを出す" },
+      { name: "モーロイ", evidences: ["スピリットボックス", "ゴーストライティング", "氷点下の温度"], forced: "スピリットボックス", huntCategory: "50% (標準)", hunt: "50%", speed: "早い", volume: "通常音量", unique: "正気度が低いほど高速", footstep: "正気度が低いほど常時高速(最大2.25m/s)", traits: ["正気度・時間で速度変化"], check: "正気度0%時にハント時の基本足音が常時爆速なら確定", note: "【必須:スピボ】正気度が低いほど足が速い" },
+      { name: "デオヘン", evidences: ["スピリットボックス", "ゴーストライティング", "D.O.T.S.プロジェクター"], forced: "スピリットボックス", huntCategory: "40%以下 (低)", hunt: "40%", speed: "特殊", volume: "音量・速度激変", unique: "近距離超減速・スピボ吐息", footstep: "遠くから爆速、1m以内に近づくと超超遅(0.4m/s)", traits: ["隠れ場所無効/追跡"], check: "目の前まで近づくと超低速(0.4m/s)に減速したら確定", note: "【必須:スピボ】居場所常時把握、近づくと超低速" },
+      { name: "セーイ", evidences: ["ゴーストオーブ", "ゴーストライティング", "D.O.T.S.プロジェクター"], huntCategory: "条件変動・特殊", hunt: "75%〜15%(老化)", speed: "特殊", volume: "通常音量", unique: "時間経過で老化・減速", footstep: "序盤爆速(2.75m/s)、時間経過で超遅(1.0m/s)", traits: ["視認加速なし", "正気度・時間で速度変化"], check: "序盤超爆速で、時間経過後に超遅くなっていたら確定", note: "時間経過でハントラインと速度が低下" },
+      { name: "ダヤン", evidences: ["EMFレベル5", "ゴーストオーブ", "スピリットボックス"], huntCategory: "条件変動・特殊", hunt: "65%(動) / 45%(静)", speed: "特殊", volume: "通常音量", unique: "移動中の調査員検知で加速", footstep: "移動中調査員検知で2.25m/s、静止で1.2m/s", traits: ["音・会話に反応"], check: "物陰で立ち止まると足音が遅い状態になれば確定", note: "周囲の調査員が動いていると加速" },
+      { name: "ガルル", evidences: ["EMFレベル5", "紫外線", "スピリットボックス"], huntCategory: "条件変動・特殊", hunt: "60%(激昂) / 40%(疲弊)", speed: "特殊", volume: "通常音量", unique: "激昂時に塩を踏まなくなる", footstep: "激昂時高速(1.955m/s)、疲弊時低速(1.36m/s)", traits: ["塩を踏まない", "浄化香特殊"], check: "浄化香使用直後のハントで加速＆塩を踏まなくなったら確定", note: "防護装備使用で激昂(塩不踏)、終了で疲弊" },
+      { name: "オバンボ", evidences: ["ゴーストライティング", "紫外線", "D.O.T.S.プロジェクター"], huntCategory: "条件変動・特殊", hunt: "65%(攻撃) / 10%(穏やか)", speed: "特殊", volume: "通常音量", unique: "2分毎にモード切替", footstep: "攻撃時(1.955m/s)、穏やか時(1.445m/s)", traits: ["周期モード切替"], check: "2分おきに足音スピードが交互に変わったら確定", note: "2分ごとに攻撃と穏やかモードを交互に切替" },
+      { name: "アスワング", evidences: ["ゴーストライティング", "氷点下の温度", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "通常", volume: "通常音量", unique: "隠れ場所見逃し後次回直行", footstep: "標準的なリズム（1.7m/s）", traits: ["隠れ場所無効/追跡"], check: "一度隠れ場所で見逃された後、次回ハントで真っ直ぐ来たら確定", note: "見逃された調査員へ次回ハント開始時に直行" },
+      { name: "コルモス", evidences: ["ゴーストオーブ", "スピリットボックス", "紫外線"], huntCategory: "条件変動・特殊", hunt: "70%(走) / 50%(通常)", speed: "特殊", volume: "通常音量", unique: "足音感知追跡・視線不可", footstep: "足音検知で追跡(2.21m/s)", traits: ["音・会話に反応", "隠れ場所無効/追跡"], check: "同室で走ると即ハント。ハント中しゃがむと目の前でも見失う", note: "足音を感知して追跡。視認では反応しない" },
+      { name: "ディルデガスト", evidences: ["EMFレベル5", "ゴーストライティング", "D.O.T.S.プロジェクター"], huntCategory: "50% (標準)", hunt: "50%", speed: "特殊", volume: "通常音量", unique: "事前物品操作で減速", footstep: "初期超爆速(3.0m/s)。動かした小物数で減速", traits: ["視認加速なし"], check: "事前に小物を大量に動かすとハント速度が激減したら確定", note: "初期3.0m/s。事前に触った物体数に応じて減速" }
     ];
 
-    let currentEvidenceMode = 3; // 3, 2, 1, 0
+    let currentEvidenceMode = 3;
     let selectedEvidences = [], eliminatedEvidences = [];
     let selectedHunts = [], eliminatedHunts = [];
     let selectedSpeeds = [], eliminatedSpeeds = [];
@@ -486,25 +404,132 @@
     let eliminatedGhosts = [];
     let searchQuery = '';
 
+    // --- アコーディオンの開閉 ---
+    function toggleTools() {
+      const content = document.getElementById('tools-content');
+      const arrow = document.getElementById('tools-arrow');
+      if (content.classList.contains('open')) {
+        content.classList.remove('open');
+        arrow.innerText = '▼';
+      } else {
+        content.classList.add('open');
+        arrow.innerText = '▲';
+      }
+    }
+
+    // --- 浄化香タイマー処理 ---
+    let smudgeTimerInterval = null;
+    let smudgeSeconds = 0;
+    function handleSmudgeTimer() {
+      if (smudgeTimerInterval) {
+        clearInterval(smudgeTimerInterval);
+        smudgeTimerInterval = null;
+        smudgeSeconds = 0;
+        document.getElementById('smudge-display').innerText = '000s';
+        updateSmudgeStatus(0);
+        return;
+      }
+
+      smudgeSeconds = 0;
+      document.getElementById('smudge-display').innerText = '000s';
+      smudgeTimerInterval = setInterval(() => {
+        smudgeSeconds++;
+        document.getElementById('smudge-display').innerText = String(smudgeSeconds).padStart(3, '0') + 's';
+        updateSmudgeStatus(smudgeSeconds);
+      }, 1000);
+    }
+
+    function updateSmudgeStatus(sec) {
+      document.getElementById('st-demon').className = (sec > 0 && sec <= 60) ? 'active' : '';
+      document.getElementById('st-normal').className = (sec > 60 && sec <= 90) ? 'active' : '';
+      document.getElementById('st-spirit').className = (sec >= 180) ? 'active' : '';
+    }
+
+    // --- 足音タップ（BPM）測定器 ---
+    let tapTimes = [];
+    function handleFootstepTap() {
+      const now = Date.now();
+      tapTimes.push(now);
+
+      // 過去2秒以上の古いタップはクリア
+      tapTimes = tapTimes.filter(t => now - t < 2500);
+
+      if (tapTimes.length >= 3) {
+        let intervals = [];
+        for (let i = 1; i < tapTimes.length; i++) {
+          intervals.push(tapTimes[i] - tapTimes[i - 1]);
+        }
+        const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+        const bpm = 60000 / avgInterval;
+        
+        // Phasmophobiaでの足音基準換算 (標準速度1.7m/s ≒ 約110BPM)
+        const speed = ((bpm / 110) * 1.7).toFixed(2);
+        
+        document.getElementById('bpm-display').innerText = `約 ${speed} m/s`;
+      } else {
+        document.getElementById('bpm-display').innerText = 'タップ中...';
+      }
+    }
+
+    // --- 「気持ち長押し（約200ms）」＋ 視覚フィードバック判定 ---
+    function attachLongPress(element, callback) {
+      let timer = null;
+      let startX = 0, startY = 0;
+
+      const start = (e) => {
+        const touch = e.touches ? e.touches[0] : e;
+        startX = touch.clientX;
+        startY = touch.clientY;
+
+        element.classList.add('pressing'); // 押している最中の視覚演出
+
+        timer = setTimeout(() => {
+          if (navigator.vibrate) navigator.vibrate(25);
+          element.classList.remove('pressing');
+          callback();
+          timer = null;
+        }, 200);
+      };
+
+      const move = (e) => {
+        if (!timer) return;
+        const touch = e.touches ? e.touches[0] : e;
+        if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
+          clearTimeout(timer);
+          timer = null;
+          element.classList.remove('pressing');
+        }
+      };
+
+      const end = () => {
+        element.classList.remove('pressing');
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      };
+
+      element.addEventListener('touchstart', start, { passive: true });
+      element.addEventListener('touchmove', move, { passive: true });
+      element.addEventListener('touchend', end, { passive: true });
+      element.addEventListener('mousedown', start);
+      element.addEventListener('mousemove', move);
+      element.addEventListener('mouseup', end);
+      element.addEventListener('mouseleave', end);
+      element.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
     window.onload = function() {
       initApp();
     };
 
     function initApp() {
+      document.getElementById('reset-btn').addEventListener('click', resetFilters);
       renderAllButtons();
       renderCards();
     }
 
-    function setEvidenceMode(mode, event) {
-      if (event) event.stopPropagation();
-      currentEvidenceMode = mode;
-      renderAllButtons();
-      renderCards();
-    }
-
-    function cycleFilter(category, value, event) {
-      if (event) event.stopPropagation();
-
+    function cycleFilter(category, value) {
       let selArr, elimArr;
       if (category === 'evidence') { selArr = selectedEvidences; elimArr = eliminatedEvidences; }
       else if (category === 'hunt') { selArr = selectedHunts; elimArr = eliminatedHunts; }
@@ -528,36 +553,34 @@
       renderCards();
     }
 
-    function toggleEliminateGhost(ghostName, event) {
-      if (event) event.stopPropagation();
+    function toggleEliminateGhost(ghostName) {
       const idx = eliminatedGhosts.indexOf(ghostName);
-      if (idx !== -1) {
-        eliminatedGhosts.splice(idx, 1);
-      } else {
-        eliminatedGhosts.push(ghostName);
-      }
+      if (idx !== -1) eliminatedGhosts.splice(idx, 1);
+      else eliminatedGhosts.push(ghostName);
       renderCards();
     }
 
     function renderAllButtons() {
-      // 難易度（証拠数制限）ボタン
       const modeContainer = document.getElementById('mode-buttons');
       modeContainer.innerHTML = '';
       const modes = [
-        { label: "3個 (標準)", val: 3 },
-        { label: "2個 (ナイトメア)", val: 2 },
-        { label: "1個 (インサニティ)", val: 1 },
-        { label: "0個 (無証拠)", val: 0 }
+        { label: "3個", val: 3 },
+        { label: "2個", val: 2 },
+        { label: "1個", val: 1 },
+        { label: "0個", val: 0 }
       ];
       modes.forEach(m => {
         const btn = document.createElement('button');
         btn.className = 'btn-filter' + (currentEvidenceMode === m.val ? ' active-mode' : '');
         btn.innerText = m.label;
-        btn.onclick = function(e) { setEvidenceMode(m.val, e); };
+        attachLongPress(btn, () => {
+          currentEvidenceMode = m.val;
+          renderAllButtons();
+          renderCards();
+        });
         modeContainer.appendChild(btn);
       });
 
-      // 証拠ボタン
       const evidencesSet = new Set();
       ghostData.forEach(g => g.evidences.forEach(e => evidencesSet.add(e)));
       const evContainer = document.getElementById('evidence-buttons');
@@ -569,7 +592,7 @@
         if (eliminatedEvidences.includes(ev)) cls += ' eliminated';
         btn.className = cls;
         btn.innerText = ev;
-        btn.onclick = function(e) { cycleFilter('evidence', ev, e); };
+        attachLongPress(btn, () => cycleFilter('evidence', ev));
         evContainer.appendChild(btn);
       });
 
@@ -583,7 +606,7 @@
         if (eliminatedHunts.includes(hu)) cls += ' eliminated';
         btn.className = cls;
         btn.innerText = hu;
-        btn.onclick = function(e) { cycleFilter('hunt', hu, e); };
+        attachLongPress(btn, () => cycleFilter('hunt', hu));
         huContainer.appendChild(btn);
       });
 
@@ -598,7 +621,7 @@
         if (eliminatedSpeeds.includes(sp)) cls += ' eliminated';
         btn.className = cls;
         btn.innerText = sp;
-        btn.onclick = function(e) { cycleFilter('speed', sp, e); };
+        attachLongPress(btn, () => cycleFilter('speed', sp));
         spContainer.appendChild(btn);
       });
 
@@ -613,7 +636,7 @@
         if (eliminatedVolumes.includes(vol)) cls += ' eliminated';
         btn.className = cls;
         btn.innerText = vol;
-        btn.onclick = function(e) { cycleFilter('volume', vol, e); };
+        attachLongPress(btn, () => cycleFilter('volume', vol));
         volContainer.appendChild(btn);
       });
 
@@ -623,19 +646,16 @@
       });
       const trContainer = document.getElementById('trait-buttons');
       trContainer.innerHTML = '';
-      Object.keys(traitCounts)
-        .filter(t => traitCounts[t] >= 2)
-        .sort()
-        .forEach(tr => {
-          const btn = document.createElement('button');
-          let cls = 'btn-filter';
-          if (selectedTraits.includes(tr)) cls += ' active-trait';
-          if (eliminatedTraits.includes(tr)) cls += ' eliminated';
-          btn.className = cls;
-          btn.innerText = tr;
-          btn.onclick = function(e) { cycleFilter('trait', tr, e); };
-          trContainer.appendChild(btn);
-        });
+      Object.keys(traitCounts).filter(t => traitCounts[t] >= 2).sort().forEach(tr => {
+        const btn = document.createElement('button');
+        let cls = 'btn-filter';
+        if (selectedTraits.includes(tr)) cls += ' active-trait';
+        if (eliminatedTraits.includes(tr)) cls += ' eliminated';
+        btn.className = cls;
+        btn.innerText = tr;
+        attachLongPress(btn, () => cycleFilter('trait', tr));
+        trContainer.appendChild(btn);
+      });
     }
 
     function handleSearch(val) {
@@ -662,32 +682,14 @@
       const countEl = document.getElementById('results-count');
 
       const filtered = ghostData.filter(ghost => {
-        // 証拠の判定ロジック（難易度・証拠数制限を考慮）
         const matchEvidence = (() => {
-          if (currentEvidenceMode === 0) return true; // 0個モードは証拠条件無視
-
-          // ミミックは常に「ゴーストオーブ」を隠れ証拠として所持
-          const ghostValidEvidences = ghost.name === "ミミック" 
-            ? [...ghost.evidences, "ゴーストオーブ"] 
-            : ghost.evidences;
-
-          // 1. 選択されたポジティブ証拠がそのゴーストに存在するか
-          const hasSelected = selectedEvidences.every(se => ghostValidEvidences.includes(se));
-          if (!hasSelected) return false;
-
-          // 2. 必須証拠チェック（隠蔽不可の証拠が打ち消されていれば除外）
-          if (ghost.forced && eliminatedEvidences.includes(ghost.forced)) {
-            return false;
-          }
-
-          // 3. 難易度に応じた除外証拠の許容量チェック
-          // (3証拠: 1つでも消えたら除外 / 2証拠: 2つ消えたら除外 / 1証拠: 3つ消えたら除外)
+          if (currentEvidenceMode === 0) return true;
+          const ghostValidEvidences = ghost.name === "ミミック" ? [...ghost.evidences, "ゴーストオーブ"] : ghost.evidences;
+          if (!selectedEvidences.every(se => ghostValidEvidences.includes(se))) return false;
+          if (ghost.forced && eliminatedEvidences.includes(ghost.forced)) return false;
+          
           const matchedEliminatedCount = ghost.evidences.filter(e => eliminatedEvidences.includes(e)).length;
-          const maxAllowedEliminated = 3 - currentEvidenceMode;
-          if (matchedEliminatedCount > maxAllowedEliminated) {
-            return false;
-          }
-
+          if (matchedEliminatedCount > (3 - currentEvidenceMode)) return false;
           return true;
         })();
 
@@ -697,13 +699,7 @@
         const matchTrait = selectedTraits.every(st => ghost.traits && ghost.traits.includes(st));
 
         const matchSearch = !searchQuery || [
-          ghost.name,
-          ...ghost.evidences,
-          ghost.unique || '',
-          ghost.footstep || '',
-          ghost.check || '',
-          ghost.note || '',
-          ...(ghost.traits || [])
+          ghost.name, ...ghost.evidences, ghost.unique || '', ghost.footstep || '', ghost.check || '', ghost.note || '', ...(ghost.traits || [])
         ].some(text => text.toLowerCase().includes(searchQuery));
 
         return matchEvidence && matchHunt && matchSpeed && matchVolume && matchTrait && matchSearch;
@@ -713,59 +709,56 @@
       container.innerHTML = '';
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div class="no-results">条件に一致するゴーストがいません</div>';
+        container.innerHTML = '<div style="text-align:center; color:var(--text-sub); font-size:0.8rem; margin-top:20px;">一致するゴーストがいません</div>';
         return;
       }
 
       filtered.forEach(ghost => {
         const isNameEliminated = eliminatedGhosts.includes(ghost.name);
-        const isCardEliminated = isNameEliminated;
-
         const card = document.createElement('div');
-        card.className = 'card' + (isCardEliminated ? ' card-eliminated' : '');
+        card.className = 'card' + (isNameEliminated ? ' card-eliminated' : '');
 
-        const tagsHtml = ghost.evidences.map(e => {
-          const isMatched = selectedEvidences.includes(e);
-          const isElim = eliminatedEvidences.includes(e);
-          const isForced = ghost.forced === e;
+        const cardHeader = document.createElement('div');
+        cardHeader.className = 'card-header';
+
+        const ghostNameEl = document.createElement('div');
+        ghostNameEl.className = `ghost-name ${isNameEliminated ? 'eliminated' : ''}`;
+        ghostNameEl.innerText = `👻 ${ghost.name}`;
+        attachLongPress(ghostNameEl, () => toggleEliminateGhost(ghost.name));
+
+        const badgesEl = document.createElement('div');
+        badgesEl.className = 'badges';
+        badgesEl.innerHTML = `<span class="badge badge-hunt">ハント:${ghost.hunt}</span><span class="badge badge-speed">速度:${ghost.speed}</span>`;
+
+        cardHeader.appendChild(ghostNameEl);
+        cardHeader.appendChild(badgesEl);
+
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'tags';
+        ghost.evidences.forEach(e => {
+          const tagSpan = document.createElement('span');
           let cls = 'tag';
-          if (isMatched) cls += ' matched';
-          if (isElim) cls += ' eliminated';
-          if (isForced) cls += ' forced-tag';
-          return `<span class="${cls}" onclick="cycleFilter('evidence', '${e}', event)" title="${isForced ? '必須証拠（隠蔽不可）' : 'タップで選択/打ち消し切替'}">${e}${isForced ? ' 🔒' : ''}</span>`;
-        }).join('');
+          if (selectedEvidences.includes(e)) cls += ' matched';
+          if (eliminatedEvidences.includes(e)) cls += ' eliminated';
+          tagSpan.className = cls;
+          tagSpan.innerText = e;
+          attachLongPress(tagSpan, () => cycleFilter('evidence', e));
+          tagsContainer.appendChild(tagSpan);
+        });
 
-        const huntElim = eliminatedHunts.includes(ghost.huntCategory);
-        const speedElim = eliminatedSpeeds.includes(ghost.speed);
-        const volElim = eliminatedVolumes.includes(ghost.volume);
+        card.appendChild(cardHeader);
+        card.appendChild(tagsContainer);
 
-        const huntBadgeHtml = ghost.hunt ? `<span class="badge badge-hunt ${huntElim ? 'eliminated' : ''}" onclick="cycleFilter('hunt', '${ghost.huntCategory}', event)">⚡ ${ghost.hunt}</span>` : '';
-        const speedBadgeHtml = ghost.speed ? `<span class="badge badge-speed ${speedElim ? 'eliminated' : ''}" onclick="cycleFilter('speed', '${ghost.speed}', event)">👟 ${ghost.speed}</span>` : '';
-        const volBadgeHtml = ghost.volume ? `<span class="badge badge-volume ${volElim ? 'eliminated' : ''}" onclick="cycleFilter('volume', '${ghost.volume}', event)">🔊 ${ghost.volume}</span>` : '';
+        let detailHtml = '';
+        if (ghost.unique) detailHtml += `<div class="unique-box">⭐ 特徴: ${ghost.unique}</div>`;
+        if (ghost.footstep) detailHtml += `<div class="footstep-box">👟 足音: ${ghost.footstep}</div>`;
+        if (ghost.check) detailHtml += `<div class="check-box">🔍 判別法: ${ghost.check}</div>`;
+        if (ghost.note) detailHtml += `<div class="ghost-note">📝 ${ghost.note}</div>`;
 
-        const traitBadgesHtml = (ghost.traits || []).map(t => {
-          const tElim = eliminatedTraits.includes(t);
-          return `<span class="trait-badge ${tElim ? 'eliminated' : ''}" onclick="cycleFilter('trait', '${t}', event)">🏷️ ${t}</span>`;
-        }).join('');
+        const detailsDiv = document.createElement('div');
+        detailsDiv.innerHTML = detailHtml;
+        card.appendChild(detailsDiv);
 
-        const ghostNameHtml = `<span class="ghost-name ${isNameEliminated ? 'eliminated' : ''}" onclick="toggleEliminateGhost('${ghost.name}', event)" title="タップでゴースト名の打ち消し切替">👻 ${ghost.name}</span>`;
-
-        card.innerHTML = `
-          <div class="card-header">
-            ${ghostNameHtml}
-            <div class="badges">
-              ${huntBadgeHtml}
-              ${speedBadgeHtml}
-              ${volBadgeHtml}
-            </div>
-          </div>
-          <div class="tags">${tagsHtml}</div>
-          ${traitBadgesHtml ? `<div class="trait-badges">${traitBadgesHtml}</div>` : ''}
-          ${ghost.unique ? `<div class="unique-box">⭐ 確定特徴: ${ghost.unique}</div>` : ''}
-          ${ghost.footstep ? `<div class="footstep-box">👟 足音の特徴: ${ghost.footstep}</div>` : ''}
-          ${ghost.check ? `<div class="check-box">💡 迷った時の判別法: ${ghost.check}</div>` : ''}
-          <div class="ghost-note">${ghost.note || ''}</div>
-        `;
         container.appendChild(card);
       });
     }
