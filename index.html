@@ -15,7 +15,7 @@
       --accent-color: #BB86FC;
       --accent-light: rgba(187, 134, 252, 0.15);
       --footstep-color: #64B5F6;
-      --footstep-bg: rgba(100, 181, 246, 0.12);
+      --footstep-bg: rgba(100, 181, 246, 0.15);
       --volume-color: #4DB6AC;
       --check-color: #FFD54F;
       --check-bg: rgba(255, 213, 79, 0.12);
@@ -82,69 +82,114 @@
     }
     .tools-content.open { display: block; }
 
-    .tool-block { margin-bottom: 12px; }
+    /* 各ツールカード共有スタイル */
+    .tool-block {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
     .tool-block:last-child { margin-bottom: 0; }
+
+    .tool-block.running {
+      border-color: #81C784;
+      box-shadow: 0 0 10px rgba(129, 199, 132, 0.25);
+    }
+
+    .tool-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
 
     .tool-title {
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 8px;
     }
 
-    /* タイマー専用スタイル（即時反応用に最適化） */
-    .btn-timer-toggle {
-      width: 100%;
-      padding: 12px;
+    /* 横並びレイアウト（数字：左 / ボタン：右） */
+    .tool-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 4px 0;
+    }
+
+    .tool-big-display {
+      font-family: monospace, sans-serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--accent-color);
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 10px rgba(187, 134, 252, 0.25);
+      flex: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .tool-big-display.footstep {
+      color: var(--footstep-color);
+      text-shadow: 0 0 10px rgba(100, 181, 246, 0.25);
+      font-size: 2.3rem;
+    }
+
+    .tool-block.running .tool-big-display {
+      color: #81C784;
+      text-shadow: 0 0 12px rgba(129, 199, 132, 0.35);
+    }
+
+    /* 指で数字を隠さない右配置の大型操作ボタン */
+    .btn-action-side {
+      width: 105px;
+      height: 58px;
       font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      border: none;
-      background-color: var(--accent-color);
-      color: #000;
+      border: 1px solid var(--accent-color);
+      background-color: rgba(187, 134, 252, 0.12);
+      color: var(--accent-color);
       touch-action: manipulation;
-      transition: background-color 0.1s, transform 0.05s;
+      transition: background-color 0.1s, transform 0.05s, color 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .btn-timer-toggle:active { transform: scale(0.97); }
-    .btn-timer-toggle.running {
+    .btn-action-side:active { transform: scale(0.94); }
+    .btn-action-side.running {
       background-color: var(--danger-color);
+      border-color: var(--danger-color);
       color: #FFF;
     }
 
-    .timer-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--bg-color);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 8px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .timer-container.running {
-      border-color: #81C784;
-      box-shadow: 0 0 10px rgba(129, 199, 132, 0.25);
+    .btn-action-side.footstep-btn {
+      border-color: var(--footstep-color);
+      background-color: var(--footstep-bg);
+      color: var(--footstep-color);
     }
 
     .timer-live-badge {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--text-sub);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
     .timer-live-badge .dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background-color: var(--text-sub);
     }
-    .timer-container.running .timer-live-badge { color: #81C784; }
-    .timer-container.running .timer-live-badge .dot {
+    .tool-block.running .timer-live-badge { color: #81C784; }
+    .tool-block.running .timer-live-badge .dot {
       background-color: #81C784;
       animation: pulse 1s infinite alternate;
     }
@@ -154,55 +199,18 @@
       100% { opacity: 1; transform: scale(1.2); }
     }
 
-    .timer-big-display {
-      font-family: monospace, sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--accent-color);
-      margin: 6px 0;
-      letter-spacing: 0.05em;
-    }
-    .timer-container.running .timer-big-display { color: #81C784; }
-
     .timer-status {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-sub);
-      margin-top: 2px;
+      margin-top: 4px;
       text-align: center;
     }
     .timer-status span.active {
       color: #81C784;
       font-weight: 700;
       background-color: rgba(129, 199, 132, 0.15);
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
-    }
-
-    .flex-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .btn-tool {
-      background-color: var(--bg-color);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      flex: 1;
-      text-align: center;
-      touch-action: manipulation;
-    }
-    .btn-tool:active { transform: scale(0.97); }
-
-    .bpm-result {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--footstep-color);
     }
 
     /* UIコントロール */
@@ -367,31 +375,37 @@
       <span id="tools-arrow">▼</span>
     </div>
     <div class="tools-content" id="tools-content">
-      <div class="tool-block">
-        <div class="tool-title">🔥 浄化香（スマッジ）タイマー</div>
-        <!-- 0ms即時反応ボタン -->
-        <button type="button" class="btn-timer-toggle" id="smudge-btn">▶️ スタート</button>
-        
-        <div class="timer-container" id="smudge-box">
+      
+      <!-- 浄化香タイマー (横並び) -->
+      <div class="tool-block" id="smudge-box">
+        <div class="tool-block-header">
+          <div class="tool-title">🔥 浄化香（スマッジ）タイマー</div>
           <div class="timer-live-badge">
             <span class="dot"></span>
             <span id="smudge-status-text">停止中</span>
           </div>
-          <div class="timer-big-display" id="smudge-display">0 秒</div>
-          <div class="timer-status">
-            判定: <span id="st-demon">〜60s(デーモン)</span> | <span id="st-normal">〜90s(通常)</span> | <span id="st-spirit">180s〜(スピリット)</span>
-          </div>
+        </div>
+        <div class="tool-main-row">
+          <div class="tool-big-display" id="smudge-display">0 秒</div>
+          <button type="button" class="btn-action-side" id="smudge-btn">▶️ スタート</button>
+        </div>
+        <div class="timer-status">
+          判定: <span id="st-demon">〜60s(デーモン)</span> | <span id="st-normal">〜90s(通常)</span> | <span id="st-spirit">180s〜(スピリット)</span>
         </div>
       </div>
-      <hr style="border:0; border-top:1px solid var(--border-color); margin: 12px 0;">
+
+      <!-- 足音タップ測定器 (同様のカード型＋横並び) -->
       <div class="tool-block">
-        <div class="tool-title">👟 足音タップ測定器 (リズムに合わせてタップ)</div>
-        <div class="flex-row">
-          <!-- 0ms即時反応ボタン -->
-          <button type="button" class="btn-tool" id="footstep-btn">タップ！</button>
-          <div class="bpm-result" id="bpm-display">-- m/s</div>
+        <div class="tool-block-header">
+          <div class="tool-title">👟 足音タップ測定器</div>
+          <span style="font-size:0.75rem; color:var(--text-sub);">足音に合わせてタップ</span>
+        </div>
+        <div class="tool-main-row">
+          <div class="tool-big-display footstep" id="bpm-display">-- m/s</div>
+          <button type="button" class="btn-action-side footstep-btn" id="footstep-btn">👟 タップ！</button>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -787,7 +801,7 @@
       }
     }
 
-    /* タイマー処理 (即時応答対応) */
+    /* 浄化香タイマー処理 */
     let smudgeStartTime = null;
     let smudgeTimerInterval = null;
 
@@ -798,7 +812,7 @@
       const statusText = document.getElementById('smudge-status-text');
 
       if (smudgeTimerInterval) {
-        // 停止・リセット処理
+        // リセット
         clearInterval(smudgeTimerInterval);
         smudgeTimerInterval = null;
         smudgeStartTime = null;
@@ -812,7 +826,7 @@
         return;
       }
 
-      // 開始処理（押した瞬間の時刻を取得）
+      // スタート
       smudgeStartTime = Date.now();
       btn.innerText = '⏹️ リセット';
       btn.classList.add('running');
@@ -836,12 +850,17 @@
       document.getElementById('st-spirit').className = (sec >= 180) ? 'active' : '';
     }
 
-    /* 足音タップ処理 */
+    /* 足音タップ測定器処理 */
     let tapTimes = [];
+    let footstepResetTimer = null;
+
     function handleFootstepTap() {
       const now = Date.now();
       tapTimes.push(now);
-      tapTimes = tapTimes.filter(t => now - t < 2500);
+      tapTimes = tapTimes.filter(t => now - t < 3000);
+
+      const display = document.getElementById('bpm-display');
+      if (footstepResetTimer) clearTimeout(footstepResetTimer);
 
       if (tapTimes.length >= 3) {
         let intervals = [];
@@ -849,13 +868,18 @@
         const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
         const bpm = 60000 / avgInterval;
         const speed = ((bpm / 110) * 1.7).toFixed(2);
-        document.getElementById('bpm-display').innerText = `約 ${speed} m/s`;
+        display.innerText = `${speed} m/s`;
       } else {
-        document.getElementById('bpm-display').innerText = 'タップ中...';
+        display.innerText = '計測中...';
       }
+
+      // 3秒間タップがなければ次回用へクリア準備
+      footstepResetTimer = setTimeout(() => {
+        tapTimes = [];
+      }, 3000);
     }
 
-    /* ボタン選択・絞り込み専用の長押し処理（タイマー等には適用しない） */
+    /* 長押し処理 */
     function attachLongPress(element, callback) {
       let timer = null, startX = 0, startY = 0;
       const start = (e) => {
@@ -894,7 +918,7 @@
     window.onload = function() {
       document.getElementById('reset-btn').addEventListener('click', resetFilters);
       
-      // タイマーボタンと足音タップボタンに0ms即時反応を設定（pointerdown）
+      /* 指を離した瞬間に誤作動・指による遮蔽を起こさない 0ms pointerdown 反応 */
       const smudgeBtn = document.getElementById('smudge-btn');
       smudgeBtn.addEventListener('pointerdown', (e) => {
         e.preventDefault();
@@ -1067,7 +1091,7 @@
         return matchEvidence && matchHunt && matchSpeed && matchVolume && matchTrait && matchSearch;
       });
 
-      countEl.innerText = `該当： ${filtered.length} 件`;
+      countEl.innerText = `該当： 0 件` ? `該当： ${filtered.length} 件` : '';
       container.innerHTML = '';
 
       if (filtered.length === 0) {
