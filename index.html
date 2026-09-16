@@ -9,25 +9,25 @@
   <link rel="icon" type="image/png" href="./icon.png">
   
   <style>
-    /* ✨ かわいいパステル調のカラーパレットへ変更 */
+    /* 🍓 ふわっと明るいマカロンパステル調のカラーパレット */
     :root {
-      --bg-color: #18171C;          /* ほんのり紫がかったダークグレー */
-      --card-bg: #222028;        /* カード背景 */
-      --accent-color: #F48FB1;    /* イチゴミルクピンク */
-      --accent-light: rgba(244, 143, 177, 0.15);
-      --footstep-color: #80DEEA;  /* パステルソーダブルー */
-      --footstep-bg: rgba(128, 222, 234, 0.15);
-      --volume-color: #A5D6A7;    /* パステルミント */
-      --check-color: #FFE082;     /* ホイップイエロー */
-      --check-bg: rgba(255, 224, 130, 0.12);
-      --vs-color: #FFAB91;        /* ピーチコーラル */
-      --vs-bg: rgba(255, 171, 145, 0.12);
-      --trait-color: #CE93D8;     /* ミルキーラベンダー */
-      --highlight-bg: #2E2533;
-      --text-main: #F3EEF5;       /* やわらかいホワイト */
-      --text-sub: #B0A8B9;        /* くすみラベンダーグレー */
-      --border-color: #35303D;    /* 境界線 */
-      --danger-color: #FF8A80;    /* パステルアプリコットレッド */
+      --bg-color: #FAF4F8;          /* ほんのりイチゴミルク風味のホワイト */
+      --card-bg: #FFFFFF;          /* ピュアホワイトカード */
+      --accent-color: #EC407A;      /* ストロベリーピンク */
+      --accent-light: #FCE4EC;     /* 淡いイチゴミルク */
+      --footstep-color: #009688;   /* マカロンミントブルー */
+      --footstep-bg: #E0F2F1;
+      --volume-color: #4CAF50;     /* パステルピスタチオ */
+      --check-color: #FB8C00;      /* ホイップオレンジ */
+      --check-bg: #FFF8E1;
+      --vs-color: #FF7043;          /* ピーチコーラル */
+      --vs-bg: #FBE9E7;
+      --trait-color: #AB47BC;     /* ミルキーラベンダー */
+      --highlight-bg: #F3E5F5;
+      --text-main: #2D2531;        /* 視認性重視のダークチョコパープル */
+      --text-sub: #6E5F75;          /* くすみラベンダーグレー */
+      --border-color: #F0E1E9;     /* 優しいくすみピンク境界線 */
+      --danger-color: #EF5350;     /* アプリコットレッド */
     }
 
     * {
@@ -48,8 +48,8 @@
 
     .header h1 {
       font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       color: var(--accent-color);
       margin: 0 0 10px 0;
       text-align: center;
@@ -58,15 +58,16 @@
     /* ツールパネル */
     .tools-panel {
       background-color: var(--card-bg);
-      border: 1px solid var(--accent-color);
-      border-radius: 12px;
+      border: 2px solid var(--accent-color);
+      border-radius: 14px;
       margin-bottom: 12px;
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(236, 64, 122, 0.08);
     }
 
     .tools-header {
       padding: 10px 12px;
-      background-color: rgba(244, 143, 177, 0.12);
+      background-color: var(--accent-light);
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--accent-color);
@@ -85,9 +86,9 @@
 
     /* 各ツールカード共有スタイル */
     .tool-block {
-      background-color: var(--bg-color);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
+      background-color: #FFFDFE;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
       padding: 10px 12px;
       margin-bottom: 10px;
       transition: border-color 0.3s, box-shadow 0.3s;
@@ -95,8 +96,8 @@
     .tool-block:last-child { margin-bottom: 0; }
 
     .tool-block.running {
-      border-color: #A5D6A7;
-      box-shadow: 0 0 10px rgba(165, 214, 167, 0.25);
+      border-color: var(--volume-color);
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
     }
 
     .tool-block-header {
@@ -127,7 +128,6 @@
       font-weight: 900;
       color: var(--accent-color);
       letter-spacing: 0.02em;
-      text-shadow: 0 0 10px rgba(244, 143, 177, 0.25);
       flex: 1;
       text-align: center;
       white-space: nowrap;
@@ -135,13 +135,11 @@
 
     .tool-big-display.footstep {
       color: var(--footstep-color);
-      text-shadow: 0 0 10px rgba(128, 222, 234, 0.25);
       font-size: 2.3rem;
     }
 
     .tool-block.running .tool-big-display {
-      color: #A5D6A7;
-      text-shadow: 0 0 12px rgba(165, 214, 167, 0.35);
+      color: var(--volume-color);
     }
 
     /* 右配置の大型操作ボタン */
@@ -150,9 +148,9 @@
       height: 58px;
       font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      border: 1px solid var(--accent-color);
+      border: 2px solid var(--accent-color);
       background-color: var(--accent-light);
       color: var(--accent-color);
       touch-action: manipulation;
@@ -189,9 +187,9 @@
       border-radius: 50%;
       background-color: var(--text-sub);
     }
-    .tool-block.running .timer-live-badge { color: #A5D6A7; }
+    .tool-block.running .timer-live-badge { color: var(--volume-color); }
     .tool-block.running .timer-live-badge .dot {
-      background-color: #A5D6A7;
+      background-color: var(--volume-color);
       animation: pulse 1s infinite alternate;
     }
 
@@ -207,26 +205,30 @@
       text-align: center;
     }
     .timer-status span.active {
-      color: #A5D6A7;
+      color: var(--volume-color);
       font-weight: 700;
-      background-color: rgba(165, 214, 167, 0.18);
-      padding: 1px 6px;
-      border-radius: 4px;
+      background-color: #E8F5E9;
+      padding: 2px 6px;
+      border-radius: 6px;
     }
 
     /* UIコントロール */
     .search-input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 14px;
       background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
       color: var(--text-main);
       font-size: 0.9rem;
       outline: none;
       margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
       -webkit-user-select: text;
       user-select: text;
+    }
+    .search-input:focus {
+      border-color: var(--accent-color);
     }
 
     .controls-header {
@@ -238,18 +240,18 @@
 
     .section-title {
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-sub);
     }
 
     .btn-reset {
-      background-color: transparent;
+      background-color: #FFEBEE;
       border: 1px solid var(--danger-color);
       color: var(--danger-color);
-      border-radius: 6px;
-      padding: 3px 10px;
+      border-radius: 8px;
+      padding: 4px 12px;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -265,45 +267,51 @@
 
     .btn-filter {
       background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px 3px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 9px 3px;
       font-size: 0.82rem;
       color: var(--text-main);
       text-align: center;
-      font-weight: 500;
+      font-weight: 600;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
       transition: transform 0.1s ease;
+      cursor: pointer;
     }
 
     .btn-filter.pressing { transform: scale(0.93); opacity: 0.7; }
-    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #18171C; font-weight: 700; }
-    .btn-filter.active-hunt { background-color: var(--danger-color); color: #18171C; font-weight: 700; }
-    .btn-filter.active-speed { background-color: var(--footstep-color); color: #18171C; font-weight: 700; }
-    .btn-filter.active-volume { background-color: var(--volume-color); color: #18171C; font-weight: 700; }
-    .btn-filter.active-trait { background-color: var(--trait-color); color: #18171C; font-weight: 700; }
+    
+    /* 選択時のポップな強めの着色 */
+    .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); font-weight: 700; }
+    .btn-filter.active-hunt { background-color: var(--danger-color); color: #FFF; border-color: var(--danger-color); font-weight: 700; }
+    .btn-filter.active-speed { background-color: var(--footstep-color); color: #FFF; border-color: var(--footstep-color); font-weight: 700; }
+    .btn-filter.active-volume { background-color: var(--volume-color); color: #FFF; border-color: var(--volume-color); font-weight: 700; }
+    .btn-filter.active-trait { background-color: var(--trait-color); color: #FFF; border-color: var(--trait-color); font-weight: 700; }
 
     .btn-filter.eliminated {
       text-decoration: line-through;
-      opacity: 0.3;
-      background-color: rgba(255, 255, 255, 0.03);
+      opacity: 0.35;
+      background-color: #EFEBEF;
+      border-color: #E0D6E0;
     }
 
     .results-count {
       font-size: 0.85rem;
       color: var(--text-sub);
       margin: 12px 0 8px 0;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     /* ゴーストカード */
     .card {
       background-color: var(--card-bg);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px;
       margin-bottom: 10px;
-      border: 1px solid var(--border-color);
+      border: 1.5px solid var(--border-color);
+      box-shadow: 0 4px 10px rgba(180, 140, 160, 0.06);
     }
-    .card.card-eliminated { opacity: 0.25; }
+    .card.card-eliminated { opacity: 0.3; }
 
     .card-header {
       display: flex;
@@ -316,21 +324,21 @@
 
     .ghost-name {
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-main);
     }
     .ghost-name.eliminated { text-decoration: line-through; color: var(--text-sub); }
 
-    .badges { display: flex; gap: 4px; }
+    .badges { display: flex; gap: 4px; flex-wrap: wrap; }
     .badge {
       font-size: 0.7rem;
       background-color: var(--accent-light);
       color: var(--accent-color);
-      padding: 3px 6px;
+      padding: 3px 7px;
       border-radius: 6px;
-      font-weight: 600;
+      font-weight: 700;
     }
-    .badge.badge-hunt { background-color: rgba(255, 138, 128, 0.15); color: var(--danger-color); }
+    .badge.badge-hunt { background-color: #FFEBEE; color: var(--danger-color); }
     .badge.badge-speed { background-color: var(--footstep-bg); color: var(--footstep-color); }
 
     .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
@@ -338,30 +346,31 @@
       font-size: 0.78rem;
       background-color: var(--bg-color);
       color: var(--text-main);
-      padding: 3px 7px;
+      padding: 3px 8px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      font-weight: 600;
     }
-    .tag.matched { border-color: var(--accent-color); color: var(--accent-color); font-weight: 700; }
-    .tag.eliminated { text-decoration: line-through; opacity: 0.35; }
+    .tag.matched { border-color: var(--accent-color); background-color: var(--accent-light); color: var(--accent-color); font-weight: 700; }
+    .tag.eliminated { text-decoration: line-through; opacity: 0.4; }
 
     .info-box {
-      padding: 7px 9px;
-      border-radius: 6px;
+      padding: 8px 10px;
+      border-radius: 8px;
       font-size: 0.82rem;
       line-height: 1.4;
       margin-bottom: 6px;
     }
-    .check-box { background-color: var(--check-bg); border-left: 3px solid var(--check-color); color: #FFF59D; }
-    .vs-box { background-color: var(--vs-bg); border-left: 3px solid var(--vs-color); color: #FFCCBC; }
-    .footstep-box { background-color: var(--footstep-bg); border-left: 3px solid var(--footstep-color); color: #E0F7FA; }
+    .check-box { background-color: var(--check-bg); border-left: 4px solid var(--check-color); color: #4E342E; }
+    .vs-box { background-color: var(--vs-bg); border-left: 4px solid var(--vs-color); color: #3E2723; }
+    .footstep-box { background-color: var(--footstep-bg); border-left: 4px solid var(--footstep-color); color: #004D40; }
     
-    .box-title { font-weight: 700; margin-bottom: 3px; display: inline-block; }
-    .check-title { color: var(--check-color); }
-    .vs-title { color: var(--vs-color); }
-    .footstep-title { color: var(--footstep-color); }
+    .box-title { font-weight: 800; margin-bottom: 3px; display: inline-block; }
+    .check-title { color: #E65100; }
+    .vs-title { color: #D84315; }
+    .footstep-title { color: #00695C; }
 
-    .ghost-note { font-size: 0.78rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; }
+    .ghost-note { font-size: 0.78rem; color: var(--text-sub); line-height: 1.35; margin-top: 4px; font-weight: 500; }
   </style>
 </head>
 <body>
@@ -781,13 +790,18 @@
       }
     ];
 
+    const allEvidences = ["EMFレベル5", "紫外線", "ゴーストオーブ", "ゴーストライティング", "氷点下の温度", "スピリットボックス", "D.O.T.S.プロジェクター"];
+    const allHunts = ["60%以上 (高)", "50% (標準)", "40%以下 (低)", "条件変動・特殊"];
+    const allSpeeds = ["通常", "早い", "特殊"];
+    const allVolumes = ["通常音量", "小さい", "音量・速度激変"];
+    const allTraits = [...new Set(ghostData.flatMap(g => g.traits || []))];
+
     let currentEvidenceMode = 3;
     let selectedEvidences = [], eliminatedEvidences = [];
     let selectedHunts = [], eliminatedHunts = [];
     let selectedSpeeds = [], eliminatedSpeeds = [];
     let selectedVolumes = [], eliminatedVolumes = [];
     let selectedTraits = [], eliminatedTraits = [];
-    let eliminatedGhosts = [];
     let searchQuery = '';
 
     function toggleTools() {
@@ -913,245 +927,212 @@
       element.addEventListener('contextmenu', (e) => e.preventDefault());
     }
 
-    window.onload = function() {
-      document.getElementById('reset-btn').addEventListener('click', resetFilters);
-      
-      const smudgeBtn = document.getElementById('smudge-btn');
-      smudgeBtn.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        handleSmudgeTimer();
-      });
+    /* 汎用フィルターボタン生成 */
+    function createFilterButtons(containerId, items, selectedArr, eliminatedArr, activeClass) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
 
-      const footstepBtn = document.getElementById('footstep-btn');
-      footstepBtn.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        handleFootstepTap();
-      });
-
-      renderAllButtons();
-      renderCards();
-    };
-
-    function cycleFilter(category, value) {
-      let selArr, elimArr;
-      if (category === 'evidence') { selArr = selectedEvidences; elimArr = eliminatedEvidences; }
-      else if (category === 'hunt') { selArr = selectedHunts; elimArr = eliminatedHunts; }
-      else if (category === 'speed') { selArr = selectedSpeeds; elimArr = eliminatedSpeeds; }
-      else if (category === 'volume') { selArr = selectedVolumes; elimArr = eliminatedVolumes; }
-      else if (category === 'trait') { selArr = selectedTraits; elimArr = eliminatedTraits; }
-
-      const selIdx = selArr.indexOf(value), elimIdx = elimArr.indexOf(value);
-      if (selIdx === -1 && elimIdx === -1) selArr.push(value);
-      else if (selIdx !== -1) { selArr.splice(selIdx, 1); elimArr.push(value); }
-      else elimArr.splice(elimIdx, 1);
-
-      renderAllButtons();
-      renderCards();
-    }
-
-    function toggleEliminateGhost(ghostName) {
-      const idx = eliminatedGhosts.indexOf(ghostName);
-      if (idx !== -1) eliminatedGhosts.splice(idx, 1);
-      else eliminatedGhosts.push(ghostName);
-      renderCards();
-    }
-
-    function renderAllButtons() {
-      const modeContainer = document.getElementById('mode-buttons');
-      modeContainer.innerHTML = '';
-      [3, 2, 1, 0].forEach(mVal => {
+      items.forEach(item => {
         const btn = document.createElement('button');
-        btn.className = 'btn-filter' + (currentEvidenceMode === mVal ? ' active-mode' : '');
-        btn.innerText = `${mVal}個`;
+        btn.type = 'button';
+        btn.className = 'btn-filter';
+        btn.innerText = item;
+
+        let isLongPress = false;
+
         attachLongPress(btn, () => {
-          currentEvidenceMode = mVal;
-          renderAllButtons();
-          renderCards();
+          isLongPress = true;
+          const elIdx = eliminatedArr.indexOf(item);
+          const selIdx = selectedArr.indexOf(item);
+          if (selIdx !== -1) selectedArr.splice(selIdx, 1);
+
+          if (elIdx !== -1) {
+            eliminatedArr.splice(elIdx, 1);
+          } else {
+            eliminatedArr.push(item);
+          }
+          render();
         });
-        modeContainer.appendChild(btn);
-      });
 
-      const evidencesSet = new Set();
-      ghostData.forEach(g => g.evidences.forEach(e => evidencesSet.add(e)));
-      const evContainer = document.getElementById('evidence-buttons');
-      evContainer.innerHTML = '';
-      Array.from(evidencesSet).sort().forEach(ev => {
-        const btn = document.createElement('button');
-        let cls = 'btn-filter';
-        if (selectedEvidences.includes(ev)) cls += ' active-evidence';
-        if (eliminatedEvidences.includes(ev)) cls += ' eliminated';
-        btn.className = cls; btn.innerText = ev;
-        attachLongPress(btn, () => cycleFilter('evidence', ev));
-        evContainer.appendChild(btn);
-      });
+        btn.addEventListener('click', () => {
+          if (isLongPress) {
+            isLongPress = false;
+            return;
+          }
+          const selIdx = selectedArr.indexOf(item);
+          const elIdx = eliminatedArr.indexOf(item);
+          if (elIdx !== -1) eliminatedArr.splice(elIdx, 1);
 
-      const huntCategories = ["50% (標準)", "60%以上 (高)", "40%以下 (低)", "条件変動・特殊"];
-      const huContainer = document.getElementById('hunt-buttons');
-      huContainer.innerHTML = '';
-      huntCategories.forEach(hu => {
-        const btn = document.createElement('button');
-        let cls = 'btn-filter';
-        if (selectedHunts.includes(hu)) cls += ' active-hunt';
-        if (eliminatedHunts.includes(hu)) cls += ' eliminated';
-        btn.className = cls; btn.innerText = hu;
-        attachLongPress(btn, () => cycleFilter('hunt', hu));
-        huContainer.appendChild(btn);
-      });
+          if (selIdx !== -1) {
+            selectedArr.splice(selIdx, 1);
+          } else {
+            selectedArr.push(item);
+          }
+          render();
+        });
 
-      const speedsSet = new Set();
-      ghostData.forEach(g => { if (g.speed) speedsSet.add(g.speed); });
-      const spContainer = document.getElementById('speed-buttons');
-      spContainer.innerHTML = '';
-      Array.from(speedsSet).sort().forEach(sp => {
-        const btn = document.createElement('button');
-        let cls = 'btn-filter';
-        if (selectedSpeeds.includes(sp)) cls += ' active-speed';
-        if (eliminatedSpeeds.includes(sp)) cls += ' eliminated';
-        btn.className = cls; btn.innerText = sp;
-        attachLongPress(btn, () => cycleFilter('speed', sp));
-        spContainer.appendChild(btn);
-      });
+        if (selectedArr.includes(item)) {
+          btn.classList.add(activeClass);
+        } else if (eliminatedArr.includes(item)) {
+          btn.classList.add('eliminated');
+        }
 
-      const volumesSet = new Set();
-      ghostData.forEach(g => { if (g.volume) volumesSet.add(g.volume); });
-      const volContainer = document.getElementById('volume-buttons');
-      volContainer.innerHTML = '';
-      Array.from(volumesSet).sort().forEach(vol => {
-        const btn = document.createElement('button');
-        let cls = 'btn-filter';
-        if (selectedVolumes.includes(vol)) cls += ' active-volume';
-        if (eliminatedVolumes.includes(vol)) cls += ' eliminated';
-        btn.className = cls; btn.innerText = vol;
-        attachLongPress(btn, () => cycleFilter('volume', vol));
-        volContainer.appendChild(btn);
+        container.appendChild(btn);
       });
+    }
 
-      const traitCounts = {};
-      ghostData.forEach(g => {
-        if (g.traits) g.traits.forEach(t => { traitCounts[t] = (traitCounts[t] || 0) + 1; });
-      });
-      const trContainer = document.getElementById('trait-buttons');
-      trContainer.innerHTML = '';
-      Object.keys(traitCounts).filter(t => traitCounts[t] >= 2).sort().forEach(tr => {
+    /* 出現証拠数設定ボタン生成 */
+    function renderModeButtons() {
+      const container = document.getElementById('mode-buttons');
+      container.innerHTML = '';
+      [3, 2, 1, 0].forEach(mode => {
         const btn = document.createElement('button');
-        let cls = 'btn-filter';
-        if (selectedTraits.includes(tr)) cls += ' active-trait';
-        if (eliminatedTraits.includes(tr)) cls += ' eliminated';
-        btn.className = cls; btn.innerText = tr;
-        attachLongPress(btn, () => cycleFilter('trait', tr));
-        trContainer.appendChild(btn);
+        btn.type = 'button';
+        btn.className = 'btn-filter' + (currentEvidenceMode === mode ? ' active-mode' : '');
+        btn.innerText = `${mode} 証拠`;
+        btn.onclick = () => {
+          currentEvidenceMode = mode;
+          render();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    /* ゴーストのフィルタリングロジック */
+    function filterGhosts() {
+      return ghostData.filter(ghost => {
+        // 1. 検索クエリ
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchName = ghost.name.toLowerCase().includes(q);
+          const matchTrait = (ghost.traits || []).some(t => t.toLowerCase().includes(q));
+          const matchCheck = (ghost.check || '').toLowerCase().includes(q);
+          const matchVs = (ghost.vs || '').toLowerCase().includes(q);
+          const matchNote = (ghost.note || '').toLowerCase().includes(q);
+          const matchUnique = (ghost.unique || '').toLowerCase().includes(q);
+          const matchFootstep = (ghost.footstep || '').toLowerCase().includes(q);
+          const matchEv = ghost.evidences.some(e => e.toLowerCase().includes(q));
+          if (!matchName && !matchTrait && !matchCheck && !matchVs && !matchNote && !matchUnique && !matchFootstep && !matchEv) {
+            return false;
+          }
+        }
+
+        // 2. 選択された証拠
+        if (selectedEvidences.length > 0) {
+          const hasAllSelected = selectedEvidences.every(e => ghost.evidences.includes(e));
+          if (!hasAllSelected) return false;
+        }
+
+        // 3. 除外された証拠
+        if (eliminatedEvidences.length > 0) {
+          if (currentEvidenceMode === 3) {
+            if (eliminatedEvidences.some(e => ghost.evidences.includes(e))) return false;
+          } else {
+            // 証拠数制限時、確定証拠が除外されている場合は除外
+            if (ghost.forced && eliminatedEvidences.includes(ghost.forced)) return false;
+            if (eliminatedEvidences.some(e => ghost.evidences.includes(e))) return false;
+          }
+        }
+
+        // 4. ハントライン
+        if (selectedHunts.length > 0 && !selectedHunts.includes(ghost.huntCategory)) return false;
+        if (eliminatedHunts.length > 0 && eliminatedHunts.includes(ghost.huntCategory)) return false;
+
+        // 5. スピード
+        if (selectedSpeeds.length > 0 && !selectedSpeeds.includes(ghost.speed)) return false;
+        if (eliminatedSpeeds.length > 0 && eliminatedSpeeds.includes(ghost.speed)) return false;
+
+        // 6. 音量
+        if (selectedVolumes.length > 0 && !selectedVolumes.includes(ghost.volume)) return false;
+        if (eliminatedVolumes.length > 0 && eliminatedVolumes.includes(ghost.volume)) return false;
+
+        // 7. 特徴
+        if (selectedTraits.length > 0) {
+          if (!selectedTraits.every(t => (ghost.traits || []).includes(t))) return false;
+        }
+        if (eliminatedTraits.length > 0) {
+          if (eliminatedTraits.some(t => (ghost.traits || []).includes(t))) return false;
+        }
+
+        return true;
+      });
+    }
+
+    /* ゴーストカード描画 */
+    function renderCards(filteredList) {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+
+      document.getElementById('results-count').innerText = `該当： ${filteredList.length} 件`;
+
+      filteredList.forEach(ghost => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        let badgesHtml = '';
+        if (ghost.huntCategory) badgesHtml += `<span class="badge badge-hunt">ハント: ${ghost.huntCategory}</span>`;
+        if (ghost.speed) badgesHtml += `<span class="badge badge-speed">速度: ${ghost.speed}</span>`;
+
+        let tagsHtml = ghost.evidences.map(e => {
+          let isMatched = selectedEvidences.includes(e);
+          let isForced = ghost.forced === e;
+          return `<span class="tag ${isMatched ? 'matched' : ''}">${e}${isForced ? ' (確定)' : ''}</span>`;
+        }).join(' ');
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="ghost-name">${ghost.name}</div>
+            <div class="badges">${badgesHtml}</div>
+          </div>
+          <div class="tags">${tagsHtml}</div>
+          ${ghost.unique ? `<div class="info-box check-box"><span class="box-title check-title">🌟 固有特徴 / 挙動</span><br>${ghost.unique}</div>` : ''}
+          ${ghost.check ? `<div class="info-box check-box"><span class="box-title check-title">🔍 特定・確定手順</span><br>${ghost.check}</div>` : ''}
+          ${ghost.footstep ? `<div class="info-box footstep-box"><span class="box-title footstep-title">👟 足音・移動速度</span><br>${ghost.footstep}</div>` : ''}
+          ${ghost.vs ? `<div class="info-box vs-box"><span class="box-title vs-title">⚖️ 他ゴーストとの比較</span><br>${ghost.vs}</div>` : ''}
+          ${ghost.note ? `<div class="ghost-note">💡 メモ: ${ghost.note}</div>` : ''}
+        `;
+
+        container.appendChild(card);
       });
     }
 
     function handleSearch(val) {
-      searchQuery = val.trim().toLowerCase();
-      renderCards();
+      searchQuery = val;
+      render();
     }
 
     function resetFilters() {
-      currentEvidenceMode = 3;
       selectedEvidences = []; eliminatedEvidences = [];
       selectedHunts = []; eliminatedHunts = [];
       selectedSpeeds = []; eliminatedSpeeds = [];
       selectedVolumes = []; eliminatedVolumes = [];
       selectedTraits = []; eliminatedTraits = [];
-      eliminatedGhosts = []; searchQuery = '';
+      searchQuery = '';
       document.getElementById('search-input').value = '';
-      renderAllButtons(); renderCards();
+      currentEvidenceMode = 3;
+      render();
     }
 
-    function renderCards() {
-      const container = document.getElementById('cards-container');
-      const countEl = document.getElementById('results-count');
+    /* UI全体描画更新 */
+    function render() {
+      renderModeButtons();
+      createFilterButtons('evidence-buttons', allEvidences, selectedEvidences, eliminatedEvidences, 'active-evidence');
+      createFilterButtons('hunt-buttons', allHunts, selectedHunts, eliminatedHunts, 'active-hunt');
+      createFilterButtons('speed-buttons', allSpeeds, selectedSpeeds, eliminatedSpeeds, 'active-speed');
+      createFilterButtons('volume-buttons', allVolumes, selectedVolumes, eliminatedVolumes, 'active-volume');
+      createFilterButtons('trait-buttons', allTraits, selectedTraits, eliminatedTraits, 'active-trait');
 
-      const filtered = ghostData.filter(ghost => {
-        const matchEvidence = (() => {
-          if (currentEvidenceMode === 0) return true;
-          const ghostValidEvidences = ghost.name === "ミミック" ? [...ghost.evidences, "ゴーストオーブ"] : ghost.evidences;
-          if (!selectedEvidences.every(se => ghostValidEvidences.includes(se))) return false;
-          if (ghost.forced && eliminatedEvidences.includes(ghost.forced)) return false;
-          
-          const matchedEliminatedCount = ghost.evidences.filter(e => eliminatedEvidences.includes(e)).length;
-          if (matchedEliminatedCount > (3 - currentEvidenceMode)) return false;
-          return true;
-        })();
-
-        const matchHunt = selectedHunts.length === 0 || selectedHunts.includes(ghost.huntCategory);
-        const matchSpeed = selectedSpeeds.length === 0 || selectedSpeeds.includes(ghost.speed);
-        const matchVolume = selectedVolumes.length === 0 || selectedVolumes.includes(ghost.volume);
-        const matchTrait = selectedTraits.every(st => ghost.traits && ghost.traits.includes(st));
-
-        const matchSearch = !searchQuery || [
-          ghost.name, ...ghost.evidences, ghost.unique || '', ghost.footstep || '', ghost.check || '', ghost.vs || '', ghost.note || '', ...(ghost.traits || [])
-        ].some(text => text.toLowerCase().includes(searchQuery));
-
-        return matchEvidence && matchHunt && matchSpeed && matchVolume && matchTrait && matchSearch;
-      });
-
-      countEl.innerText = `該当： 0 件` ? `該当： ${filtered.length} 件` : '';
-      container.innerHTML = '';
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="text-align:center; color:var(--text-sub); font-size:0.85rem; margin-top:20px;">一致するゴーストがいません</div>';
-        return;
-      }
-
-      filtered.forEach(ghost => {
-        const isNameEliminated = eliminatedGhosts.includes(ghost.name);
-        const card = document.createElement('div');
-        card.className = 'card' + (isNameEliminated ? ' card-eliminated' : '');
-
-        const cardHeader = document.createElement('div');
-        cardHeader.className = 'card-header';
-
-        const ghostNameEl = document.createElement('div');
-        ghostNameEl.className = `ghost-name ${isNameEliminated ? 'eliminated' : ''}`;
-        ghostNameEl.innerText = `👻 ${ghost.name}`;
-        attachLongPress(ghostNameEl, () => toggleEliminateGhost(ghost.name));
-
-        const badgesEl = document.createElement('div');
-        badgesEl.className = 'badges';
-        badgesEl.innerHTML = `<span class="badge badge-hunt">ハント:${ghost.hunt}</span><span class="badge badge-speed">速度:${ghost.speed}</span>`;
-
-        cardHeader.appendChild(ghostNameEl);
-        cardHeader.appendChild(badgesEl);
-
-        const tagsContainer = document.createElement('div');
-        tagsContainer.className = 'tags';
-        ghost.evidences.forEach(e => {
-          const tagSpan = document.createElement('span');
-          let cls = 'tag';
-          if (selectedEvidences.includes(e)) cls += ' matched';
-          if (eliminatedEvidences.includes(e)) cls += ' eliminated';
-          tagSpan.className = cls; tagSpan.innerText = e;
-          attachLongPress(tagSpan, () => cycleFilter('evidence', e));
-          tagsContainer.appendChild(tagSpan);
-        });
-
-        card.appendChild(cardHeader);
-        card.appendChild(tagsContainer);
-
-        let detailHtml = '';
-        if (ghost.check) {
-          detailHtml += `<div class="info-box check-box"><span class="box-title check-title">⚡ 迷ったときの即判別手順:</span><br>${ghost.check}</div>`;
-        }
-        if (ghost.vs) {
-          detailHtml += `<div class="info-box vs-box"><span class="box-title vs-title">🥊 類似ゴーストとの違い:</span><br>${ghost.vs}</div>`;
-        }
-        if (ghost.footstep) {
-          detailHtml += `<div class="info-box footstep-box"><span class="box-title footstep-title">👟 足音挙動:</span> ${ghost.footstep}</div>`;
-        }
-        if (ghost.note) {
-          detailHtml += `<div class="ghost-note">📝 ${ghost.note}</div>`;
-        }
-
-        const detailsDiv = document.createElement('div');
-        detailsDiv.innerHTML = detailHtml;
-        card.appendChild(detailsDiv);
-
-        container.appendChild(card);
-      });
+      const filteredList = filterGhosts();
+      renderCards(filteredList);
     }
+
+    window.onload = function() {
+      document.getElementById('smudge-btn').addEventListener('click', handleSmudgeTimer);
+      document.getElementById('footstep-btn').addEventListener('click', handleFootstepTap);
+      document.getElementById('reset-btn').addEventListener('click', resetFilters);
+
+      render();
+    };
   </script>
 </body>
 </html>
