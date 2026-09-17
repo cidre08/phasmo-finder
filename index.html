@@ -405,8 +405,17 @@
       border-radius: 5px;
       border: 1px solid var(--border-color);
       font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.15s;
     }
+    .tag:active { transform: scale(0.95); }
     .tag.matched { border-color: var(--accent-color); background-color: var(--accent-light); color: var(--accent-color); font-weight: 700; }
+    .tag.tag-eliminated {
+      text-decoration: line-through;
+      opacity: 0.4;
+      background-color: #EFEBEC;
+      border-color: #E2DAD8;
+    }
 
     .info-box {
       padding: 8px 10px;
@@ -442,6 +451,9 @@
         <br>1回タップ：選択（絞り込み）
         <br>2回タップ：<span style="text-decoration: line-through;">打ち消し線（除外）</span>
         <br>3回タップ：未選択に戻る
+      </li>
+      <li><strong>カード内の証拠タグタップ:</strong>
+        <br>各ゴースト欄の証拠名を直接タップすることでも除外（打ち消し）が可能です。上部ボタンとも完全連動します！
       </li>
       <li><strong>浄化香タイマー:</strong> 「スタート」を押すと秒数が進み、デーモンや通常香の判定目安が光ります。</li>
       <li><strong>足音タップ測定器:</strong> ゴーストの足音に合わせて「タップ！」を数回押すと、移動速度(m/s)を自動計算します。</li>
@@ -541,7 +553,7 @@
         unique: "隠れ証拠「偽ゴーストオーブ」を常に出す / 他の全ゴーストを数分ごとに模倣",
         footstep: "模倣先のゴーストの足音（速度・足音間隔）を完全再現",
         traits: ["偽オーブ(隠れ証拠)"],
-        check: "①カメラでオーブ発見後に他証拠を探す。<br>②通常難易度で『オーブ＋上記3証拠（計4つ）』が出たら一発確定。<br>③ナイトメア(証拠2)や証拠0設定でも『オーブ』が出ていれば即確定。",
+        check: "①カメラでオーブ発見後に他証拠を探す。<br>②通常难易度で『オーブ＋上記3証拠（計4つ）』が出たら一発確定。<br>③ナイトメア(証拠2)や証拠0設定でも『オーブ』が出ていれば即確定。",
         vs: "vs オーブ持ち全般（怨霊・ハンツゥ等）：証拠が規定数より『＋1個多く』出ていたら必ずミミック！",
         note: "ハントラインや挙動も模倣先に従うため騙されやすい。"
       },
@@ -1006,6 +1018,11 @@
       renderUI();
     }
 
+    /* カード内の証拠タグをタップした時の処理（上部ボタンの除外状態にトグル連動） */
+    function handleCardTagClick(evidenceName) {
+      toggleFilterState(evidenceName, selectedEvidences, eliminatedEvidences);
+    }
+
     function setEvidenceMode(mode) {
       currentEvidenceMode = mode;
       renderUI();
@@ -1122,7 +1139,11 @@
 
         const tagsHtml = ghost.evidences.map(e => {
           const isMatched = selectedEvidences.includes(e);
-          return `<span class="tag ${isMatched ? 'matched' : ''}">${e}</span>`;
+          const isEliminated = eliminatedEvidences.includes(e);
+          let tagClass = 'tag';
+          if (isMatched) tagClass += ' matched';
+          if (isEliminated) tagClass += ' tag-eliminated';
+          return `<span class="${tagClass}" onclick="handleCardTagClick('${e}')">${e}</span>`;
         }).join('');
 
         const forcedHtml = ghost.forced ? `<span class="badge" style="background:#FFF3E0; color:#E65100;">必須: ${ghost.forced}</span>` : '';
