@@ -466,7 +466,10 @@
     <h3>📖 使い方ガイド＆ブラッドムーン情報</h3>
     <ul>
       <li><strong>血月（ブラッドムーン）環境変化:</strong>
-        <br>特殊天候時、すべてのゴーストのハント発生ラインが+10%上昇し、基本移動速度・視認加速やイベント頻度が通常よりも危険に変化します。
+        <br>・ハント開始ラインが全ゴースト一律 <strong>+10%</strong> 上昇
+        <br>・ゴーストの移動速度が <strong>+15% (1.15倍)</strong> ブースト
+        <br>・暗所での正気度減少速度が <strong>+100%（2倍）</strong> に加速
+        <br>・イベントや干渉の頻度がアップし、クリア時に報酬 <strong>+10%</strong> ボーナス
       </li>
       <li><strong>ゴースト名のタップ打ち消し:</strong>
         <br>各カードの<strong>ゴースト名</strong>を直接タップすると、名前に打ち消し線が入り<strong>カード全体が薄く（半透明に）</strong>なります。消去法のメモに最適です！
@@ -701,7 +704,7 @@
         unique: "ハント中の点滅で姿が見える時間が非常に長い / 白い霧現象なし",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["姿が見える時間が長い"],
-        check: "①ハント中、点滅する姿を観察する。<br>②点滅の消えている時間がほぼなく、姿が見えっぱなしであれば確定。",
+        check: "①ハント中、点滅する姿を観察する。<br>②点滅の消えている時間がほぼなし、姿が見えっぱなしであれば確定。",
         vs: "vs ファントム：撮影しても消えない。ハント中ほぼ実体化して見えるのが鬼！",
         note: "人が同じ部屋にいると超常現象・干渉の頻度が爆増。"
       },
@@ -919,7 +922,7 @@
     let selectedSpeeds = [], eliminatedSpeeds = [];
     let selectedVolumes = [], eliminatedVolumes = [];
     let selectedTraits = [], eliminatedTraits = [];
-    let eliminatedGhosts = []; // 名前の打ち消し（全体半透明化）用リスト
+    let eliminatedGhosts = [];
     let searchQuery = '';
 
     function toggleHelp() {
@@ -1042,7 +1045,6 @@
       toggleFilterState(evidenceName, selectedEvidences, eliminatedEvidences);
     }
 
-    /* カードのゴースト名をタップしたときの打ち消し（半透明化）処理 */
     function toggleGhostElimination(ghostName, event) {
       event.stopPropagation();
       const idx = eliminatedGhosts.indexOf(ghostName);
