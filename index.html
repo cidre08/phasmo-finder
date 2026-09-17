@@ -334,11 +334,10 @@
       text-align: center;
       font-weight: 600;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-      transition: transform 0.1s ease, background-color 0.15s, color 0.15s;
+      transition: background-color 0.15s, color 0.15s;
       cursor: pointer;
       touch-action: manipulation;
     }
-    .btn-filter:active { transform: scale(0.95); }
     
     .btn-filter.active-mode, .btn-filter.active-evidence { background-color: var(--accent-color); color: #FFF; border-color: var(--accent-color); }
     .btn-filter.active-hunt { background-color: var(--danger-color); color: #FFF; border-color: var(--danger-color); }
@@ -424,9 +423,8 @@
       border: 1px solid var(--border-color);
       font-weight: 500;
       cursor: pointer;
-      transition: transform 0.1s ease, background-color 0.15s;
+      transition: background-color 0.15s;
     }
-    .tag:active { transform: scale(0.95); }
     .tag.matched { border-color: var(--accent-color); background-color: var(--accent-light); color: var(--accent-color); font-weight: 700; }
     .tag.tag-eliminated {
       text-decoration: line-through;
@@ -599,7 +597,7 @@
         unique: "塩を絶対に踏まない / 壁を無視してプレイヤーへテレポート",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["塩を踏まない"],
-        check: "①足元や部屋の入口に塩を敷き詰める。<br>②ゴーストが上を通っても塩の山が崩れず、UVライトでも足跡がつかなければ確定。",
+        check: "①足元や部屋の入口に塩を敷き詰める。<br>②ゴーストが上を通っても塩の山が崩れず、UVライトでも足跡がつかければ確定。",
         vs: "vs 他の全ゴースト：塩を踏まない・足跡を残さないのはレイスだけ！",
         note: "ワープ直後に足元でEMFが発生する。"
       },
@@ -681,7 +679,7 @@
         unique: "浄化香効果がわずか60秒で切れる / 正気度100%から即ハント",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["浄化香特殊"],
-        check: "①浄化香を使用してタイマー開始。<br>②60秒経過〜90秒未満で次のハントが始まったら確定。<br>③開始直後（正気度100%）にいきなりハントが来ても確定。",
+        check: "①浄化香を使用してタイマー開始。<br>②60秒経過〜90秒未満で次のハントが始まったら確定。<br>③開始直後（正気度100%）にいいきなりハントが来ても確定。",
         vs: "vs 他ゴースト：浄化香の安全時間が『60秒』しかないのはデーモンのみ！",
         note: "ハント後の次回ハントまでの間隔も20秒と短い。"
       },
@@ -701,12 +699,12 @@
         evidences: ["EMFレベル5", "氷点下の温度", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
-        unique: "ハント中の点滅で姿が見える時間が非常に長い / 白い霧現象なし",
+        unique: "白い靄（白ハァ）のイベントを絶対に行わない / 点滅で姿が見える時間が長い",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["姿が見える時間が長い"],
-        check: "①ハント中、点滅する姿を観察する。<br>②点滅の消えている時間がほぼなし、姿が見えっぱなしであれば確定。",
-        vs: "vs ファントム：撮影しても消えない。ハント中ほぼ実体化して見えるのが鬼！",
-        note: "人が同じ部屋にいると超常現象・干渉の頻度が爆増。"
+        check: "①モヤ状のゴーストイベント（白い靄が近づいてきて消える現象）が発生したら鬼を即除外。<br>②ハント中、点滅の消えている時間がほぼなく姿が見えっぱなしであれば鬼確定。",
+        vs: "vs ファントム：白い靄イベントが起きたら鬼ではない！ハント中もほぼ実体化して見えるのが鬼！",
+        note: "人が同じ部屋にいると超常現象・干渉の頻度が爆増する。"
       },
       {
         name: "妖怪",
@@ -1119,8 +1117,15 @@
 
     function renderCards() {
       const container = document.getElementById('cards-container');
-      container.innerHTML = '';
+      
+      // 既存のカード要素をMapで保持して、位置のガタつき（スクロールやDOM再構築によるちらつき）を防止する
+      const existingCards = {};
+      Array.from(container.children).forEach(child => {
+        const nameAttr = child.getAttribute('data-ghost-name');
+        if (nameAttr) existingCards[nameAttr] = child;
+      });
 
+      const newContainerFragment = document.createDocumentFragment();
       let count = 0;
 
       ghostData.forEach(ghost => {
@@ -1170,7 +1175,13 @@
 
         const isGhostCrossed = eliminatedGhosts.includes(ghost.name);
 
-        const card = document.createElement('div');
+        // 既存のDOMがあれば再利用、なければ新規作成
+        let card = existingCards[ghost.name];
+        if (!card) {
+          card = document.createElement('div');
+          card.setAttribute('data-ghost-name', ghost.name);
+        }
+        
         card.className = `card ${isGhostCrossed ? 'card-faded' : ''}`;
 
         const tagsHtml = ghost.evidences.map(e => {
@@ -1211,9 +1222,11 @@
           ${ghost.note ? `<div class="ghost-note">💡 ${ghost.note}</div>` : ''}
         `;
 
-        container.appendChild(card);
+        newContainerFragment.appendChild(card);
       });
 
+      container.innerHTML = '';
+      container.appendChild(newContainerFragment);
       document.getElementById('results-count').innerText = `該当： ${count} 件`;
     }
 
