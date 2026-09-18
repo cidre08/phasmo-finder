@@ -46,7 +46,6 @@
       scroll-behavior: smooth;
     }
 
-    /* ヘッダーと使い方アイコン */
     .header {
       display: flex;
       justify-content: center;
@@ -80,7 +79,6 @@
       cursor: pointer;
     }
 
-    /* 使い方ポップアップパネル */
     .help-panel {
       background-color: var(--card-bg);
       border: 1.5px solid var(--accent-color);
@@ -137,7 +135,6 @@
       margin-bottom: 2px;
     }
 
-    /* ツールパネル */
     .tools-panel {
       background-color: var(--card-bg);
       border: 1.5px solid var(--accent-color);
@@ -285,13 +282,32 @@
       margin-top: 4px;
       text-align: center;
     }
-    .timer-status span.active {
-      color: var(--volume-color);
-      font-weight: 700;
-      background-color: #EBF2EC;
+
+    /* 足音測定の候補結果表示エリア */
+    .footstep-candidates-box {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border-color);
+      font-size: 0.78rem;
+      color: var(--text-sub);
+    }
+    .candidate-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .candidate-tag {
+      background-color: var(--footstep-bg);
+      color: var(--footstep-color);
+      border: 1px solid var(--footstep-color);
       padding: 2px 6px;
       border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
     }
+    .candidate-tag:active { transform: scale(0.95); }
 
     .search-input {
       width: 100%;
@@ -451,7 +467,6 @@
     <button class="help-icon-btn" onclick="toggleHelp()">?</button>
   </div>
 
-  <!-- 使い方ガイド＆マップ別スポットパネル -->
   <div class="help-panel" id="help-panel">
     <h3>📖 使い方ガイド＆役立ち情報</h3>
     
@@ -463,6 +478,7 @@
     <ul>
       <li><strong>ゴースト名のタップ打ち消し:</strong> 各カードの<strong>ゴースト名</strong>を直接タップすると、名前に打ち消し線が入り<strong>カード全体が薄く</strong>なります。消去法メモに最適！</li>
       <li><strong>証拠・条件ボタン:</strong> 1回タップ：選択 / 2回タップ：<span style="text-decoration: line-through;">除外</span> / 3回タップ：未選択</li>
+      <li><strong>足音測定器の連動:</strong> 足音をタップ測定すると、その速度に合致するゴースト候補が測定器の下に表示されます。候補名をタップするとそのゴーストを検索できます！</li>
     </ul>
 
     <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">
@@ -597,6 +613,7 @@
       <span>🕯️ 浄化香タイマー / 足音BPM</span>
       <span id="tools-arrow">▼</span>
     </div>
+    
     <div class="tools-content" id="tools-content">
       <div class="tool-block" id="smudge-box">
         <div class="tool-block-header">
@@ -622,6 +639,13 @@
           <div class="btn-action-group">
             <button type="button" class="btn-action-side reset-sub-btn" id="footstep-reset-btn" onclick="resetFootstepTap()">リセット</button>
             <button type="button" class="btn-action-side footstep-btn" id="footstep-btn" onclick="handleFootstepTap()">タップ！</button>
+          </div>
+        </div>
+        <!-- 速度から導き出せるゴースト候補を表示するエリア -->
+        <div class="footstep-candidates-box">
+          <span>合致する候補ゴースト:</span>
+          <div class="candidate-tags" id="candidate-ghosts-list">
+            <span style="color: var(--text-sub); font-size: 0.75rem;">足音をタップ測定してください</span>
           </div>
         </div>
       </div>
@@ -661,6 +685,7 @@
         evidences: ["EMFレベル5", "スピリットボックス", "ゴーストライティング"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "浄化香の効果時間が通常の倍（180秒間ハント不可）",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】視線を合わせると最高2.7m/sまで徐々に加速",
         traits: ["浄化香特殊"],
@@ -673,6 +698,7 @@
         evidences: ["スピリットボックス", "紫外線", "氷点下の温度"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "特殊", volume: "音量・速度激変",
+        speedRange: [1.0, 3.0],
         unique: "隠れ証拠「偽ゴーストオーブ」を常に出す / 他の全ゴーストを数分ごとに模倣",
         footstep: "【非視認時・視認時】模倣先のゴーストの足音・速度を完全再現",
         traits: ["偽オーブ(隠れ証拠)"],
@@ -685,6 +711,7 @@
         evidences: ["スピリットボックス", "紫外線", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "写真撮影で即消滅＆写真ノイズなし / 点滅で姿が消えている時間が長い",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["写真で消滅", "姿が見える時間が長い"],
@@ -697,6 +724,7 @@
         evidences: ["EMFレベル5", "スピリットボックス", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "塩を絶対に踏まない / 壁を無視してプレイヤーへテレポート",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["塩を踏まない"],
@@ -709,6 +737,7 @@
         evidences: ["スピリットボックス", "紫外線", "ゴーストライティング"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "複数の物品を一斉に爆発投擲",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["物品一斉投擲"],
@@ -721,6 +750,7 @@
         evidences: ["紫外線", "ゴーストオーブ", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "指向性マイクで専用金切り声 / ターゲット1人を固定追尾",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["指向性マイク特殊"],
@@ -732,6 +762,7 @@
         evidences: ["EMFレベル5", "紫外線", "氷点下の温度"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "早い", volume: "通常音量",
+        speedRange: [1.7, 2.5],
         unique: "ブレーカーON時、遠距離で超爆速 / ブレーカーを直接落とさない",
         footstep: "【非視認時・遠距離】2.5m/sで急接近し、手前2.5mで1.7m/sに急減速",
         traits: ["電気・電子機器影響"],
@@ -744,6 +775,7 @@
         evidences: ["スピリットボックス", "ゴーストオーブ", "ゴーストライティング"],
         huntCategory: "条件変動・特殊",
         hunt: "60%(暗)/40%(明)", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "照明スイッチを入れた「瞬間」の即消し / 暗闇でハントライン上昇",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["電気・電子機器影響"],
@@ -756,6 +788,7 @@
         evidences: ["ゴーストオーブ", "ゴーストライティング", "氷点下の温度"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "特殊", volume: "音量・速度激変",
+        speedRange: [1.0, 3.0],
         unique: "ターゲット未発見時超激遅、発見時超爆速",
         footstep: "【非視認時】1.0m/s（超遅い） / 【視認時】3.0m/s（逃げ切り不可）",
         traits: ["視認時超爆速"],
@@ -768,6 +801,7 @@
         evidences: ["EMFレベル5", "ゴーストライティング", "氷点下の温度"],
         huntCategory: "40%以下 (低)",
         hunt: "35%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "同じ部屋に人がいるとハント・干渉が完全にストップ",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["同室干渉不可"],
@@ -779,6 +813,7 @@
         evidences: ["紫外線", "ゴーストライティング", "氷点下の温度"],
         huntCategory: "60%以上 (高)",
         hunt: "70%(能力で100%)", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "浄化香効果がわずか60秒で切れる / 正気度100%から即ハント",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["浄化香特殊"],
@@ -791,6 +826,7 @@
         evidences: ["ゴーストオーブ", "氷点下の温度", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "全開のドアを一括全閉（バタン音）＆正気度15%強制没収",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["浄化香特殊"],
@@ -802,6 +838,7 @@
         evidences: ["EMFレベル5", "氷点下の温度", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "白い靄（白ハァ）のイベントを絶対に行わない / 点滅で姿が見える時間が長い",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["姿が見える時間が長い"],
@@ -814,6 +851,7 @@
         evidences: ["スピリットボックス", "ゴーストオーブ", "D.O.T.S.プロジェクター"],
         huntCategory: "条件変動・特殊",
         hunt: "50%(会話時80%)", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "会話・VCでハントライン80%上昇 / 音・機器感知範囲が2.5mと極小",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["音・会話に反応"],
@@ -826,6 +864,7 @@
         forced: "氷点下の温度",
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "特殊", volume: "通常音量",
+        speedRange: [1.4, 2.7],
         unique: "室温依存でスピード変化 / ハント時口元から白い息 / 視認加速なし",
         footstep: "【非視認時】極寒部屋で2.7m/s（爆速） / 温かい部屋で1.4m/s（遅い）<br>【視認時加速】なし",
         traits: ["視認加速なし"],
@@ -839,6 +878,7 @@
         forced: "D.O.T.S.プロジェクター",
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "肉眼不可＆カメラ越し＆無人時のみDOTS視認可能 / 部屋移動なし",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["部屋変更不可"],
@@ -851,6 +891,7 @@
         evidences: ["EMFレベル5", "紫外線", "ゴーストライティング"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "小さい",
+        speedRange: [1.7, 2.7],
         unique: "ハント時の足音が聞こえる範囲が極めて狭い（12m以内）",
         footstep: "【非視認時】1.7m/s（標準・可聴域12mと狭い）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["指向性マイク特殊"],
@@ -863,6 +904,7 @@
         evidences: ["スピリットボックス", "ゴーストオーブ", "氷点下の温度"],
         huntCategory: "60%以上 (高)",
         hunt: "60%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "火（ロウソク）を3回消すと確定ハント / 火を十字架より優先",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["火・ロウソク反応"],
@@ -875,6 +917,7 @@
         evidences: ["EMFレベル5", "スピリットボックス", "氷点下の温度"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "特殊", volume: "音量・速度激変",
+        speedRange: [1.5, 1.8],
         unique: "本体(遅)と分身(速)による同時・遠隔干渉＆ハント",
         footstep: "【非視認時】本体ハント1.5m/s / 分身ハント1.8m/s<br>【視認時加速】それぞれ微小に加速",
         traits: ["同時干渉・2つの姿"],
@@ -886,6 +929,7 @@
         evidences: ["EMFレベル5", "ゴーストオーブ", "D.O.T.S.プロジェクター"],
         huntCategory: "60%以上 (高)",
         hunt: "65%(機器起動時)", speed: "早い", volume: "通常音量",
+        speedRange: [1.7, 2.5],
         unique: "起動中電子機器の付近でハントライン65%上昇＆爆速化",
         footstep: "【非視認時】機器付近2.5m/s（爆速） / 機器なし1.7m/s（標準）<br>【視認時加速】あり",
         traits: ["電気・電子機器影響"],
@@ -899,6 +943,7 @@
         forced: "紫外線",
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "6本指の特殊指紋（1/6確率） / ハント中一瞬の姿変形",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["特殊指紋"],
@@ -911,6 +956,7 @@
         forced: "スピリットボックス",
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "早い", volume: "通常音量",
+        speedRange: [1.5, 2.25],
         unique: "スピボ応答で正気度削り呪い / 正気度低下で常時加速 / 浄化香12秒盲目",
         footstep: "【非視認時】正気度50%で1.5m/s 〜 0%で2.25m/s<br>【視認時加速】あり",
         traits: ["正気度・時間で速度変化"],
@@ -924,6 +970,7 @@
         forced: "スピリットボックス",
         huntCategory: "40%以下 (低)",
         hunt: "40%", speed: "特殊", volume: "音量・速度激変",
+        speedRange: [0.4, 3.0],
         unique: "隠れ場所無効の常時追尾 / 至近距離で超低速 / スピボで荒い吐息",
         footstep: "【非視認時】遠距離3.0m/s → 1m以内で0.4m/s（超激遅）<br>【視認時加速】常時追尾のため不問",
         traits: ["隠れ場所無効/追跡"],
@@ -936,6 +983,7 @@
         evidences: ["ゴーストオーブ", "ゴーストライティング", "D.O.T.S.プロジェクター"],
         huntCategory: "条件変動・特殊",
         hunt: "75%〜15%(老化)", speed: "特殊", volume: "通常音量",
+        speedRange: [1.0, 2.75],
         unique: "同室滞在・時間経過で老化（弱体化） / 視認加速なし",
         footstep: "【非視認時】若い時2.75m/s → 老化完了時1.0m/s（超鈍足）<br>【視認時加速】なし",
         traits: ["視認加速なし", "正気度・時間で速度変化"],
@@ -948,6 +996,7 @@
         evidences: ["EMFレベル5", "ゴーストオーブ", "スピリットボックス"],
         huntCategory: "条件変動・特殊",
         hunt: "65%(動) / 45%(静)", speed: "特殊", volume: "通常音量",
+        speedRange: [1.2, 2.25],
         unique: "動いている調査員を感知して足音加速",
         footstep: "【非視認時】調査員移動中2.25m/s / 静止中1.2m/s",
         traits: ["音・会話に反応"],
@@ -959,6 +1008,7 @@
         evidences: ["EMFレベル5", "紫外線", "スピリットボックス"],
         huntCategory: "条件変動・特殊",
         hunt: "60%(激昂) / 40%(疲弊)", speed: "特殊", volume: "通常音量",
+        speedRange: [1.36, 1.95],
         unique: "激昂時に塩を踏まなくなる特殊状態",
         footstep: "【非視認時】激昂時1.95m/s / 疲弊時1.36m/s",
         traits: ["塩を踏まない", "浄化香特殊"],
@@ -970,6 +1020,7 @@
         evidences: ["ゴーストライティング", "紫外線", "D.O.T.S.プロジェクター"],
         huntCategory: "条件変動・特殊",
         hunt: "65%(攻撃) / 10%(穏やか)", speed: "特殊", volume: "通常音量",
+        speedRange: [1.44, 1.95],
         unique: "正確に2分周期で攻撃と穏やかモードが切り替わる",
         footstep: "【非視認時】攻撃モード1.95m/s / 穏やかモード1.44m/s",
         traits: ["周期モード切替"],
@@ -981,6 +1032,7 @@
         evidences: ["ゴーストライティング", "氷点下の温度", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "通常", volume: "通常音量",
+        speedRange: [1.7, 2.7],
         unique: "一度見逃した隠れ場所へ次回ハント時に直行",
         footstep: "【非視認時】1.7m/s（標準）<br>【視認時加速】最高2.7m/sまで徐々に加速",
         traits: ["隠れ場所無効/追跡"],
@@ -992,6 +1044,7 @@
         evidences: ["ゴーストオーブ", "スピリットボックス", "紫外線"],
         huntCategory: "条件変動・特殊",
         hunt: "70%(走) / 50%(通常)", speed: "特殊", volume: "通常音量",
+        speedRange: [1.7, 2.21],
         unique: "足音感知追跡 / 視覚による視認を行わない",
         footstep: "【非視認時】足音検知時2.21m/s（音で追跡）",
         traits: ["音・会話に反応", "隠れ場所無効/追跡"],
@@ -1003,6 +1056,7 @@
         evidences: ["EMFレベル5", "ゴーストライティング", "D.O.T.S.プロジェクター"],
         huntCategory: "50% (標準)",
         hunt: "50%", speed: "特殊", volume: "通常音量",
+        speedRange: [1.7, 3.0],
         unique: "動かされた小物の数に応じてハント速度が大幅減速",
         footstep: "【非視認時】初期状態3.0m/s（超爆速） → 干渉後に大幅減速<br>【視認時加速】なし",
         traits: ["視認加速なし"],
@@ -1086,13 +1140,47 @@
         let intervals = [];
         for (let i = 1; i < tapTimes.length; i++) intervals.push(tapTimes[i] - tapTimes[i-1]);
         let avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-        document.getElementById('bpm-display').textContent = (1000 / avgInterval).toFixed(2) + " m/s";
+        let speedVal = parseFloat((1000 / avgInterval).toFixed(2));
+        document.getElementById('bpm-display').textContent = speedVal.toFixed(2) + " m/s";
+        updateFootstepCandidates(speedVal);
       }
     }
 
     function resetFootstepTap() {
       tapTimes = [];
       document.getElementById('bpm-display').textContent = "-- m/s";
+      document.getElementById('candidate-ghosts-list').innerHTML = '<span style="color: var(--text-sub); font-size: 0.75rem;">足音をタップ測定してください</span>';
+    }
+
+    // 速度から該当するゴースト候補を抽出し表示する関数
+    function updateFootstepCandidates(speedVal) {
+      const listContainer = document.getElementById('candidate-ghosts-list');
+      listContainer.innerHTML = '';
+
+      // 許容誤差 ±0.3m/s を持たせて判定
+      const matched = ghostData.filter(ghost => {
+        if (!ghost.speedRange) return false;
+        const [min, max] = ghost.speedRange;
+        return speedVal >= (min - 0.3) && speedVal <= (max + 0.3);
+      });
+
+      if (matched.length === 0) {
+        listContainer.innerHTML = '<span style="color: var(--danger-color); font-size: 0.75rem;">該当するゴーストがいません（再タップ推奨）</span>';
+        return;
+      }
+
+      matched.forEach(ghost => {
+        const tag = document.createElement('span');
+        tag.className = 'candidate-tag';
+        tag.textContent = ghost.name;
+        // タップするとそのゴースト名で検索絞り込みされる
+        tag.onclick = () => {
+          document.getElementById('search-input').value = ghost.name;
+          handleSearch(ghost.name);
+          window.scrollTo({ top: 400, behavior: 'smooth' });
+        };
+        listContainer.appendChild(tag);
+      });
     }
 
     function handleSearch(query) {
@@ -1109,6 +1197,7 @@
       eliminatedGhosts = [];
       searchQuery = '';
       document.getElementById('search-input').value = '';
+      resetFootstepTap();
       initControls();
       filterAndRender();
     }
